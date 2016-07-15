@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "-[Spee recordingFinishedWithFileName:time:]:Spee.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "[NSString stringWithFormat:@&quot;app.setRecordFilePath(&apos;%s&apos;);&quot;, filePath]">
+            </PersistentString>
+            <PersistentString
+               value = "[NSMutableString stringWithFormat:@&quot;app.setRecordFilePath(&apos;%@&apos;);&quot;,filePath]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>

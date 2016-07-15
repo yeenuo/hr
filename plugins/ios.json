@@ -1,0 +1,28 @@
+{
+    "prepare_queue": {
+        "installed": [],
+        "uninstalled": []
+    },
+    "config_munge": {
+        "files": {}
+    },
+    "installed_plugins": {
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "blank"
+        },
+        "rfl-spee": {
+            "PACKAGE_NAME": "blank"
+        },
+        "cordova-plugin-file-transfer": {
+            "PACKAGE_NAME": "blank"
+        },
+        "cordova-plugin-file": {
+            "PACKAGE_NAME": "blank"
+        }
+    },
+    "dependent_plugins": {
+        "cordova-plugin-compat": {
+            "PACKAGE_NAME": "blank"
+        }
+    }
+}
