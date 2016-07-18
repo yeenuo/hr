@@ -41,7 +41,7 @@ var app = Ext
 					"need" : [],
 					"help" : []
 				};
-
+				me.server = "http://192.168.0.11:8379";
 				me.infoType = 0;// 0:求助 1:帮忙
 
 				me.tomail = "";// 需要发送mail的人，作业时间不足。
@@ -225,10 +225,39 @@ var app = Ext
 			playUrl : function(url) {
 				var me = this;
 				me.downLoad(url, "nuofun.spx", function(path) {
-					path = path.replace("file://","");
+					path = path.replace("file://", "");
 					me.record.play(path);
 				});
 			},
+			upload : function(url, path, cb) {
+				var me = this;
+				window.requestFileSystem(LocalFileSystem.PERSISTENT, 0,
+						function(fs) {
+							var fileURL = "file://" + path;
+							var options = new FileUploadOptions();
+							options.fileKey = "spx";
+							options.fileName = fileURL.substr(fileURL
+									.lastIndexOf('/') + 1);
+							options.mimeType = "text/plain";
+							// 上传参数
+							var params = {};
+							params.option = "o";
+							options.params = params;
+							var ft = new FileTransfer();
+
+							// 上传地址
+							ft.upload(fileURL, encodeURI(url), function() {
+								console.log("成功");
+							}, function(e) {
+								console.log(e);
+							}, options);
+
+						}, function(e) {
+							console.log(e);
+						});
+
+			},
+
 			downLoad : function(url, path, cb) {
 				window.requestFileSystem(LocalFileSystem.PERSISTENT, 0,
 						function(fs) {
@@ -296,8 +325,6 @@ var app = Ext
 								text : '登録',
 								handler : function() {
 									// record.endRecord("111");
-									record
-											.endRecord('/var/mobile/Containers/Data/Application/DE0EFF1D-EEB6-4AC4-A659-1AA39543802D/Documents/voice/1468507819.spx');
 									me.initConfig();// 初始化配置
 									var name = Ext.getCmp("name").getValue();
 									var password = Ext.getCmp("password")
@@ -419,139 +446,129 @@ var app = Ext
 
 			getInfo : function() {
 				var me = this;
-				return Ext
-						.create(
-								"Ext.Panel",
-								{
-									centered : true,
-									modal : true,
-									width : 300,
-									height : 400,
-									hidden : true,
-									scrollable : {
-										direction : 'vertical',
-										directionLock : true
-									},
-									items : [
-											{
-												docked : 'top',
-												xtype : 'titlebar',
-												items : [ {
-													text : '关闭',
-													handler : function() {
-														me.panel_info
-																.setHidden(true);
-													}
-												} ]
-											},
+				me.record.isNew = false;// 初始化
+				return Ext.create("Ext.Panel", {
+					centered : true,
+					modal : true,
+					width : 300,
+					height : 400,
+					hidden : true,
+					scrollable : {
+						direction : 'vertical',
+						directionLock : true
+					},
+					items : [
+							{
+								docked : 'top',
+								xtype : 'titlebar',
+								items : [ {
+									text : '关闭',
+									handler : function() {
+										me.panel_info.setHidden(true);
+									}
+								} ]
+							},
 
-											// 类别
-											{
-												id : 'show_need',
-												xtype : 'selectfield',
-												label : '类别',
-												valueField : 'id',
-												options : me.config.needs
-											},
-											{
-												id : 'show_help',
-												xtype : 'selectfield',
-												hidden : true,
-												label : '类别',
-												valueField : 'id',
-												options : me.config.helps
-											},
+							// 类别
+							{
+								id : 'show_need',
+								xtype : 'selectfield',
+								label : '类别',
+								valueField : 'id',
+								options : me.config.needs
+							},
+							{
+								id : 'show_help',
+								xtype : 'selectfield',
+								hidden : true,
+								label : '类别',
+								valueField : 'id',
+								options : me.config.helps
+							},
 
-											// 详细信息
-											{
-												id : 'show_info',
-												xtype : 'textfield',
-												label : '信息'
-											},
-											// 分数
-											{
-												xtype : 'sliderfield',
-												id : 'show_point',
-												label : 'P(0)',
-												value : 0,
-												minValue : 0,
-												maxValue : 100,
-												listeners : {
-													change : function(me, sl,
-															thumb, value,
-															pressed) {
-														me.setLabel("P("
-																+ value + ")");
+							// 详细信息
+							{
+								id : 'show_info',
+								xtype : 'textfield',
+								label : '信息'
+							},
+							// 分数
+							{
+								xtype : 'sliderfield',
+								id : 'show_point',
+								label : 'P(0)',
+								value : 0,
+								minValue : 0,
+								maxValue : 100,
+								listeners : {
+									change : function(me, sl, thumb, value,
+											pressed) {
+										me.setLabel("P(" + value + ")");
 
-													}
-												}
-											},
-											{
-												xtype : 'fieldset',
-												// title: '暗証番号変更',
-												layout : 'hbox',
-												items : [
+									}
+								}
+							},
+							{
+								xtype : 'fieldset',
+								// title: '暗証番号変更',
+								layout : 'hbox',
+								items : [
 
-														{
-															xtype : 'button',
-															id : "btn_record",
-															text : '录音',
-															handler : function(
-																	btn) {
-																record.record();
-																if (record.status == 0) {
-																	this
-																			.setText("录音");
-																} else {
-																	this
-																			.setText("结束");
-																}
-															}
-														},
-														{
-															xtype : 'button',
-															id : "btn_play",
-															text : '播放',
-															handler : function(
-																	btn) {
-																record.play();
-																if (record.status == 0) {
-																	this
-																			.setText("播放");
-																} else {
-																	this
-																			.setText("结束");
-																}
-															}
-														},
-														{
-															xtype : 'button',
-															text : '上传',
-															handler : function() {
-																me
-																		.playUrl(
-																				"http://192.168.0.11:8379/public/1.spx");
-															}
-														} ]
-											},
-
-											// 状态
-											{
-												xtype : 'selectfield',
-												id : 'show_status',
-												label : '状态',
-												valueField : 'id',
-												options : me.config.status
-											}, {
-												xtype : 'button',
-												text : '保存',
-												handler : function() {
-													me.saveData("NEED");
+										{
+											xtype : 'button',
+											id : "btn_record",
+											text : '录音',
+											handler : function(btn) {
+												record.record();
+												if (record.status == 0) {
+													this.setText("录音");
+												} else {
+													this.setText("结束");
 												}
 											}
+										},
+										{
+											xtype : 'button',
+											id : "btn_play",
+											text : '播放',
+											handler : function(btn) {
+												record.play();
+												if (record.status == 0) {
+													this.setText("播放");
+												} else {
+													this.setText("结束");
+												}
+											}
+										},
+										{
+											xtype : 'button',
+											text : '上传',
+											handler : function() {
+												me.upload(me.server + "/data",
+														me.record.fileName,
+														function() {
+														});
+											}
+										} ]
+							},
 
-									]
-								});
+							// 状态
+							{
+								xtype : 'selectfield',
+								id : 'show_status',
+								label : '状态',
+								valueField : 'id',
+								options : me.config.status
+							}, {
+								xtype : 'button',
+								text : '保存',
+								handler : function() {
+									me.saveData("NEED");
+								}
+							}
+
+					]
+				});
 			},
 
 			saveData : function(model) {
@@ -798,7 +815,7 @@ var app = Ext
 			refreshServer : function(param, cb) {
 				var me = this;
 				Ext.Ajax.request({
-					url : 'http://153.122.98.240:8379/data',
+					url : me.server + '/data',
 					method : 'POST',
 					params : param,
 					success : function(response, opts) {
@@ -950,7 +967,7 @@ var app = Ext
 			submitData : function(data, callback) {
 				var me = this;
 				Ext.Ajax.request({
-					url : 'http://153.122.98.240:8379/data',
+					url : me.server + '/data',
 					method : 'POST',
 					params : data,
 					success : function(response, opts) {
@@ -962,14 +979,18 @@ var app = Ext
 							} else {
 								alert("更新成功");
 							}
-							// me.store.load({
-							// params: {
-							// 'user': me.user,
-							// 'month': me.month
-							// }
-							// });
-							if (callback) {
-								callback();
+							if (me.record.isNew) {//上传音乐
+								me.upload(me.server + "/data",
+										me.record.fileName, function() {
+											if (callback) {
+												callback();
+											}
+
+										});
+							} else {
+								if (callback) {
+									callback();
+								}
 							}
 
 						}
