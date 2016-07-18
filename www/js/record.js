@@ -4,6 +4,7 @@ Record.prototype = {
 	fileName : "",
 	status : 0,
 	app:null,
+	isNew:false,
 	record : function(str) {
 		console.log("record");
 		var me = this;
@@ -34,6 +35,7 @@ Record.prototype = {
 	endRecord : function(fileName) {
 		this.status = 0;
 		this.fileName = fileName;
+		this.isNew = true;
 		console.log(fileName);
 		this.app.endRecord();
 	},

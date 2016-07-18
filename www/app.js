@@ -41,7 +41,8 @@ var app = Ext
 					"need" : [],
 					"help" : []
 				};
-
+				me.server = "http://192.168.0.11:8379";
+				me.server = "http://153.122.98.240:8379";
 				me.infoType = 0;// 0:求助 1:帮忙
 
 				me.tomail = "";// 需要发送mail的人，作业时间不足。
@@ -225,10 +226,40 @@ var app = Ext
 			playUrl : function(url) {
 				var me = this;
 				me.downLoad(url, "nuofun.spx", function(path) {
-					path = path.replace("file://","");
+					path = path.replace("file://", "");
 					me.record.play(path);
 				});
 			},
+			upload : function(url, path, cb) {
+				var me = this;
+				window.requestFileSystem(LocalFileSystem.PERSISTENT, 0,
+						function(fs) {
+							var fileURL = "file://" + path;
+							var options = new FileUploadOptions();
+							options.fileKey = "spx";
+							options.fileName = fileURL.substr(fileURL
+									.lastIndexOf('/') + 1);
+							options.mimeType = "text/plain";
+							// 上传参数
+							var params = {};
+							params.option = "o";
+							params.fileName = me.data.id;
+							options.params = params;
+							var ft = new FileTransfer();
+
+							// 上传地址
+							ft.upload(fileURL, encodeURI(url), function() {
+								console.log("成功");
+							}, function(e) {
+								console.log(e);
+							}, options);
+
+						}, function(e) {
+							console.log(e);
+						});
+
+			},
+
 			downLoad : function(url, path, cb) {
 				window.requestFileSystem(LocalFileSystem.PERSISTENT, 0,
 						function(fs) {
@@ -296,8 +327,6 @@ var app = Ext
 								text : '登録',
 								handler : function() {
 									// record.endRecord("111");
-									record
-											.endRecord('/var/mobile/Containers/Data/Application/DE0EFF1D-EEB6-4AC4-A659-1AA39543802D/Documents/voice/1468507819.spx');
 									me.initConfig();// 初始化配置
 									var name = Ext.getCmp("name").getValue();
 									var password = Ext.getCmp("password")
@@ -419,6 +448,9 @@ var app = Ext
 
 			getInfo : function() {
 				var me = this;
+				me.record.isNew = false;// 初始化
+				// me.record.fileName = "";
+
 				return Ext
 						.create(
 								"Ext.Panel",
@@ -498,7 +530,13 @@ var app = Ext
 															text : '录音',
 															handler : function(
 																	btn) {
-																record.record();
+																me.record
+																		.record();
+																Ext
+																		.getCmp(
+																				'btn_play')
+																		.setHidden(
+																				false);
 																if (record.status == 0) {
 																	this
 																			.setText("录音");
@@ -512,9 +550,22 @@ var app = Ext
 															xtype : 'button',
 															id : "btn_play",
 															text : '播放',
+															hidden : true,
 															handler : function(
 																	btn) {
-																record.play();
+																if (me.record.isNew) {// 新增才读取本地
+																	me.record
+																			.play();
+																} else {
+																	if (me.data.id) {// 读取服务器
+																		me
+																				.playUrl(me.server
+																						+ "/public/uploadFiles/"
+																						+ me.data.id
+																						+ ".spx");
+																	}
+																}
+
 																if (record.status == 0) {
 																	this
 																			.setText("播放");
@@ -526,11 +577,15 @@ var app = Ext
 														},
 														{
 															xtype : 'button',
-															text : '上传',
-															handler : function() {
+															text : '取消',
+															handler : function() {// Todo删除声音文件
 																me
-																		.playUrl(
-																				"http://192.168.0.11:8379/public/1.spx");
+																		.upload(
+																				me.server
+																						+ "/data",
+																				me.record.fileName,
+																				function() {
+																				});
 															}
 														} ]
 											},
@@ -682,7 +737,6 @@ var app = Ext
 					name : "btn_search",
 					align : 'right',
 					handler : function() {
-						record.play();
 						// var month =
 						// Ext.Date.format(Ext.getCmp("month_admin").getValue(),
 						// "Ym");
@@ -769,6 +823,12 @@ var app = Ext
 				me.marker = marker;
 
 				me.getData();
+				if ((me.data.id) && (me.data.voice == 1)) {
+					Ext.getCmp("btn_play").setHidden(false);
+				} else {
+					Ext.getCmp("btn_play").setHidden(true);
+				}
+				me.record.isNew = false;// 初始化声音文件
 				me.panel_info.setHidden(false);// 显示
 			},
 			getParam : function() {
@@ -798,7 +858,7 @@ var app = Ext
 			refreshServer : function(param, cb) {
 				var me = this;
 				Ext.Ajax.request({
-					url : 'http://153.122.98.240:8379/data',
+					url : me.server + '/data',
 					method : 'POST',
 					params : param,
 					success : function(response, opts) {
@@ -828,6 +888,7 @@ var app = Ext
 				var a = me.map.bmap.getCenter();
 				a.title = "1111111";
 				a.info = "aaaaasaasasas";
+				me.data.id = null;
 				var item = me.map.addP(a, true);
 				me.map.updateData(a, true);
 
@@ -918,6 +979,7 @@ var app = Ext
 				me.data = {};
 				me.data.lat = info.lat;
 				me.data.lng = info.lng;
+				me.data.voice = info.voice;
 				if (info.id) {
 					me.data.id = info.id;
 				}
@@ -945,12 +1007,17 @@ var app = Ext
 				} else {
 					me.data["type"] = Ext.getCmp("show_help").getValue();
 				}
+				if (me.record.isNew) {
+					me.data["voice"] = 1;
+				} else {
+					me.data["voice"] = 0;
+				}
 			},
 			// 提交数据
 			submitData : function(data, callback) {
 				var me = this;
 				Ext.Ajax.request({
-					url : 'http://153.122.98.240:8379/data',
+					url : me.server + '/data',
 					method : 'POST',
 					params : data,
 					success : function(response, opts) {
@@ -962,14 +1029,25 @@ var app = Ext
 							} else {
 								alert("更新成功");
 							}
-							// me.store.load({
-							// params: {
-							// 'user': me.user,
-							// 'month': me.month
-							// }
+							//
+							me.data.id = data.id;
+							// me.upload(me.server + "/data",
+							// me.record.fileName,
+							// function() {
 							// });
-							if (callback) {
-								callback();
+							// }
+							if (me.record.isNew) {//
+								me.upload(me.server + "/data",
+										me.record.fileName, function() {
+											if (callback) {
+												callback();
+											}
+
+										});
+							} else {
+								if (callback) {
+									callback();
+								}
 							}
 
 						}
