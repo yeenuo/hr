@@ -88,7 +88,7 @@
 - (void)recordingFinishedWithFileName:(NSString *)filePath time:(NSTimeInterval)interval {
     self.isRecording = NO;
     self.filename = filePath;
-// NSMutableString strForResult = [NSMutableString stringWithFormat:@"%@;%@",strForResult, str];
+    // NSMutableString strForResult = [NSMutableString stringWithFormat:@"%@;%@",strForResult, str];
     //[NSMutableString stringWithFormat:@"%@;%@",strForResult, str]
     //[NSString stringWithFormat:@"app.setRecordFilePath('%s');", filePath]
     NSMutableString * strForResult=[[NSMutableString alloc]init];

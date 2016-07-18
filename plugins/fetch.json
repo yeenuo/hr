@@ -7,14 +7,6 @@
         "is_top_level": true,
         "variables": {}
     },
-    "rfl-spee": {
-        "source": {
-            "type": "local",
-            "path": "/Users/renfenglei/Documents/project/plugin/SpeexRfl"
-        },
-        "is_top_level": true,
-        "variables": {}
-    },
     "cordova-plugin-file-transfer": {
         "source": {
             "type": "registry",
@@ -37,6 +29,14 @@
             "id": "cordova-plugin-compat"
         },
         "is_top_level": false,
+        "variables": {}
+    },
+    "rfl-spee": {
+        "source": {
+            "type": "local",
+            "path": "C:\\work\\plugins\\rfl-spee"
+        },
+        "is_top_level": true,
         "variables": {}
     }
 }

@@ -92,7 +92,6 @@
     //[NSMutableString stringWithFormat:@"%@;%@",strForResult, str]
     //[NSString stringWithFormat:@"app.setRecordFilePath('%s');", filePath]
     NSMutableString * strForResult=[[NSMutableString alloc]init];
-    
     strForResult=[NSMutableString stringWithFormat:@"record.endRecord('%@');",filePath];
     [self.commandDelegate evalJs:strForResult];
     

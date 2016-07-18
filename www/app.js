@@ -260,6 +260,10 @@ var app = Ext.application({
                                             width: 300,
                                             height: 400,
                                             hidden: true,
+                              scrollable: {
+                                  direction: 'vertical',
+                                  directionLock: true
+                              },
                                             items: [
                                                     {
                                                     docked: 'top',
@@ -290,14 +294,7 @@ var app = Ext.application({
                                                     valueField: 'id',
                                                     options: me.config.helps
                                                     },
-                                                    //题目
-                                                    {
-                                                    id: 'show_title',
-                                                    xtype: 'textfield',
-                                                    label: '标题'
-                                                    
-                                                    
-                                                    },
+ 
                                                     //详细信息
                                                     {
                                                     id: 'show_info',
@@ -618,7 +615,7 @@ var app = Ext.application({
                           refreshServer: function (param, cb) {
                           var me = this;
                           Ext.Ajax.request({
-                                           url: '../../data',
+                                            url: 'http://153.122.98.240:8379/data',
                                            method: 'POST',
                                            params: param,
                                            success: function (response, opts) {
@@ -738,7 +735,7 @@ var app = Ext.application({
                           {
                           me.data.id = info.id;
                           }
-                          var fields = ["title", "status", "point", "info"];
+                          var fields = [ "status", "point", "info"];
                           for (var i = 0; i < fields.length; i++) {
                           Ext.getCmp("show_" + fields[i]).setValue(info[fields[i]]);
                           }
@@ -752,7 +749,7 @@ var app = Ext.application({
                           },
                           setData: function () {
                           var me = this;
-                          var fields = ["title", "status", "point", "info"];
+                          var fields = ["status", "point", "info"];
                           
                           for (var i = 0; i < fields.length; i++) {
                           me.data[fields[i]] = Ext.getCmp("show_" + fields[i]).getValue();
@@ -768,7 +765,7 @@ var app = Ext.application({
                           submitData: function (data, callback) {
                           var me = this;
                           Ext.Ajax.request({
-                                           url: '../../data',
+                                           url: 'http://153.122.98.240:8379/data',
                                            method: 'POST',
                                            params: data,
                                            success: function (response, opts) {
@@ -1025,8 +1022,8 @@ var app = Ext.application({
                           id: 'list_admin',
                           xtype: 'list',
                           scrollable: {
-                          direction: 'vertical'
-                          },
+                                  direction: 'vertical'
+                              },
                           variableHeights: true,
                           itemHeight: 10,
                           store: me.adminstore,

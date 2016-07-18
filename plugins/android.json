@@ -7,14 +7,14 @@
         "files": {}
     },
     "installed_plugins": {
-        "cordova-plugin-whitelist": {
-            "PACKAGE_NAME": "blank"
+        "cordova-plugin-file": {
+            "PACKAGE_NAME": "com.renxd.hr"
         },
         "cordova-plugin-file-transfer": {
-            "PACKAGE_NAME": "blank"
+            "PACKAGE_NAME": "com.renxd.hr"
         },
-        "cordova-plugin-file": {
-            "PACKAGE_NAME": "blank"
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "com.renxd.hr"
         },
         "rfl-spee": {
             "PACKAGE_NAME": "com.renxd.hr"
@@ -22,7 +22,7 @@
     },
     "dependent_plugins": {
         "cordova-plugin-compat": {
-            "PACKAGE_NAME": "blank"
+            "PACKAGE_NAME": "com.renxd.hr"
         }
     }
 }

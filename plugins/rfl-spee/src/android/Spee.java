@@ -34,7 +34,7 @@ public class Spee extends CordovaPlugin {
 		if ("doRecord".equals(action)) {
 			this.doRecord(args, callbackContext);
 		} else if ("doPlay".equals(action)) {
-			this.fileName = args.getString(0);
+			// this.fileName = args.getString(0);
 			this.doPlay(args, callbackContext);
 		} else {
 			return false;
@@ -68,10 +68,10 @@ public class Spee extends CordovaPlugin {
 					} else {
 						recorderInstance.setRecording(false);
 						status = STOPPED;
-						String str = "{success:true,name:'"+fileName+"'}";
-						callbackContext.success(str);
 					}
+					callbackContext.success("录音成功");
 				}
+
 			});
 		}
 	}
@@ -85,15 +85,14 @@ public class Spee extends CordovaPlugin {
 				@Override
 				public void run() {
 					if (status == STOPPED) {
-						//fileName = "/mnt/sdcard/gauss.spx";
+						fileName = "/mnt/sdcard/gauss.spx";
 						System.out.println("filename====" + fileName);
 						splayer = new SpeexPlayer(fileName);
 						splayer.startPlay();
 						if (recorderInstance != null) {
 							recorderInstance.setRecording(false);
 						}
-						String str = "{success:true,name:'"+fileName+"'}";
-						callbackContext.success(str);
+						callbackContext.error("播放成功");
 					} else {
 						recorderInstance.setRecording(false);
 						status = STOPPED;

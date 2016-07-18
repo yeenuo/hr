@@ -42,12 +42,30 @@
             <clobbers target="rfl.spee"/>
         </js-module>
 
-
-
 	<header-file src="src/ios/Spee.h" />
 	<source-file src="src/ios/Spee.m" />
 
     </platform>
+    <!-- android -->
+    <platform name="android">
+        <config-file target="config.xml" parent="/*">
+            <feature name="Spee" >
+                <param name="android-package" value="com.renxd.plugin.Spee"/>
+                <param name="onload" value="true" />
+            </feature>
+        </config-file>
 
+        <config-file target="AndroidManifest.xml" parent="/*">
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+        </config-file>
+
+        <source-file src="src/android/Spee.java" target-dir="src/com/renxd/plugin" />
+
+
+        <!-- android specific file apis -->
+        <js-module src="www/spee.js" name="spee">
+            <clobbers target="rfl.spee"/>
+        </js-module>
+    </platform>
 
 </plugin>

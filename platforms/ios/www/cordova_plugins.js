@@ -1,14 +1,6 @@
 cordova.define('cordova/plugin_list', function(require, exports, module) {
 module.exports = [
     {
-        "file": "plugins/rfl-spee/www/spee.js",
-        "id": "rfl-spee.spee",
-        "pluginId": "rfl-spee",
-        "clobbers": [
-            "rfl.spee"
-        ]
-    },
-    {
         "file": "plugins/cordova-plugin-file/www/DirectoryEntry.js",
         "id": "cordova-plugin-file.DirectoryEntry",
         "pluginId": "cordova-plugin-file",
@@ -196,16 +188,24 @@ module.exports = [
         "clobbers": [
             "window.FileTransfer"
         ]
+    },
+    {
+        "file": "plugins/rfl-spee/www/spee.js",
+        "id": "rfl-spee.spee",
+        "pluginId": "rfl-spee",
+        "clobbers": [
+            "rfl.spee"
+        ]
     }
 ];
 module.exports.metadata = 
 // TOP OF METADATA
 {
     "cordova-plugin-whitelist": "1.2.2",
-    "rfl-spee": "1.0.0-res",
     "cordova-plugin-compat": "1.0.0",
     "cordova-plugin-file": "4.2.0",
-    "cordova-plugin-file-transfer": "1.5.1"
+    "cordova-plugin-file-transfer": "1.5.1",
+    "rfl-spee": "1.0.0-res"
 }
 // BOTTOM OF METADATA
 });
