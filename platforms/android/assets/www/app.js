@@ -42,6 +42,7 @@ var app = Ext
 					"help" : []
 				};
 				me.server = "http://192.168.0.11:8379";
+				me.server = "http://153.122.98.240:8379";
 				me.infoType = 0;// 0:求助 1:帮忙
 
 				me.tomail = "";// 需要发送mail的人，作业时间不足。
@@ -242,6 +243,7 @@ var app = Ext
 							// 上传参数
 							var params = {};
 							params.option = "o";
+							params.fileName = me.data.id;
 							options.params = params;
 							var ft = new FileTransfer();
 
@@ -447,128 +449,164 @@ var app = Ext
 			getInfo : function() {
 				var me = this;
 				me.record.isNew = false;// 初始化
-				return Ext.create("Ext.Panel", {
-					centered : true,
-					modal : true,
-					width : 300,
-					height : 400,
-					hidden : true,
-					scrollable : {
-						direction : 'vertical',
-						directionLock : true
-					},
-					items : [
-							{
-								docked : 'top',
-								xtype : 'titlebar',
-								items : [ {
-									text : '关闭',
-									handler : function() {
-										me.panel_info.setHidden(true);
-									}
-								} ]
-							},
+				// me.record.fileName = "";
 
-							// 类别
-							{
-								id : 'show_need',
-								xtype : 'selectfield',
-								label : '类别',
-								valueField : 'id',
-								options : me.config.needs
-							},
-							{
-								id : 'show_help',
-								xtype : 'selectfield',
-								hidden : true,
-								label : '类别',
-								valueField : 'id',
-								options : me.config.helps
-							},
+				return Ext
+						.create(
+								"Ext.Panel",
+								{
+									centered : true,
+									modal : true,
+									width : 300,
+									height : 400,
+									hidden : true,
+									scrollable : {
+										direction : 'vertical',
+										directionLock : true
+									},
+									items : [
+											{
+												docked : 'top',
+												xtype : 'titlebar',
+												items : [ {
+													text : '关闭',
+													handler : function() {
+														me.panel_info
+																.setHidden(true);
+													}
+												} ]
+											},
 
-							// 详细信息
-							{
-								id : 'show_info',
-								xtype : 'textfield',
-								label : '信息'
-							},
-							// 分数
-							{
-								xtype : 'sliderfield',
-								id : 'show_point',
-								label : 'P(0)',
-								value : 0,
-								minValue : 0,
-								maxValue : 100,
-								listeners : {
-									change : function(me, sl, thumb, value,
-											pressed) {
-										me.setLabel("P(" + value + ")");
+											// 类别
+											{
+												id : 'show_need',
+												xtype : 'selectfield',
+												label : '类别',
+												valueField : 'id',
+												options : me.config.needs
+											},
+											{
+												id : 'show_help',
+												xtype : 'selectfield',
+												hidden : true,
+												label : '类别',
+												valueField : 'id',
+												options : me.config.helps
+											},
 
-									}
-								}
-							},
-							{
-								xtype : 'fieldset',
-								// title: '暗証番号変更',
-								layout : 'hbox',
-								items : [
+											// 详细信息
+											{
+												id : 'show_info',
+												xtype : 'textfield',
+												label : '信息'
+											},
+											// 分数
+											{
+												xtype : 'sliderfield',
+												id : 'show_point',
+												label : 'P(0)',
+												value : 0,
+												minValue : 0,
+												maxValue : 100,
+												listeners : {
+													change : function(me, sl,
+															thumb, value,
+															pressed) {
+														me.setLabel("P("
+																+ value + ")");
 
-										{
-											xtype : 'button',
-											id : "btn_record",
-											text : '录音',
-											handler : function(btn) {
-												record.record();
-												if (record.status == 0) {
-													this.setText("录音");
-												} else {
-													this.setText("结束");
+													}
+												}
+											},
+											{
+												xtype : 'fieldset',
+												// title: '暗証番号変更',
+												layout : 'hbox',
+												items : [
+
+														{
+															xtype : 'button',
+															id : "btn_record",
+															text : '录音',
+															handler : function(
+																	btn) {
+																me.record
+																		.record();
+																Ext
+																		.getCmp(
+																				'btn_play')
+																		.setHidden(
+																				false);
+																if (record.status == 0) {
+																	this
+																			.setText("录音");
+																} else {
+																	this
+																			.setText("结束");
+																}
+															}
+														},
+														{
+															xtype : 'button',
+															id : "btn_play",
+															text : '播放',
+															hidden : true,
+															handler : function(
+																	btn) {
+																if (me.record.isNew) {// 新增才读取本地
+																	me.record
+																			.play();
+																} else {
+																	if (me.data.id) {// 读取服务器
+																		me
+																				.playUrl(me.server
+																						+ "/public/uploadFiles/"
+																						+ me.data.id
+																						+ ".spx");
+																	}
+																}
+
+																if (record.status == 0) {
+																	this
+																			.setText("播放");
+																} else {
+																	this
+																			.setText("结束");
+																}
+															}
+														},
+														{
+															xtype : 'button',
+															text : '取消',
+															handler : function() {// Todo删除声音文件
+																me
+																		.upload(
+																				me.server
+																						+ "/data",
+																				me.record.fileName,
+																				function() {
+																				});
+															}
+														} ]
+											},
+
+											// 状态
+											{
+												xtype : 'selectfield',
+												id : 'show_status',
+												label : '状态',
+												valueField : 'id',
+												options : me.config.status
+											}, {
+												xtype : 'button',
+												text : '保存',
+												handler : function() {
+													me.saveData("NEED");
 												}
 											}
-										},
-										{
-											xtype : 'button',
-											id : "btn_play",
-											text : '播放',
-											handler : function(btn) {
-												record.play();
-												if (record.status == 0) {
-													this.setText("播放");
-												} else {
-													this.setText("结束");
-												}
-											}
-										},
-										{
-											xtype : 'button',
-											text : '上传',
-											handler : function() {
-												me.upload(me.server + "/data",
-														me.record.fileName,
-														function() {
-														});
-											}
-										} ]
-							},
 
-							// 状态
-							{
-								xtype : 'selectfield',
-								id : 'show_status',
-								label : '状态',
-								valueField : 'id',
-								options : me.config.status
-							}, {
-								xtype : 'button',
-								text : '保存',
-								handler : function() {
-									me.saveData("NEED");
-								}
-							}
-
-					]
-				});
+									]
+								});
 			},
 
 			saveData : function(model) {
@@ -699,7 +737,6 @@ var app = Ext
 					name : "btn_search",
 					align : 'right',
 					handler : function() {
-						record.play();
 						// var month =
 						// Ext.Date.format(Ext.getCmp("month_admin").getValue(),
 						// "Ym");
@@ -786,6 +823,12 @@ var app = Ext
 				me.marker = marker;
 
 				me.getData();
+				if ((me.data.id) && (me.data.voice == 1)) {
+					Ext.getCmp("btn_play").setHidden(false);
+				} else {
+					Ext.getCmp("btn_play").setHidden(true);
+				}
+				me.record.isNew = false;// 初始化声音文件
 				me.panel_info.setHidden(false);// 显示
 			},
 			getParam : function() {
@@ -845,6 +888,7 @@ var app = Ext
 				var a = me.map.bmap.getCenter();
 				a.title = "1111111";
 				a.info = "aaaaasaasasas";
+				me.data.id = null;
 				var item = me.map.addP(a, true);
 				me.map.updateData(a, true);
 
@@ -935,6 +979,7 @@ var app = Ext
 				me.data = {};
 				me.data.lat = info.lat;
 				me.data.lng = info.lng;
+				me.data.voice = info.voice;
 				if (info.id) {
 					me.data.id = info.id;
 				}
@@ -962,6 +1007,11 @@ var app = Ext
 				} else {
 					me.data["type"] = Ext.getCmp("show_help").getValue();
 				}
+				if (me.record.isNew) {
+					me.data["voice"] = 1;
+				} else {
+					me.data["voice"] = 0;
+				}
 			},
 			// 提交数据
 			submitData : function(data, callback) {
@@ -979,7 +1029,14 @@ var app = Ext
 							} else {
 								alert("更新成功");
 							}
-							if (me.record.isNew) {//上传音乐
+							//
+							me.data.id = data.id;
+							// me.upload(me.server + "/data",
+							// me.record.fileName,
+							// function() {
+							// });
+							// }
+							if (me.record.isNew) {//
 								me.upload(me.server + "/data",
 										me.record.fileName, function() {
 											if (callback) {
