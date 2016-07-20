@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.renxd.hr" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="blank" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <preference name="loglevel" value="DEBUG" />
     <feature name="File">
         <param name="android-package" value="org.apache.cordova.file.FileUtils" />
@@ -12,10 +12,15 @@
         <param name="android-package" value="org.apache.cordova.whitelist.WhitelistPlugin" />
         <param name="onload" value="true" />
     </feature>
+    <feature name="HotCodePush">
+        <param name="android-package" value="com.nordnetab.chcp.main.HotCodePushPlugin" />
+        <param name="onload" value="true" />
+    </feature>
     <feature name="Spee">
         <param name="android-package" value="com.renxd.plugin.Spee" />
         <param name="onload" value="true" />
     </feature>
+    <preference name="loadUrlTimeoutValue" value="60000" />
     <allow-intent href="market:*" />
     <name>HelloCordova</name>
     <description>
@@ -32,4 +37,7 @@
     <allow-intent href="sms:*" />
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
+    <chcp>
+        <config-file url="http://153.122.98.240:8379/www/chcp.json" />
+    </chcp>
 </widget>

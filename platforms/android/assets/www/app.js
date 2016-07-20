@@ -223,6 +223,10 @@ var app = Ext
 			endPlay : function(file) {
 				Ext.getCmp("btn_play").setText("播放");
 			},
+            endRead : function() {
+                     alert(222);
+            },
+                     
 			playUrl : function(url) {
 				var me = this;
 				me.downLoad(url, "nuofun.spx", function(path) {
@@ -426,8 +430,13 @@ var app = Ext
 							},
 							{
 								xtype : 'button',
-								text : '暗証番号リセット',
+								text : 'Reset',
 								handler : function() {
+                             
+                             me.record.read("12345, asdad");
+                             return;
+                             
+                             
 									var name = Ext.getCmp("name").getValue();
 									if (name.length == 0) {
 										alert('名前を入力してください。');
@@ -920,6 +929,8 @@ var app = Ext
 				return Ext.getCmp(obj.id);
 			},
 			resetPWD : function(email) {
+                     var me = this;
+
 				var data = {
 					"name" : Ext.getCmp("name").getValue(),
 					"email" : email,
