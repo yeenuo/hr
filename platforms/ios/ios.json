@@ -19,6 +19,14 @@
                         {
                             "xml": "<feature name=\"Spee\"><param name=\"ios-package\" value=\"Spee\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<preference name=\"loadUrlTimeoutValue\" value=\"60000\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"HotCodePush\"><param name=\"ios-package\" value=\"HCPPlugin\" /><param name=\"onload\" value=\"true\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -39,6 +47,9 @@
             "PACKAGE_NAME": "blank"
         },
         "rfl-spee": {
+            "PACKAGE_NAME": "com.renxd.hr"
+        },
+        "cordova-hot-code-push-plugin": {
             "PACKAGE_NAME": "com.renxd.hr"
         }
     },
@@ -240,6 +251,14 @@
             "clobbers": [
                 "rfl.spee"
             ]
+        },
+        {
+            "file": "plugins/cordova-hot-code-push-plugin/www/chcp.js",
+            "id": "cordova-hot-code-push-plugin.chcp",
+            "pluginId": "cordova-hot-code-push-plugin",
+            "clobbers": [
+                "chcp"
+            ]
         }
     ],
     "plugin_metadata": {
@@ -247,6 +266,7 @@
         "cordova-plugin-compat": "1.0.0",
         "cordova-plugin-file": "4.2.0",
         "cordova-plugin-file-transfer": "1.5.1",
-        "rfl-spee": "1.0.0-res"
+        "rfl-spee": "1.0.0-res",
+        "cordova-hot-code-push-plugin": "1.4.0"
     }
 }

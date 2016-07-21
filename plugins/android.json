@@ -18,6 +18,9 @@
         },
         "rfl-spee": {
             "PACKAGE_NAME": "com.renxd.hr"
+        },
+        "cordova-hot-code-push-plugin": {
+            "PACKAGE_NAME": "com.renxd.hr"
         }
     },
     "dependent_plugins": {

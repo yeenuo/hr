@@ -196,6 +196,14 @@ module.exports = [
         "clobbers": [
             "rfl.spee"
         ]
+    },
+    {
+        "file": "plugins/cordova-hot-code-push-plugin/www/chcp.js",
+        "id": "cordova-hot-code-push-plugin.chcp",
+        "pluginId": "cordova-hot-code-push-plugin",
+        "clobbers": [
+            "chcp"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -205,7 +213,8 @@ module.exports.metadata =
     "cordova-plugin-compat": "1.0.0",
     "cordova-plugin-file": "4.2.0",
     "cordova-plugin-file-transfer": "1.5.1",
-    "rfl-spee": "1.0.0-res"
+    "rfl-spee": "1.0.0-res",
+    "cordova-hot-code-push-plugin": "1.4.0"
 }
 // BOTTOM OF METADATA
 });

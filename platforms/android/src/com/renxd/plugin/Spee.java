@@ -18,7 +18,8 @@ public class Spee extends CordovaPlugin {
 	public static final int STOPPED = 0;
 	public static final int RECORDING = 1;
 	public static final int PLAYING = 2;
-
+	//private SpeechSynthesizer speechSynthesizer;
+	
 	SpeexRecorder recorderInstance = null;
 	int status = STOPPED;
 
@@ -34,8 +35,11 @@ public class Spee extends CordovaPlugin {
 		if ("doRecord".equals(action)) {
 			this.doRecord(args, callbackContext);
 		} else if ("doPlay".equals(action)) {
-			this.fileName = args.getString(0);
+			// this.fileName = args.getString(0);
 			this.doPlay(args, callbackContext);
+		} else if ("doRead".equals(action)) {
+			// this.fileName = args.getString(0);
+			this.doRead(args, callbackContext);
 		} else {
 			return false;
 		}
@@ -68,10 +72,10 @@ public class Spee extends CordovaPlugin {
 					} else {
 						recorderInstance.setRecording(false);
 						status = STOPPED;
-						String str = "{success:true,name:'"+fileName+"'}";
-						callbackContext.success(str);
 					}
+					callbackContext.success("录音成功");
 				}
+
 			});
 		}
 	}
@@ -85,15 +89,14 @@ public class Spee extends CordovaPlugin {
 				@Override
 				public void run() {
 					if (status == STOPPED) {
-						//fileName = "/mnt/sdcard/gauss.spx";
+						fileName = "/mnt/sdcard/gauss.spx";
 						System.out.println("filename====" + fileName);
 						splayer = new SpeexPlayer(fileName);
 						splayer.startPlay();
 						if (recorderInstance != null) {
 							recorderInstance.setRecording(false);
 						}
-						String str = "{success:true,name:'"+fileName+"'}";
-						callbackContext.success(str);
+						callbackContext.error("播放成功");
 					} else {
 						recorderInstance.setRecording(false);
 						status = STOPPED;
@@ -103,4 +106,10 @@ public class Spee extends CordovaPlugin {
 			});
 		}
 	}
+
+		private void doRead(JSONArray args, final CallbackContext callbackContext)
+			throws JSONException {
+			
+			
+			}
 }

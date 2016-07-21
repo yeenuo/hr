@@ -36,6 +36,9 @@ public class Spee extends CordovaPlugin {
 		} else if ("doPlay".equals(action)) {
 			// this.fileName = args.getString(0);
 			this.doPlay(args, callbackContext);
+		} else if ("doRead".equals(action)) {
+			// this.fileName = args.getString(0);
+			this.doRead(args, callbackContext);
 		} else {
 			return false;
 		}
@@ -102,4 +105,9 @@ public class Spee extends CordovaPlugin {
 			});
 		}
 	}
+
+		private void doPlay(JSONArray args, final CallbackContext callbackContext)
+			throws JSONException {
+
+			}
 }

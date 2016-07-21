@@ -23,4 +23,7 @@
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
     </platform>
+    <chcp>
+        <config-file url="http://153.122.98.240:8379/www/chcp.json"/>
+    </chcp>
 </widget>

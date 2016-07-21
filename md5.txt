@@ -1,0 +1,4 @@
+MD5哈希(文件C:\work\HR\www\app.json):
+4715d67fe49822019ecafd412c474098
+CertUtil:-hashfile命令成功完成。
+C:\work\HR>certutil -hashfile C:\work\HR\www\app.json MD5

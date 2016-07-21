@@ -25,6 +25,10 @@
     <feature name="Spee">
         <param name="ios-package" value="Spee" />
     </feature>
+    <feature name="HotCodePush">
+        <param name="ios-package" value="HCPPlugin" />
+        <param name="onload" value="true" />
+    </feature>
     <name>HelloCordova</name>
     <description>
         A sample Apache Cordova application that responds to the deviceready event.
@@ -40,6 +44,9 @@
     <allow-intent href="sms:*" />
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
+    <chcp>
+        <config-file url="http://153.122.98.240:8379/www/chcp.json" />
+    </chcp>
     <allow-intent href="itms:*" />
     <allow-intent href="itms-apps:*" />
     <preference name="AllowInlineMediaPlayback" value="false" />
@@ -55,4 +62,5 @@
     <preference name="PageLength" value="0" />
     <preference name="PaginationBreakingMode" value="page" />
     <preference name="PaginationMode" value="unpaginated" />
+    <preference name="loadUrlTimeoutValue" value="60000" />
 </widget>
