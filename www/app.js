@@ -169,7 +169,7 @@ var app = Ext
 					} ]
 				};
 
-				me.map = null;
+				//me.map = null;
 				me.sel_distance = null;
 				me.sel_help = null;
 				me.sel_kind = null;
@@ -179,6 +179,7 @@ var app = Ext
 			},
 			launch : function() {
 				var me = this;
+				me.map = null;
 				me.record = record;
 				me.record.app = me;
 				this.tool = new Tool();
@@ -203,8 +204,9 @@ var app = Ext
 					defaults : {
 						styleHtmlContent : true
 					},
-					activeItem : 1,
-					items : [  me.panel_map,me.panel_list, me.panel_config,
+					activeItem : 2,
+					//, me.panel_config
+					items : [  me.panel_map,me.panel_list,
 							me.getLogin() // 登陆页面
 					]
 				});
@@ -214,7 +216,7 @@ var app = Ext
 						oldValue, eOpts) {
 					if (me.user == -1) {
 						// Todo
-						// Ext.getCmp('panel_main').setActiveItem(3);//初次启动，登录页面
+						me.mainPanel.setActiveItem(2);//初次启动，登录页面
 					}
 				});
 			},
@@ -357,62 +359,18 @@ var app = Ext
 													if (obj.success) {// 登陆成功
 														me.user = obj.user;
 														me.role = obj.role;
-														if (me.role == 1) {
-															Ext
-																	.getCmp(
-																			"panel_main")
-																	.getTabBar().items.items[4]
-																	.show();
-															me.adminstore
-																	.load();
-														} else {
-															Ext
-																	.getCmp(
-																			"panel_main")
-																	.getTabBar().items.items[4]
-																	.hide();
-														}
 														Ext
 																.getCmp(
 																		"lbl_user_name")
 																.setHtml(
 																		data.name);
-														Ext
-																.getCmp("month")
-																.setValue(
-																		new Date());
-														me
-																.loadConfigData(// 读取配置数据
-																function(rtn) {
-																	if (rtn.success) {
-																		me.store
-																				.load({
-																					params : {
-																						'user' : me.user,
-																						'month' : me.month
-																					}
-																				});
-																		if (me.role == 1) {
-																			Ext
-																					.getCmp(
-																							'panel_main')
-																					.setActiveItem(
-																							4);
-																		} else {
-																			Ext
-																					.getCmp(
-																							'panel_main')
-																					.setActiveItem(
-																							0);
-																		}
+														me.mainPanel.setActiveItem(0);
 
-																	}
-																});
 
 													} else {
 														alert("用户名或密码错误。");
 													}
-													console.dir(obj);
+													//console.dir(obj);
 												},
 												failure : function(response,
 														opts) {
@@ -580,6 +538,7 @@ var app = Ext
 														},
 														{
 															xtype : 'button',
+															id : "btn_cancelRecord",
 															text : '取消',
 															handler : function() {// Todo删除声音文件
 																me
@@ -807,10 +766,23 @@ var app = Ext
 				} else {
 					Ext.getCmp("btn_play").setHidden(true);
 				}
+
+				if(me.data.user  == me.user)
+				{
+					Ext.getCmp("btn_record").setHidden(false);
+					Ext.getCmp("btn_cancelRecord").setHidden(false);
+				}
+				else {
+					Ext.getCmp("btn_record").setHidden(true);
+					Ext.getCmp("btn_cancelRecord").setHidden(true);
+				}
+
+
 				me.record.isNew = false;// 初始化声音文件
 				me.panel_info.setHidden(false);// 显示
 			},
 			getParam : function() {
+				var me = this;
 				var param = {
 					model : "NEED"
 				};
@@ -961,6 +933,7 @@ var app = Ext
 				me.data.lat = info.lat;
 				me.data.lng = info.lng;
 				me.data.voice = info.voice;
+				me.data.user = info.user;
 				if (info.id) {
 					me.data.id = info.id;
 				}
