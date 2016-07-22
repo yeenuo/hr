@@ -69,13 +69,13 @@ public class Spee extends CordovaPlugin {
 						th.start();
 						recorderInstance.setRecording(true);
 						status = RECORDING;
+						callbackContext.success("{success:true,info:'Start Record'}");
 					} else {
 						recorderInstance.setRecording(false);
 						status = STOPPED;
-					}
-					callbackContext.success("录音成功");
+						callbackContext.success("{success:true,name:'"+fileName+"'}");
+					}	
 				}
-
 			});
 		}
 	}
@@ -96,7 +96,7 @@ public class Spee extends CordovaPlugin {
 						if (recorderInstance != null) {
 							recorderInstance.setRecording(false);
 						}
-						callbackContext.error("播放成功");
+						callbackContext.success("{success:true,name:'"+fileName+"'}");
 					} else {
 						recorderInstance.setRecording(false);
 						status = STOPPED;
