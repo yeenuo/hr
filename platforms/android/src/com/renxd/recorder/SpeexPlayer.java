@@ -5,6 +5,9 @@ package com.renxd.recorder;
 
 import java.io.File;
 
+import org.apache.cordova.CallbackContext;
+
+import com.renxd.plugin.Spee;
 import com.renxd.speex.encode.SpeexDecoder;
 
 /**
@@ -14,17 +17,25 @@ import com.renxd.speex.encode.SpeexDecoder;
 public class SpeexPlayer {
 	private String fileName = null;
 	private SpeexDecoder speexdec = null;
- 
+	private Spee spee = null;
 
-	public SpeexPlayer(String fileName) {
+	public SpeexPlayer(String fileName, Spee spee) {
 
 		this.fileName = fileName;
-		System.out.println(this.fileName);
+		this.spee = spee;
 		try {
-			speexdec = new SpeexDecoder(new File(this.fileName));
+			speexdec = new SpeexDecoder(new File(this.fileName), this);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void endPlay() {
+		this.spee.endPlay();
+	}
+
+	public void stopPlay() {
+		this.speexdec.setPaused(true);
 	}
 
 	public void startPlay() {
@@ -41,7 +52,8 @@ public class SpeexPlayer {
 		public void run() {
 			try {
 				if (speexdec != null)
-					speexdec.decode();
+					speexdec.setPaused(false);
+				speexdec.decode();
 
 			} catch (Exception t) {
 				t.printStackTrace();

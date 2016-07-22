@@ -33,7 +33,7 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 //  app.use(multer({ dest: './uploads/' }));
-app.use(multer({dest:__dirname + '/public/uploadFiles/'})); 
+app.use(multer({dest:__dirname + '/www/uploadFiles/'})); 
   //bodyParser用于解析客户端请求的body中的内容,内部使用JSON编码处理,url编码处理以及对于文件的上传处理.
  //将post参数解析成JSON化的req.body
 app.use(bodyParser.json());
@@ -86,8 +86,7 @@ var router = urlrouter(function (app) {
     app.get('/list', wk.list);
     app.post('/list', wk.list);
     app.post('/login', wk.login);
-    app.post('/pwd', wk.pwd);//修改密码,相关
-    app.post('/config', wk.config);//设置
+    app.post('/pwd', wk.pwd);//修改密码
     app.post('/email', wk.mail);//合计时间;
 });
 app.use(router);

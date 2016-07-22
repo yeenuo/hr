@@ -6,15 +6,13 @@ Record.prototype = {
 	app : null,
 	isNew : false,
 	record : function(str) {
-
 		var me = this;
-		this.status = 1;
+		this.status = 1;//record
 		cordova.exec(function(value) {
 			if (value) {
 				var obj = eval("(" + value + ")");
 				if (obj.success) {
 					if (obj.name) {
-
 						me.endRecord(obj.name);
 						console.log("record:" + obj.name);
 					} else {
@@ -27,7 +25,7 @@ Record.prototype = {
 	},
 	play : function(str) {
 		var file = str || this.fileName;
-		this.status = 2;
+		this.status = 2;//play
 		var me = this;
 		console.log("play:" + file);
 		cordova.exec(function(value) {
@@ -35,6 +33,7 @@ Record.prototype = {
 			if (obj.success) {
 				me.endPlay(obj.name);
 			}
+
 		}, function() {
 		}, "Spee", "doPlay", [ file ]);
 	},

@@ -25,6 +25,7 @@ public class Spee extends CordovaPlugin {
 
 	String fileName = null;
 	SpeexPlayer splayer = null;
+	protected CallbackContext callbackContext;
 
 	/**
 	 * 必须重写execute方法
@@ -33,9 +34,10 @@ public class Spee extends CordovaPlugin {
 	public boolean execute(String action, JSONArray args,
 			CallbackContext callbackContext) throws JSONException {
 		if ("doRecord".equals(action)) {
+			//this.fileName = args.getString(0);
 			this.doRecord(args, callbackContext);
 		} else if ("doPlay".equals(action)) {
-			// this.fileName = args.getString(0);
+			this.fileName = args.getString(0);
 			this.doPlay(args, callbackContext);
 		} else if ("doRead".equals(action)) {
 			// this.fileName = args.getString(0);
@@ -55,8 +57,7 @@ public class Spee extends CordovaPlugin {
 				public void run() {
 					System.out.println("Execute doRecord method");
 					if (status == STOPPED) {
-						fileName = "/mnt/sdcard/gauss.spx";
-						// fileName = "/mnt/sdcard/1324966898504.spx";
+						fileName = "/mnt/sdcard/yinuo.spx";
 						SimpleDateFormat df = new SimpleDateFormat(
 								"yyyyMMddHHmmss");// 设置日期格式
 						String dateStr = df.format(new Date());// new
@@ -79,29 +80,30 @@ public class Spee extends CordovaPlugin {
 			});
 		}
 	}
-
+	
+	
+	
+	
 	private void doPlay(JSONArray args, final CallbackContext callbackContext)
 			throws JSONException {
-
+		final Spee spee = this;
 		if (status != RECORDING) {// 非录音中
 			// 在UI线程上执行
 			cordova.getActivity().runOnUiThread(new Runnable() {
 				@Override
 				public void run() {
 					if (status == STOPPED) {
-						fileName = "/mnt/sdcard/gauss.spx";
+						//fileName = "/mnt/sdcard/gauss.spx";
 						System.out.println("filename====" + fileName);
-						splayer = new SpeexPlayer(fileName);
-						splayer.startPlay();
-						if (recorderInstance != null) {
-							recorderInstance.setRecording(false);
-						}
-						callbackContext.success("{success:true,name:'"+fileName+"'}");
+						splayer = new SpeexPlayer(fileName,spee);
+						spee.callbackContext = callbackContext;
+						splayer.startPlay();		
+						status = PLAYING;
 					} else {
-						recorderInstance.setRecording(false);
-						status = STOPPED;
+						splayer.stopPlay();
+						status = STOPPED;	
 					}
-
+					
 				}
 			});
 		}
@@ -112,4 +114,9 @@ public class Spee extends CordovaPlugin {
 			
 			
 			}
+
+		public void endPlay() {
+			callbackContext.success("{success:true}");
+			status = STOPPED;
+		}
 }

@@ -41,8 +41,9 @@ var app = Ext
 					"need" : [],
 					"help" : []
 				};
-				me.server = "http://192.168.0.11:8379";
-				me.server = "http://153.122.98.240:8379";
+				me.server = "http://localhost:8379";
+				//me.server = "http://192.168.0.11:8379";
+				//me.server = "http://153.122.98.240:8379";
 				me.infoType = 0;// 0:求助 1:帮忙
 
 				me.tomail = "";// 需要发送mail的人，作业时间不足。
@@ -50,7 +51,7 @@ var app = Ext
 					isAdd : false,// 是否自己添加
 					itemType : 0,// 0 need 1 help
 					needTxt : '求助',
-					helpTxt : '帮忙',
+					helpTxt : '信息',
 					helps : [ {
 						id : -1,
 						text : '--类别--'
@@ -168,7 +169,7 @@ var app = Ext
 					} ]
 				};
 
-				me.map = null;
+				//me.map = null;
 				me.sel_distance = null;
 				me.sel_help = null;
 				me.sel_kind = null;
@@ -178,6 +179,7 @@ var app = Ext
 			},
 			launch : function() {
 				var me = this;
+				me.map = null;
 				me.record = record;
 				me.record.app = me;
 				this.tool = new Tool();
@@ -202,8 +204,9 @@ var app = Ext
 					defaults : {
 						styleHtmlContent : true
 					},
-					activeItem : 1,
-					items : [ me.panel_list, me.panel_map, me.panel_config,
+					activeItem : 2,
+					//, me.panel_config
+					items : [  me.panel_map,me.panel_list,
 							me.getLogin() // 登陆页面
 					]
 				});
@@ -213,7 +216,7 @@ var app = Ext
 						oldValue, eOpts) {
 					if (me.user == -1) {
 						// Todo
-						// Ext.getCmp('panel_main').setActiveItem(3);//初次启动，登录页面
+						me.mainPanel.setActiveItem(2);//初次启动，登录页面
 					}
 				});
 			},
@@ -307,7 +310,7 @@ var app = Ext
 			getLogin : function() {
 				var me = this;
 				return {
-					title : '登録',
+					title : '登录',
 					iconCls : 'user',
 					id : 'tab_login',
 					layout : 'vbox',
@@ -323,12 +326,12 @@ var app = Ext
 								xtype : 'passwordfield',
 								id : 'password',
 								name : 'password',
-								label : '暗証番号',
+								label : '密码',
 								value : '111111'
 							},
 							{
 								xtype : 'button',
-								text : '登録',
+								text : '登录',
 								handler : function() {
 									// record.endRecord("111");
 									me.initConfig();// 初始化配置
@@ -346,7 +349,7 @@ var app = Ext
 									};
 									Ext.Ajax
 											.request({
-												url : '../../login',
+												url : me.server +'/login',
 												method : 'POST',
 												params : data,
 												success : function(response,
@@ -356,69 +359,18 @@ var app = Ext
 													if (obj.success) {// 登陆成功
 														me.user = obj.user;
 														me.role = obj.role;
-														if (me.role == 1) {
-															Ext
-																	.getCmp(
-																			"panel_main")
-																	.getTabBar().items.items[4]
-																	.show();
-															me.adminstore
-																	.load();
-														} else {
-															Ext
-																	.getCmp(
-																			"panel_main")
-																	.getTabBar().items.items[4]
-																	.hide();
-														}
 														Ext
 																.getCmp(
 																		"lbl_user_name")
 																.setHtml(
 																		data.name);
-														Ext
-																.getCmp("month")
-																.setValue(
-																		new Date());
-														me
-																.loadConfigData(// 读取配置数据
-																function(rtn) {
-																	if (rtn.success) {
-																		me.store
-																				.load({
-																					params : {
-																						'user' : me.user,
-																						'month' : me.month
-																					}
-																				});
-																		if (me.role == 1) {
-																			Ext
-																					.getCmp(
-																							'panel_main')
-																					.setActiveItem(
-																							4);
-																		} else {
-																			Ext
-																					.getCmp(
-																							'panel_main')
-																					.setActiveItem(
-																							0);
-																		}
+														me.mainPanel.setActiveItem(0);
 
-																	} else {
-																		alert("まず各設定を入力してください。");
-																		Ext
-																				.getCmp(
-																						'panel_main')
-																				.setActiveItem(
-																						2);
-																	}
-																});
 
 													} else {
 														alert("用户名或密码错误。");
 													}
-													console.dir(obj);
+													//console.dir(obj);
 												},
 												failure : function(response,
 														opts) {
@@ -430,16 +382,16 @@ var app = Ext
 							},
 							{
 								xtype : 'button',
-								text : 'Reset',
+								text : '重置密码',
 								handler : function() {
                              
-                             me.record.read("12345, asdad");
+                             //me.record.read("12345, asdad");
                              return;
                              
                              
 									var name = Ext.getCmp("name").getValue();
 									if (name.length == 0) {
-										alert('名前を入力してください。');
+										alert('请输入姓名。');
 										return;
 									}
 									Ext.Msg.prompt('EMAIL', 'EMAILを入力してください。',
@@ -586,6 +538,7 @@ var app = Ext
 														},
 														{
 															xtype : 'button',
+															id : "btn_cancelRecord",
 															text : '取消',
 															handler : function() {// Todo删除声音文件
 																me
@@ -630,7 +583,7 @@ var app = Ext
 			getList : function() {
 				var me = this;
 				return {
-					title : '一覧',
+					title : '一览',
 					iconCls : 'calendar',
 					id : 'tab_list',
 					layout : 'card',
@@ -649,38 +602,14 @@ var app = Ext
 			getConfig : function() {
 				var me = this;
 				return {
-					title : '設定',
+					title : '设定',
 					iconCls : 'settings',
 					scrollable : true,
 					items : [ {
 						xtype : 'fieldset',
-						title : '暗証番号変更',
+						title : '修改密码',
 						items : [
-								{
-									xtype : 'button',
-									text : '录音',
-									iconCls : 'add',
-									handler : function() {
-										record.record();
-									}
-								},
-								{
-									xtype : 'button',
-									text : '播放',
-									handler : function() {
-										record.play();
-									}
-								},
-								{
-									xtype : 'button',
-									text : '変更',
-									handler : function() {
-										me.changePWD(Ext.getCmp("oldpwd")
-												.getValue(), Ext.getCmp(
-												"newpwd").getValue(), Ext
-												.getCmp("newpwd2").getValue());
-									}
-								},
+
 								{
 									xtype : 'button',
 									text : '変更',
@@ -837,10 +766,23 @@ var app = Ext
 				} else {
 					Ext.getCmp("btn_play").setHidden(true);
 				}
+
+				if((me.data.user  == me.user)||(me.data.id == null))
+				{
+					Ext.getCmp("btn_record").setHidden(false);
+					Ext.getCmp("btn_cancelRecord").setHidden(false);
+				}
+				else {
+					Ext.getCmp("btn_record").setHidden(true);
+					Ext.getCmp("btn_cancelRecord").setHidden(true);
+				}
+
+
 				me.record.isNew = false;// 初始化声音文件
 				me.panel_info.setHidden(false);// 显示
 			},
 			getParam : function() {
+				var me = this;
 				var param = {
 					model : "NEED"
 				};
@@ -991,6 +933,7 @@ var app = Ext
 				me.data.lat = info.lat;
 				me.data.lng = info.lng;
 				me.data.voice = info.voice;
+				me.data.user = info.user;
 				if (info.id) {
 					me.data.id = info.id;
 				}
@@ -1319,14 +1262,104 @@ var app = Ext
 
 			// 列表
 			getListConfiguration : function() {
-				return {
-					xtype : 'button',
-					text : '変更',
-					handler : function() {
-						me.changePWD(Ext.getCmp("oldpwd").getValue(), Ext
-								.getCmp("newpwd").getValue(), Ext.getCmp(
-								"newpwd2").getValue());
+				var me = this;
+				var lbl_user_name =
+				{
+					xtype : 'label',
+					id:"lbl_user_name",
+					name:"lbl_user_name",
+					align:'right',
+					html:""
+				};
+				me.datas = [];
+				me.store = Ext.create('Ext.data.Store', {
+					//give the store some fields
+					fields: ['id','date','starttime','endtime','worktime','rest','reason','status','memo','confim'],
+					//filter the data using the firstName field
+					sorters: 'date',
+					//autoload the data from the server
+					//autoLoad: true,
+					listeners:{
+						load:function(st, records)
+						{
+
+							me.changeDatas(st);//更换数据,重新计算时间等多种变量
+							Ext.getCmp('list_list').setStore(null);
+							Ext.getCmp('list_list').setStore(me.store);//此处刷新数据后，重新绑定
+
+							me.datas = [];
+							for(var i  = 0;i<records.length;i++)
+							{
+								me.datas.push(records[i].data);
+							}
+							if(me.config.mintime)
+							{
+								me.calAllTime();//计算总计时间
+								me.setAllTime();//设置合计时间
+								me.saveAllTime();
+							}
+						}
+					},
+					proxy: {
+						type: 'ajax',
+						url: '../../wk/list',
+						reader: {
+							type: 'json',
+							root: 'data'
+						},
+						actionMethods: {
+							create : 'POST',
+							read   : 'POST', // by default GET
+							update : 'POST',
+							destroy: 'POST'
+						},
+						extraParams: {
+							'user':me.user,
+							'month':me.month
+						}
 					}
+				});
+				return {
+					items: [
+						{
+							docked: 'top',
+							xtype: 'titlebar',
+							items: [
+
+								lbl_user_name
+							]
+						}
+					],
+					id:'list_list',
+					xtype: 'list',
+					scrollable: {
+						direction: 'vertical'
+					},
+					variableHeights: true,
+					itemHeight  :10,
+					itemTpl: new Ext.XTemplate(
+						//'<table><tr><td height="40" bgcolor ="{status}">{[this.date(values.date)]}【{starttime}~{endtime}】:{worktime} ({[this.rest(values.rest)]})</td></tr></table>',
+						'<div  style="background-color:{status};width:100%;height:100%">{[this.date(values.date)]}【{[this.time(values.starttime)]}~{[this.time(values.endtime)]}】:{worktime} ({[this.rest(values.rest)]})</div>',
+						{
+							rest: function(v){
+								return me.tool.getListText(v,me.rest_data);
+							},
+							date:function(v){
+								return me.tool.day(v)+"("+me.tool.jweek(v)+")";
+							},
+							time:function(v){
+								return me.tool.timeStr(v);
+							}
+						}
+					),
+					listeners: {
+						selectionchange:function (view, records) {
+							var data=records[0].data;
+							me.index = parseInt(data.date.substring(6,8)) - 1//日期设为Index
+							me.data = me.datas[me.index];
+							Ext.getCmp('panel_main').setActiveItem(1);
+							me.getData();
+						}}
 				};
 			}
 		});

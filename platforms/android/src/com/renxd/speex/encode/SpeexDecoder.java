@@ -1,4 +1,3 @@
-
 package com.renxd.speex.encode;
 
 import java.io.EOFException;
@@ -13,9 +12,12 @@ import android.media.AudioManager;
 import android.media.AudioTrack;
 import android.os.RecoverySystem.ProgressListener;
 
+import com.renxd.recorder.SpeexPlayer;
 import com.renxd.writer.speex.OggCrc;
+
 /**
  * 采用Jspeex方案，首先解包，从ogg里面接出来，然后使用speex decode将speex转为wav数据并进行播放
+ * 
  * @author Gauss
  *
  */
@@ -23,7 +25,8 @@ public class SpeexDecoder {
 	protected Speex speexDecoder;
 
 	protected boolean enhanced = false;
-
+	private volatile boolean isPlaying;
+	private final Object mutex = new Object();
 	private boolean paused = false;
 
 	protected String srcFile;
@@ -32,19 +35,29 @@ public class SpeexDecoder {
 
 	private File srcPath;
 	private AudioTrack track;
+	public SpeexPlayer player;
 
 	public SpeexDecoder(File srcPath) throws Exception {
 		this.srcPath = srcPath;
 	}
 
+	public SpeexDecoder(File srcPath, SpeexPlayer player) throws Exception {
+		this.player = player;
+		this.srcPath = srcPath;
+		this.setPaused(false);
+	}
+
 	private void initializeAndroidAudio(int sampleRate) throws Exception {
-		int minBufferSize = AudioTrack.getMinBufferSize(sampleRate, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT);
+		int minBufferSize = AudioTrack.getMinBufferSize(sampleRate,
+				AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT);
 
 		if (minBufferSize < 0) {
-			throw new Exception("Failed to get minimum buffer size: " + Integer.toString(minBufferSize));
+			throw new Exception("Failed to get minimum buffer size: "
+					+ Integer.toString(minBufferSize));
 		}
 
-		track = new AudioTrack(AudioManager.STREAM_MUSIC, sampleRate, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT,
+		track = new AudioTrack(AudioManager.STREAM_MUSIC, sampleRate,
+				AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT,
 				minBufferSize, AudioTrack.MODE_STREAM);
 
 	}
@@ -61,8 +74,6 @@ public class SpeexDecoder {
 		return paused;
 	}
 
-	 
-
 	public void decode() throws Exception {
 
 		byte[] header = new byte[2048];
@@ -77,7 +88,7 @@ public class SpeexDecoder {
 		int packetNo = 0;
 		// construct a new decoder
 		speexDecoder = new Speex();
-		//speexDecoder.init();
+		// speexDecoder.init();
 		// open the input stream
 		RandomAccessFile dis = new RandomAccessFile(srcPath, "r");
 
@@ -95,6 +106,7 @@ public class SpeexDecoder {
 				while (this.isPaused()) {
 					track.stop();
 					Thread.sleep(100);
+					throw new EOFException("Ogg CheckSums do not match");
 				}
 
 				// read the OGG header
@@ -116,7 +128,8 @@ public class SpeexDecoder {
 				/* how many segments are there? */
 				segments = header[OGG_SEGOFFSET] & 0xFF;
 				dis.readFully(header, OGG_HEADERSIZE, segments);
-				chksum = OggCrc.checksum(chksum, header, OGG_HEADERSIZE, segments);
+				chksum = OggCrc.checksum(chksum, header, OGG_HEADERSIZE,
+						segments);
 
 				/* decode each segment, writing output to wav */
 				for (curseg = 0; curseg < segments; curseg++) {
@@ -130,6 +143,7 @@ public class SpeexDecoder {
 					while (this.isPaused()) {
 						track.stop();
 						Thread.sleep(100);
+						throw new EOFException("Ogg CheckSums do not match");
 					}
 
 					/* get the number of bytes in the segment */
@@ -156,7 +170,8 @@ public class SpeexDecoder {
 
 						/* get the amount of decoded data */
 						short[] decoded = new short[160];
-						if ((decsize = speexDecoder.decode(payload, decoded, 160)) > 0) {
+						if ((decsize = speexDecoder.decode(payload, decoded,
+								160)) > 0) {
 							track.write(decoded, 0, decsize);
 							track.setStereoVolume(0.7f, 0.7f);// 设置当前音量大小
 							track.play();
@@ -170,8 +185,10 @@ public class SpeexDecoder {
 		} catch (EOFException eof) {
 			System.out.println("release............");
 		} finally {
+
 			track.stop();
 			track.release();
+			this.player.endPlay();
 			System.out.println("release............");
 		}
 
@@ -205,7 +222,8 @@ public class SpeexDecoder {
 	 * @return
 	 * @throws Exception
 	 */
-	private boolean readSpeexHeader(final byte[] packet, final int offset, final int bytes, boolean init) throws Exception {
+	private boolean readSpeexHeader(final byte[] packet, final int offset,
+			final int bytes, boolean init) throws Exception {
 		if (bytes != 80) {
 			System.out.println("Oooops");
 			return false;
@@ -218,7 +236,8 @@ public class SpeexDecoder {
 		int channels = readInt(packet, offset + 48);
 		int nframes = readInt(packet, offset + 64);
 		int frameSize = readInt(packet, offset + 56);
-		System.out.println("mode=" + mode + " sampleRate==" + sampleRate + " channels=" + channels + "nframes=" + nframes + "framesize="
+		System.out.println("mode=" + mode + " sampleRate==" + sampleRate
+				+ " channels=" + channels + "nframes=" + nframes + "framesize="
 				+ frameSize);
 		initializeAndroidAudio(sampleRate);
 
@@ -234,15 +253,19 @@ public class SpeexDecoder {
 		/*
 		 * no 0xff on the last one to keep the sign
 		 */
-		return (data[offset] & 0xff) | ((data[offset + 1] & 0xff) << 8) | ((data[offset + 2] & 0xff) << 16) | (data[offset + 3] << 24);
+		return (data[offset] & 0xff) | ((data[offset + 1] & 0xff) << 8)
+				| ((data[offset + 2] & 0xff) << 16) | (data[offset + 3] << 24);
 	}
 
 	protected static long readLong(final byte[] data, final int offset) {
 		/*
 		 * no 0xff on the last one to keep the sign
 		 */
-		return (data[offset] & 0xff) | ((data[offset + 1] & 0xff) << 8) | ((data[offset + 2] & 0xff) << 16)
-				| ((data[offset + 3] & 0xff) << 24) | ((data[offset + 4] & 0xff) << 32) | ((data[offset + 5] & 0xff) << 40)
+		return (data[offset] & 0xff) | ((data[offset + 1] & 0xff) << 8)
+				| ((data[offset + 2] & 0xff) << 16)
+				| ((data[offset + 3] & 0xff) << 24)
+				| ((data[offset + 4] & 0xff) << 32)
+				| ((data[offset + 5] & 0xff) << 40)
 				| ((data[offset + 6] & 0xff) << 48) | (data[offset + 7] << 56);
 	}
 
@@ -253,4 +276,18 @@ public class SpeexDecoder {
 		return (data[offset] & 0xff) | (data[offset + 1] << 8);
 	}
 
+	public void setPlaying(boolean isPlaying) {
+		synchronized (mutex) {
+			this.isPlaying = isPlaying;
+			if (this.isPlaying) {
+				mutex.notify();
+			}
+		}
+	}
+
+	public boolean isPlaying() {
+		synchronized (mutex) {
+			return isPlaying;
+		}
+	}
 }

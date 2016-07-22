@@ -56,10 +56,10 @@ exports.data = function (req, res, next) {
 		if (req.files && req.files.spx != 'undifined') {  
         var temp_path = req.files.spx.path;  
         if (temp_path) {
-				var newPath =  "./public/uploadFiles/rnf.spx";
+				var newPath =  "./www/uploadFiles/rnf.spx";
 			  if(req.body.fileName)
 			{
-			     newPath =  './public/uploadFiles/'+req.body.fileName+".spx";
+			     newPath =  './www/uploadFiles/'+req.body.fileName+".spx";
 			}
 		
 				fs.rename(temp_path,newPath, function(err){
@@ -77,7 +77,8 @@ exports.data = function (req, res, next) {
 	}
 	
 	else {
-        db.q("SELECT ID as id,Title as title,Lat as lat,Lng as lng,Info as info,Point as point,Voice as voice,Status as status,Type as type FROM REN.H_" + req.body.model.toUpperCase(), [], function (datas) {
+		 var user = req.body.user;
+        db.q("SELECT ID as id,Title as title,Lat as lat,Lng as lng,Info as info,Point as point,Voice as voice,Status as status,Type as type,USER as user FROM REN.H_" + req.body.model.toUpperCase() , [], function (datas) {
             res.writeHead(200, {"Content-Type": "text/html;charset:utf-8"});
             res.write(JSON.stringify(datas));
             res.end();
