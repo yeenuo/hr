@@ -220,8 +220,25 @@ Ext.define('ux.BMap', {
             map = me.getMap();
         }
         if (lng && lat) {
+
+
+            var myIcon = new BMap.Icon("./img/markers.png", new BMap.Size(23, 25), {
+                offset: new BMap.Size(0, 25), // 指定定位位置
+                imageOffset: new BMap.Size(0, 0 - 10 * 25) // 设置图片偏移
+            });
+
+
+            if (item.kind == 1) {
+                myIcon = new BMap.Icon("./img/1_"+item.type+".png", new BMap.Size(23, 25), {
+                    offset: new BMap.Size(0, 0), // 指定定位位置
+                    imageOffset: new BMap.Size(0, 0) // 设置图片偏移
+                });
+            }
+
+            // var marker=new BMap.Marker(e.point,{icon:myIcon});
+
             // 创建标注
-            var marker = new BMap.Marker(new BMap.Point(lng, lat));
+            var marker = new BMap.Marker(new BMap.Point(lng, lat), {icon: myIcon});
             //其他数据
             marker.options = {};
             //将模型中的其他数据添加到按钮中
