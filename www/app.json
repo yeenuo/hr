@@ -73,6 +73,10 @@
       "update": "delta"
     },
     {
+      "path": "js/SQLitePlugin.js",
+      "update": "delta"
+    },
+    {
       "path": "js/tool.js",
       "update": "delta"
     },

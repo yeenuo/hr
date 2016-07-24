@@ -35,11 +35,15 @@ var app = Ext
 
             initConfig: function () {
                 var me = this;
+                me.DM = false;
                 me.initData();
+                me.record = record;
+                me.record.app = me;
+                me.tool = new Tool();
                 me.uploadUrl = "/www/uploadFiles/";
                 // me.server = "http://localhost:8379";
-                //me.server = "http://192.168.0.11:8379";
-                me.server = "http://153.122.98.240:8379";
+                me.server = "http://192.168.0.11:8379";
+                //me.server = "http://153.122.98.240:8379";
                 me.infoType = 0;// 0:求助 1:帮忙
                 me.map = null;
                 me.tomail = "";// 需要发送mail的人，作业时间不足。
@@ -189,10 +193,12 @@ var app = Ext
             launch: function () {
                 var me = this;
 
-                me.record = record;
-                me.record.app = me;
-                this.tool = new Tool();
                 me.initConfig();
+
+                if (me.DM) {
+                    me.createDB();
+                }
+
                 me.panel_window_need = me.getInfo();
                 //me.panel_window_need = me.getInfo();
 
@@ -229,6 +235,17 @@ var app = Ext
                         // Todo
                         // me.mainPanel.setActiveItem(2);// 初次启动，登录页面
                     }
+                });
+            },
+            createDB: function () {
+                //本地数据库
+                me.db = window.sqlitePlugin.openDatabase({name: "hr.db", location: 'default'});
+                me.db.transaction(function (tx) {
+                    tx.executeSql("create table if not exists HR_REVIEW (id PRIMARY KEY, value INT)", [], function () {
+                        console.log("success");
+                    }, function () {
+                        console.log("error");
+                    });
                 });
             },
             endRecord: function (file) {
@@ -596,13 +613,15 @@ var app = Ext
                                             xtype: 'button',
                                             id: "btn_show_r0",
                                             text: '好',
-                                            handle: function () {
+                                            handler: function () {
+                                                me.review(1);
                                             }
                                         }, {
                                             xtype: 'button',
                                             id: "btn_show_r1",
                                             text: '差',
-                                            handle: function () {
+                                            handler: function () {
+                                                me.review(-1);
                                             }
                                         }
                                     ]
@@ -626,6 +645,47 @@ var app = Ext
 
                             ]
                         });
+            },
+            review: function (value) {
+                var me = this;
+                if (me.DM) {
+                    me.db.transaction(function (tx) {
+                        tx.executeSql("INSERT INTO HR_REVIEW (id, value) VALUES (?,?)", [me.data.id, value], function () {
+                            console.log("success");
+                            me.reviewServer(value);
+
+                        }, function () {
+                            Ext.Msg.alert("信息", "已评价过。");
+                        });
+                    });
+                } else {
+                    me.reviewServer(value);
+                }
+            },
+            reviewServer: function (value) {
+                var me = this;
+                var param = {
+                    option: 'rv',
+                    id: me.data.id,
+                    value: value
+                };
+                Ext.Ajax.request({
+                    url: me.server + '/data',
+                    method: 'POST',
+                    params: param,
+                    success: function (response, opts) {
+                        var obj = Ext.decode(response.responseText);
+                        if (obj.success) {
+                            me.ctrlEnabled("fs_show_review", false);
+                        } else {
+                            Ext.Msg.alert("信息", "服务器错误");
+                        }
+                        console.dir(obj);
+                    },
+                    failure: function (response, opts) {
+                        console.log('server erro:' + response.status);
+                    }
+                });
             },
             help: function () {
                 alert(me.data.id);
@@ -877,6 +937,13 @@ var app = Ext
                 me.ctrlReadOnly("show_msg", !isSelf);
                 me.ctrlReadOnly("show_info", !isSelf);
 
+                //已评价过
+                if (me.DM) {
+                    if (me.isReviewed(me.data.id)) {
+                        me.ctrlEnabled("fs_show_review", false);
+                    }
+                }
+
             },
             initShowData: function () {
                 var me = this;
@@ -931,6 +998,17 @@ var app = Ext
 
             showInfo: function () {
 
+            },
+            isReviewed: function (id) {
+                me.db.transaction(function (tx) {
+                    tx.executeSql("select id from HR_REVIEW where ID = ?", [id], function (tx, res) {
+                        //alert("hello world");
+                        if (res.rows.length > 0) {
+                            return true;
+                        }
+                    });
+                });
+                return false;
             },
             getParam: function () {
                 var me = this;
