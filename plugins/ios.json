@@ -21,6 +21,9 @@
         },
         "cordova-hot-code-push-plugin": {
             "PACKAGE_NAME": "com.renxd.hr"
+        },
+        "cordova-sqlite-storage": {
+            "PACKAGE_NAME": "com.renxd.hr"
         }
     },
     "dependent_plugins": {

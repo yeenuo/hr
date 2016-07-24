@@ -149,26 +149,20 @@ var app = Ext
                         text: '>0'
                     }],
                     points: [{
-                        id: -1,
+                        id: 0,
                         text: '分数'
                     }, {
-                        id: 0,
-                        text: '0'
-                    }, {
                         id: 1,
-                        text: '<10'
+                        text: '>10'
                     }, {
                         id: 2,
-                        text: '<20'
-                    }, {
-                        id: 3,
-                        text: '<50'
-                    }, {
-                        id: 4,
-                        text: '<100'
+                        text: '>20'
                     }, {
                         id: 5,
-                        text: '100以上'
+                        text: '>50'
+                    }, {
+                        id: 10,
+                        text: '>100'
                     }]
                 };
 
@@ -184,10 +178,7 @@ var app = Ext
                 var me = this;
                 me.user = -1;
                 me.data = {};// 当前选中data,便于删除修改添加用
-                me.datas = {
-                    "need": [],
-                    "help": []
-                };
+                me.datas = [];
 
             },
             launch: function () {
@@ -224,7 +215,7 @@ var app = Ext
                     //activeItem: 2,
                     activeItem: 0,
                     // , me.panel_config
-                    items: [me.panel_map, me.panel_list, me.getLogin() // 登陆页面
+                    items: [me.panel_map, me.panel_list, me.panel_config, me.getLogin() // 登陆页面
                     ]
                 });
 
@@ -235,11 +226,12 @@ var app = Ext
                     me.mainPanel.on("activeitemchange", function (tb, value,
                                                                   oldValue, eOpts) {
                         if (me.user == -1) {
-                            me.mainPanel.setActiveItem(2);// 初次启动，登录页面
+                            me.mainPanel.setActiveItem(3);// 初次启动，登录页面
                         }
                     });
                 }
                 else {
+                    Ext.getCmp('panel_main').setActiveItem(3);
                     me.user = 1;
                 }
                 me.refreshData(1);
@@ -357,10 +349,20 @@ var app = Ext
                     layout: 'vbox',
                     items: [
                         {
+                            xtype: 'label',
+                            width: '100%',
+                            html: '<div style="width:100%;font-size: 24px;" align="center">  好人网  </div>'
+                        },
+                        {
+                            xtype: 'label',
+                            width: '100%',
+                            html: '<div style="width:100%;font-size: 18px;" align="center"> 人人为我 我为人人</div>'
+                        },
+                        {
                             xtype: 'textfield',
-                            id: 'name',
-                            name: 'name',
-                            label: 'ユーザ',
+                            id: 'no',
+                            name: 'no',
+                            label: '用户ID',
                             value: 'tj1'
                         },
                         {
@@ -376,7 +378,7 @@ var app = Ext
                             handler: function () {
                                 // record.endRecord("111");
                                 me.initData();// 初始化数据
-                                var name = Ext.getCmp("name").getValue();
+                                var name = Ext.getCmp("no").getValue();
                                 var password = Ext.getCmp("password")
                                     .getValue();
 
@@ -400,16 +402,17 @@ var app = Ext
                                             if (obj.success) {// 登陆成功
                                                 me.user = obj.user;
                                                 me.role = obj.role;
-                                                Ext
-                                                    .getCmp(
-                                                        "lbl_user_name")
-                                                    .setHtml(
-                                                        data.name);
+                                                me.point = obj.point;
+                                                me.no = obj.no;
+                                                me.ctrlValue("txt_no", obj.no);
+                                                me.ctrlValue("txt_point", obj.point);
+
+
                                                 me.mainPanel
                                                     .setActiveItem(0);
 
                                             } else {
-                                                me.alert("用户名或密码错误。");
+                                                me.alert("用户名或密码错误或没通过验证");
                                             }
                                             // console.dir(obj);
                                         },
@@ -421,32 +424,83 @@ var app = Ext
                                     });
                             }
                         },
+
                         {
-                            xtype: 'button',
-                            text: '重置密码',
-                            handler: function () {
+                            xtype: 'fieldset',
+                            id: "fs_login",
+                            align: 'right',
+                            layout: 'hbox',
+                            hideBorders: false,
+                            baseCls: "x-fieldset_nb", // 无边框
+                            items: [
+                                {
+                                    xtype: 'label',
+                                    flex: 0.5,
+                                    html: '<div  style="font-size: 18px;" >重置密码</div>',
 
-                                // me.record.read("12345, asdad");
-                                return;
-
-                                var name = Ext.getCmp("name").getValue();
-                                if (name.length == 0) {
-                                    me.alert('请输入姓名。');
-                                    return;
-                                }
-                                Ext.Msg.prompt('EMAIL', '请输入Email',
-                                    function (id, text) {
-                                        text = "javaandnet@gmail.com";// Todo
-                                        if (text.length > 0) {
-                                            me.resetPWD(text);
+                                    listeners: {
+                                        element: 'element',
+                                        tap: function (e, t) {
+                                            me.resetOrReg(0)
                                         }
+                                    }
+                                },
 
-                                    });
-                            }
-                        }]
+                                {
+                                    xtype: 'label',
+                                    flex: 0.5,
+                                    align: 'right',
+                                    html: '<div  style="font-size: 18px;" >欢迎注册</div>',
+                                    listeners: {
+                                        element: 'element',
+                                        tap: function (e, t) {
+                                            me.resetOrReg(1)
+                                        }
+                                    }
+                                }
+                            ]
+
+                        }
+
+
+                    ]
                 };
             },
 
+            resetOrReg: function (flag) {
+                var me = this;
+                var name = Ext.getCmp("no").getValue();
+                if (name.length == 0) {
+                    me.alert('请输入用户ID。');
+                    return;
+                }
+                var config = {
+                    title: "信息",
+                    msg: "请输入Email",
+                    buttons: Ext.Msg.OK,
+                    icon: Ext.Msg.Info,
+                    prompt: {
+                        xtype: 'textfield',
+                        placeHolder: '请输入邮箱地址',
+                        value: ''
+                    },
+                    fn: function (id, text) {
+                        if (id == "ok") {
+                            //text = "javaandnet@gmai.com";// Todo
+                            if (text.length > 0) {
+                                if (flag == 0) {
+                                    me.resetPWD(text);
+                                } else {
+                                    me.regedit(text);
+                                }
+                            }
+
+                        }
+                    }
+                };
+                Ext.Msg.show(config);
+
+            },
             getInfo: function () {
                 var me = this;
                 me.record.isNew = false;// 初始化
@@ -459,7 +513,7 @@ var app = Ext
                             centered: true,
                             modal: true,
                             width: 300,
-                            height: 400,
+                            height: 450,
                             hidden: true,
                             scrollable: {
                                 direction: 'vertical',
@@ -504,21 +558,10 @@ var app = Ext
                                 },
                                 // 分数
                                 {
-                                    xtype: 'sliderfield',
+                                    xtype: 'numberfield',
                                     id: 'show_point',
-                                    label: 'P(0)',
-                                    value: 0,
-                                    minValue: 0,
-                                    maxValue: 100,
-                                    listeners: {
-                                        change: function (me, sl,
-                                                          thumb, value,
-                                                          pressed) {
-                                            me.setLabel("P("
-                                                + value + ")");
-
-                                        }
-                                    }
+                                    label: '分数',
+                                    value: 0
                                 },
                                 {
                                     xtype: 'fieldset',
@@ -751,17 +794,58 @@ var app = Ext
                     scrollable: true,
                     items: [{
                         xtype: 'fieldset',
-                        title: '修改密码',
+                        title: '各种设定',
                         items: [
-
                             {
-                                xtype: 'button',
-                                text: '変更',
-                                handler: function () {
-                                    me.changePWD(Ext.getCmp("oldpwd").getValue(),
-                                        Ext.getCmp("newpwd").getValue(), Ext
-                                            .getCmp("newpwd2").getValue());
+                                xtype: 'fieldset',
+                                title: '信息',
+                                items: [{
+                                    xtype: 'textfield',
+                                    id: "txt_no",
+                                    label: '分数',
+                                    readOnly: true
                                 }
+                                    ,
+                                    {
+                                        xtype: 'textfield',
+                                        id: "txt_point",
+                                        label: '分数',
+                                        readOnly: true
+                                    }
+                                ]
+                            }
+                            , {
+                                xtype: 'fieldset',
+                                title: '修改密码',
+                                items: [
+                                    {
+                                        xtype: 'passwordfield',
+                                        id: "oldpwd",
+                                        name: 'oldpwd',
+                                        label: '旧密码',
+                                        value: ''
+                                    },
+                                    {
+                                        xtype: 'passwordfield',
+                                        id: "newpwd",
+                                        name: 'newpwd',
+                                        label: '新密码',
+                                        value: ''
+                                    },
+                                    {
+                                        xtype: 'passwordfield',
+                                        id: "newpwd2",
+                                        name: 'newpwd2',
+                                        label: '确认输入',
+                                        value: ''
+                                    }, {
+                                        xtype: 'button',
+                                        text: '変更',
+                                        handler: function () {
+                                            me.changePWD(Ext.getCmp("oldpwd").getValue(), Ext.getCmp("newpwd").getValue(), Ext.getCmp("newpwd2").getValue());
+                                        }
+                                    }
+                                ]
                             }]
                     }]
                 };
@@ -777,8 +861,13 @@ var app = Ext
                     xtype: 'selectfield',
                     label: '',
                     valueField: 'id',
-                    width:100,
-                    options: me.config.points
+                    width: 100,
+                    options: me.config.points,
+                    listeners: {
+                        change: function (sel, newValue, oldValue, eOpts) {
+                            me.refreshData(0);
+                        }
+                    }
                 };
                 me.sel_kind = {
                     id: 'sel_kind',
@@ -879,24 +968,25 @@ var app = Ext
                         {
                             docked: 'top',
                             xtype: 'titlebar',
-                            items: [me.seg_type, me.sel_point,me.btn_refresh,
+                            items: [me.seg_type, me.sel_point, me.btn_refresh,
                                 me.btn_add]
                         },
                         me.panel_window_need,
                         me.map
                         /*,{
-                            xtype: 'fieldset',
-                            width: '100%',
-                            hideBorders: false,
-                            layout: 'hbox',
-                            baseCls: "x-fieldset_nb", // 无边框
-                            defaults: {
-                                width: '30%'
+                         xtype: 'fieldset',
+                         width: '100%',
 
-                            },
-                            items: [me.sel_distance, me.sel_msg,
-                                me.sel_kind, me.sel_point,]
-                        }*/]
+                         layout: 'hbox',
+                         hideBorders: false,
+                         baseCls: "x-fieldset_nb", // 无边框
+                         defaults: {
+                         width: '30%'
+
+                         },
+                         items: [me.sel_distance, me.sel_msg,
+                         me.sel_kind, me.sel_point,]
+                         }*/]
                 };
             },
             showWindow: function (marker) {
@@ -941,7 +1031,7 @@ var app = Ext
 
 
                 //只读
-                me.ctrlReadOnly("show_point", !(isNeed&&isSelf));//
+                me.ctrlReadOnly("show_point", !(isNeed && isSelf));//
                 me.ctrlReadOnly("show_need", !isSelf);
                 me.ctrlReadOnly("show_msg", !isSelf);
                 me.ctrlReadOnly("show_info", !isSelf);
@@ -1029,7 +1119,8 @@ var app = Ext
                 var me = this;
                 var param = {
                     model: "HR",
-                    kind: me.infoType
+                    kind: me.infoType,
+                    point: me.getCmpById(me.sel_point).getValue() * 10
                 };
                 return param;
             },
@@ -1059,8 +1150,8 @@ var app = Ext
                     params: param,
                     success: function (response, opts) {
                         var obj = Ext.decode(response.responseText);
-
-                        cb(obj, me);
+                        me.datas = obj;
+                        cb(me.datas, me);
                         console.dir(obj);
                     },
                     failure: function (response, opts) {
@@ -1068,8 +1159,17 @@ var app = Ext
                     }
                 });
             },
-
-            refreshLocal: function (param) {
+            refreshLocal: function (param, cb) {
+                var me = this;
+                var point = param.point;
+                var newDatas = [];
+                for (var i = 0; i < me.datas.length; i++) {
+                    var data = me.datas[i];
+                    if (data.point > point) {
+                        newDatas.push(data);
+                    }
+                }
+                cb(newDatas, me);
 
             },
 
@@ -1112,21 +1212,20 @@ var app = Ext
                 return Ext.getCmp(obj.id);
             }
             ,
-            alert:function(info,title)
-            {
-                var title = title||"信息";
-                Ext.Msg.alert(title,info);
+            alert: function (info, title) {
+                var title = title || "信息";
+                Ext.Msg.alert(title, info);
             },
             resetPWD: function (email) {
                 var me = this;
 
                 var data = {
-                    "name": Ext.getCmp("name").getValue(),
+                    "name": Ext.getCmp("no").getValue(),
                     "email": email,
                     option: "r"
                 };
                 Ext.Ajax.request({
-                    url: '../../rspwd',
+                    url: me.server + '/pwd',
                     method: 'POST',
                     params: data,
                     success: function (response, opts) {
@@ -1134,7 +1233,35 @@ var app = Ext
                         if (obj.success) {
                             me.alert("重置成功。请查看邮件。");
                         } else {
-                            me.alert("重置失敗、EMAIL入力错误。");
+                            me.alert("重置失敗、EMAIL输入错误。");
+                        }
+                        console.dir(obj);
+                    },
+                    failure: function (response, opts) {
+                        console.log('server erro:' + response.status);
+                    }
+                });
+            }
+            ,
+            regedit: function (email) {
+                var me = this;
+
+                var data = {
+                    "name": Ext.getCmp("no").getValue(),
+                    "email": email,
+                    'pwd':Ext.getCmp("password").getValue(),
+                    option: "reg"
+                };
+                Ext.Ajax.request({
+                    url: me.server + '/pwd',
+                    method: 'POST',
+                    params: data,
+                    success: function (response, opts) {
+                        var obj = Ext.decode(response.responseText);
+                        if (obj.success) {
+                            me.alert("重置成功。请查看邮件。");
+                        } else {
+                            me.alert("重置失敗、EMAIL输入错误。");
                         }
                         console.dir(obj);
                     },
@@ -1209,11 +1336,11 @@ var app = Ext
                 var me = this;
 
                 me.data.user = me.user;
-                
+
                 me.data.kind = me.infoType;
 
                 me.data.date = Ext.util.Format.date(new Date(), "YmdHis")
-                
+
                 var fields = ["status", "point", "info"];
 
                 for (var i = 0; i < fields.length; i++) {
@@ -1302,7 +1429,7 @@ var app = Ext
                             Ext.getCmp('list_list').setStore(null);
                             Ext.getCmp('list_list').setStore(me.store);// 此处刷新数据后，重新绑定
 
-                            me.datas = [];
+
                             for (var i = 0; i < records.length; i++) {
                                 me.datas.push(records[i].data);
                             }
