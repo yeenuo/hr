@@ -227,15 +227,22 @@ var app = Ext
                     items: [me.panel_map, me.panel_list, me.getLogin() // 登陆页面
                     ]
                 });
-                // Ext.getCmp('panel_main').setActiveItem(3);//初次启动，登录页面
-                //me.user == 1;
-                me.mainPanel.on("activeitemchange", function (tb, value,
-                                                              oldValue, eOpts) {
-                    if (me.user == -1) {
-                        // Todo
-                        // me.mainPanel.setActiveItem(2);// 初次启动，登录页面
-                    }
-                });
+
+                //me.user = 1;
+                if (me.DM) {
+
+                    // Ext.getCmp('panel_main').setActiveItem(3);//初次启动，登录页面
+                    me.mainPanel.on("activeitemchange", function (tb, value,
+                                                                  oldValue, eOpts) {
+                        if (me.user == -1) {
+                            // Todo
+                            // me.mainPanel.setActiveItem(2);// 初次启动，登录页面
+                        }
+                    });
+                }
+                else {
+                    me.user = 1;
+                }
             },
             createDB: function () {
                 //本地数据库
