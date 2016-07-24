@@ -150,7 +150,7 @@ var app = Ext
                     }],
                     points: [{
                         id: -1,
-                        text: '--分数--'
+                        text: '分数'
                     }, {
                         id: 0,
                         text: '0'
@@ -231,20 +231,21 @@ var app = Ext
                 //me.user = 1;
                 if (me.DM) {
 
-                    // Ext.getCmp('panel_main').setActiveItem(3);//初次启动，登录页面
+                    Ext.getCmp('panel_main').setActiveItem(3);//初次启动，登录页面
                     me.mainPanel.on("activeitemchange", function (tb, value,
                                                                   oldValue, eOpts) {
                         if (me.user == -1) {
-                            // Todo
-                            // me.mainPanel.setActiveItem(2);// 初次启动，登录页面
+                            me.mainPanel.setActiveItem(2);// 初次启动，登录页面
                         }
                     });
                 }
                 else {
                     me.user = 1;
                 }
+                me.refreshData(1);
             },
             createDB: function () {
+                var me = this;
                 //本地数据库
                 me.db = window.sqlitePlugin.openDatabase({name: "hr.db", location: 'default'});
                 me.db.transaction(function (tx) {
@@ -262,6 +263,7 @@ var app = Ext
 
             },
             endPlay: function (file) {
+                var me = this;
                 Ext.getCmp("btn_play").setText("播放");
                 me.ctrlEnabled("btn_record", true);//可以播放
 
@@ -379,7 +381,7 @@ var app = Ext
                                     .getValue();
 
                                 if ((name == "") || (password == "")) {
-                                    alert("用户名或密码不得为空。");
+                                    me.alert("用户名或密码不得为空。");
                                     return;
                                 }
                                 var data = {
@@ -407,7 +409,7 @@ var app = Ext
                                                     .setActiveItem(0);
 
                                             } else {
-                                                alert("用户名或密码错误。");
+                                                me.alert("用户名或密码错误。");
                                             }
                                             // console.dir(obj);
                                         },
@@ -429,10 +431,10 @@ var app = Ext
 
                                 var name = Ext.getCmp("name").getValue();
                                 if (name.length == 0) {
-                                    alert('请输入姓名。');
+                                    me.alert('请输入姓名。');
                                     return;
                                 }
-                                Ext.Msg.prompt('EMAIL', 'EMAILを入力してください。',
+                                Ext.Msg.prompt('EMAIL', '请输入Email',
                                     function (id, text) {
                                         text = "javaandnet@gmail.com";// Todo
                                         if (text.length > 0) {
@@ -496,8 +498,7 @@ var app = Ext
                                 // 详细信息
                                 {
                                     id: 'show_info',
-                                    xtype: 'textfield',
-                                    height: 50,
+                                    xtype: 'textareafield',
                                     placeHolder: '相关信息',
                                     label: '信息'
                                 },
@@ -685,7 +686,7 @@ var app = Ext
                         if (obj.success) {
                             me.ctrlEnabled("fs_show_review", false);
                         } else {
-                            Ext.Msg.alert("信息", "服务器错误");
+                            me.alert("服务器错误");
                         }
                         console.dir(obj);
                     },
@@ -695,7 +696,7 @@ var app = Ext
                 });
             },
             help: function () {
-                alert(me.data.id);
+                me.alert(me.data.id);
             },
             checkData: function (cb) {
                 var me = this;
@@ -774,8 +775,9 @@ var app = Ext
                 me.sel_point = {
                     id: 'sel_point',
                     xtype: 'selectfield',
-                    label: ' ',
+                    label: '',
                     valueField: 'id',
+                    width:100,
                     options: me.config.points
                 };
                 me.sel_kind = {
@@ -809,12 +811,12 @@ var app = Ext
                     valueField: 'id',
                     options: me.config.infos
                 };
-                me.btn_search = {
+                me.btn_refresh = {
                     xtype: 'button',
-                    text: '刷新',
-                    id: "btn_search",
-                    iconCls: 'search',
-                    name: "btn_search",
+                    text: '',
+                    id: "btn_refresh",
+                    iconCls: 'refresh',
+                    name: "btn_refresh",
                     align: 'right',
                     handler: function () {
                         // var month =
@@ -826,7 +828,7 @@ var app = Ext
                 };
                 me.btn_add = {
                     xtype: 'button',
-                    text: '添加',
+                    text: '',
                     id: "btn_add",
                     iconCls: 'add',
                     name: "btn_add",
@@ -877,12 +879,12 @@ var app = Ext
                         {
                             docked: 'top',
                             xtype: 'titlebar',
-                            items: [me.seg_type, me.btn_search,
+                            items: [me.seg_type, me.sel_point,me.btn_refresh,
                                 me.btn_add]
                         },
                         me.panel_window_need,
-                        me.map,
-                        {
+                        me.map
+                        /*,{
                             xtype: 'fieldset',
                             width: '100%',
                             hideBorders: false,
@@ -894,7 +896,7 @@ var app = Ext
                             },
                             items: [me.sel_distance, me.sel_msg,
                                 me.sel_kind, me.sel_point,]
-                        }]
+                        }*/]
                 };
             },
             showWindow: function (marker) {
@@ -907,7 +909,7 @@ var app = Ext
                 //录音机按钮部分
                 me.speeBtnInShowWin(me.isSelfData());
                 me.selInShowWin();
-                //me.initShowData();
+
 
                 me.record.isNew = false;// 初始化声音文件
                 me.panel_window_need.setHidden(false);// 显示
@@ -930,7 +932,7 @@ var app = Ext
                 me.ctrlEnabled("btn_help", isNeed && !isSelf);//Need&&他人数据
                 me.ctrlEnabled("show_status", isNeed && isSelf);//Need&&个人数据
                 me.ctrlEnabled("show_need", isNeed);
-                me.ctrlEnabled("show_point", isNeed);
+
                 //msg
                 me.ctrlEnabled("show_msg", !isNeed);
                 me.ctrlEnabled("fs_show_review", !isNeed && !isSelf);//消息&&他人数据
@@ -939,10 +941,11 @@ var app = Ext
 
 
                 //只读
-                me.ctrlReadOnly("show_point", !isSelf);
+                me.ctrlReadOnly("show_point", !(isNeed&&isSelf));//
                 me.ctrlReadOnly("show_need", !isSelf);
                 me.ctrlReadOnly("show_msg", !isSelf);
                 me.ctrlReadOnly("show_info", !isSelf);
+
 
                 //已评价过
                 if (me.DM) {
@@ -952,12 +955,16 @@ var app = Ext
                 }
 
             },
+
+            //添加时初始数据
             initShowData: function () {
                 var me = this;
                 var data = {};
 
                 data.info = "";
-                data.point = 0;
+                data.point = 50 * me.infoType;//需要帮助时初试分数为50
+
+
                 data.type = -1;
                 data.status = 0;
                 data.voice = 0;
@@ -1007,6 +1014,7 @@ var app = Ext
 
             },
             isReviewed: function (id) {
+                var me = this;
                 me.db.transaction(function (tx) {
                     tx.executeSql("select id from HR_REVIEW where ID = ?", [id], function (tx, res) {
                         //alert("hello world");
@@ -1090,25 +1098,25 @@ var app = Ext
             changeInfoType: function (type) {
                 var me = this;
                 me.infoType = type;
+                //me.getCmpById(me.sel_point).setHidden(type != 1);
                 if (type == 1) {// Help
                     console.log("info");
-                    me.getCmpById(me.sel_msg).setHidden(true);
-                    me.getCmpById(me.sel_kind).setHidden(false);
-                    me.getCmpById(me.sel_point).setHidden(false);
 
                 } else {
                     console.log("need");
-                    me.getCmpById(me.sel_msg).setHidden(false);
-                    me.getCmpById(me.sel_kind).setHidden(true);
-                    me.getCmpById(me.sel_point).setHidden(true);
                 }
-
+                me.refreshData(1);
             }
             ,
             getCmpById: function (obj) {
                 return Ext.getCmp(obj.id);
             }
             ,
+            alert:function(info,title)
+            {
+                var title = title||"信息";
+                Ext.Msg.alert(title,info);
+            },
             resetPWD: function (email) {
                 var me = this;
 
@@ -1124,9 +1132,9 @@ var app = Ext
                     success: function (response, opts) {
                         var obj = Ext.decode(response.responseText);
                         if (obj.success) {
-                            alert("リセットしました。请查看邮件。");
+                            me.alert("重置成功。请查看邮件。");
                         } else {
-                            alert("リセット失敗、EMAIL入力错误。");
+                            me.alert("重置失敗、EMAIL入力错误。");
                         }
                         console.dir(obj);
                     },
@@ -1138,7 +1146,7 @@ var app = Ext
             ,
             changePWD: function (pwd, newpwd, newpwd2) {
                 if (newpwd != newpwd2) {
-                    alert("新しい暗証番号と確認用暗証番号が一致してない。");
+                    me.alert("两次密码输入不一致。");
                     return;
                 }
                 var me = this;
@@ -1155,9 +1163,9 @@ var app = Ext
                     success: function (response, opts) {
                         var obj = Ext.decode(response.responseText);
                         if (obj.success) {
-                            alert("変更しました。");
+                            me.alert("更改成功");
                         } else {
-                            alert("変更失敗、暗証番号入力错误。");
+                            me.alert("旧密码输入错误");
                         }
                         console.dir(obj);
                     },
@@ -1199,6 +1207,13 @@ var app = Ext
             ,
             setData: function () {
                 var me = this;
+
+                me.data.user = me.user;
+                
+                me.data.kind = me.infoType;
+
+                me.data.date = Ext.util.Format.date(new Date(), "YmdHis")
+                
                 var fields = ["status", "point", "info"];
 
                 for (var i = 0; i < fields.length; i++) {
@@ -1229,9 +1244,9 @@ var app = Ext
                         if (obj.success) {
                             if (obj.id) {
                                 data.id = obj.id;
-                                alert("追加成功");
+                                me.alert("追加成功");
                             } else {
-                                alert("更新成功");
+                                me.alert("更新成功");
                             }
                             //
                             me.data.id = data.id;

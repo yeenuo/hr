@@ -181,7 +181,7 @@ Ext.define('ux.BMap', {
         }
     }
     ,
-//数据加载成功,加载坐标点
+    //数据加载成功,加载坐标点
     onLoad: function (store) {
         var me = this,
             map = me.getMap(),
@@ -488,7 +488,7 @@ Ext.define('app.view.Map', {
     extend: 'ux.BMap',
     xtype: 'map',
     config: {
-        height: "80%",
+        height: "100%",
         width: "100%",
         title: '地图',
         /// <summary>
