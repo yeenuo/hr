@@ -35,16 +35,17 @@ var app = Ext
 
             initConfig: function () {
                 var me = this;
-                me.DM = false;
+                me.DM = true;//实机测试
                 me.initData();
                 me.record = record;
                 me.record.app = me;
                 me.tool = new Tool();
                 me.uploadUrl = "/www/uploadFiles/";
-                // me.server = "http://localhost:8379";
-                me.server = "http://192.168.0.11:8379";
-                //me.server = "http://153.122.98.240:8379";
                 me.infoType = 0;// 0:求助 1:帮忙
+                me.server = "http://192.168.0.11:8379";
+                if (me.DM) {
+                    me.server = "http://153.122.98.240:8379";
+                }
                 me.map = null;
                 me.tomail = "";// 需要发送mail的人，作业时间不足。
                 me.config = {
@@ -257,18 +258,21 @@ var app = Ext
             endPlay: function (file) {
                 var me = this;
                 Ext.getCmp("btn_play").setText("播放");
-                me.ctrlEnabled("btn_record", true);//可以播放
+                me.ctrlEnabled("btn_record", me.isSelfData());//可以播放
 
             },
             endRead: function () {
                 // alert(222);
             },
 
-            playUrl: function (url) {
+            playUrl: function (url, cb) {
                 var me = this;
                 me.downLoad(url, "nuofun.spx", function (path) {
                     path = path.replace("file://", "");
                     me.record.play(path);
+                    if (cb) {
+                        cb(path);
+                    }
                 });
             },
             upload: function (url, path, cb) {
@@ -410,6 +414,7 @@ var app = Ext
 
                                                 me.mainPanel
                                                     .setActiveItem(0);
+                                                me.refreshData(1);
 
                                             } else {
                                                 me.alert("用户名或密码错误或没通过验证");
@@ -585,7 +590,7 @@ var app = Ext
                                                         .record();
                                                     me.ctrlEnabled("btn_play", true);
                                                     if (record.status == 0) {
-                                                        this
+                                                        btn
                                                             .setText("录音");
                                                         Ext
                                                             .getCmp(
@@ -593,7 +598,7 @@ var app = Ext
                                                             .setDisabled(
                                                                 false);
                                                     } else {
-                                                        this
+                                                        btn
                                                             .setText("结束");
                                                         me.ctrlEnabled("btn_play", false);
                                                     }
@@ -616,24 +621,27 @@ var app = Ext
                                                                 .playUrl(me.server
                                                                     + me.uploadUrl
                                                                     + me.data.id
-                                                                    + ".spx");
+                                                                    + ".spx" );
+                                                            if (me.record.status == 0) {
+                                                                btn
+                                                                    .setText("播放");
+                                                                me.speeBtnInShowWin(me.isSelfData());
+
+                                                                Ext
+                                                                    .getCmp(
+                                                                        'btn_record')
+                                                                    .setDisabled(
+                                                                        true);
+                                                            } else {
+                                                                btn
+                                                                    .setText("结束");
+
+                                                                me.ctrlEnabled("btn_record", false);
+                                                            }
                                                         }
                                                     }
 
-                                                    if (record.status == 0) {
-                                                        this
-                                                            .setText("播放");
-                                                        me.ctrlEnabled("btn_record", true);
-                                                        Ext
-                                                            .getCmp(
-                                                                'btn_record')
-                                                            .setDisabled(
-                                                                true);
-                                                    } else {
-                                                        this
-                                                            .setText("结束");
-                                                        me.ctrlEnabled("btn_record", false);
-                                                    }
+
                                                 }
                                             }
                                         },
@@ -1213,7 +1221,11 @@ var app = Ext
                 } else {
                     console.log("need");
                 }
-                me.refreshData(1);
+                if(!me.DM)
+                {
+                    me.refreshData(1);
+                }
+
             }
             ,
             getCmpById: function (obj) {
