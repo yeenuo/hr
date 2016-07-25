@@ -204,6 +204,14 @@ module.exports = [
         "clobbers": [
             "chcp"
         ]
+    },
+    {
+        "file": "plugins/cordova-sqlite-storage/www/SQLitePlugin.js",
+        "id": "cordova-sqlite-storage.SQLitePlugin",
+        "pluginId": "cordova-sqlite-storage",
+        "clobbers": [
+            "SQLitePlugin"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -214,7 +222,8 @@ module.exports.metadata =
     "cordova-plugin-file": "4.2.0",
     "cordova-plugin-file-transfer": "1.5.1",
     "rfl-spee": "1.0.0-res",
-    "cordova-hot-code-push-plugin": "1.4.0"
+    "cordova-hot-code-push-plugin": "1.4.0",
+    "cordova-sqlite-storage": "1.4.5"
 }
 // BOTTOM OF METADATA
 });

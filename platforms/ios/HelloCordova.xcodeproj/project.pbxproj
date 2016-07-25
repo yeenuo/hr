@@ -107,6 +107,8 @@
 		2564DF551ED04E78B2259214 /* HCPAppUpdateRequestAlertDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = C122ABE6E54A476988509C2B /* HCPAppUpdateRequestAlertDialog.m */; };
 		2D8A2ADAB68B4A59884CED97 /* HCPAssetsFolderHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DD4AB0E977D41DD9AE06AA2 /* HCPAssetsFolderHelper.m */; };
 		854E203641B9452AB50798C3 /* CDVWKWebViewEngine+HCPPlugin_ReadAccessURL.m in Sources */ = {isa = PBXBuildFile; fileRef = 65809356FFEA4C9BB7195782 /* CDVWKWebViewEngine+HCPPlugin_ReadAccessURL.m */; };
+		75AA8F79FAB246A284BF2238 /* SQLitePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = ADCBA09B9C5A455BB5A3660C /* SQLitePlugin.m */; };
+		C58D58A9DBB246E19C9184E7 /* sqlite3.c in Resources */ = {isa = PBXBuildFile; fileRef = 0526683A0A384CFB84447534 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-DSQLITE_TEMP_STORE=2 -DSQLITE_THREADSAFE=2 -DSQLITE_ENABLE_FTS3 -DSQLITE_ENABLE_FTS3_PARENTHESIS -DSQLITE_ENABLE_FTS4 -DSQLITE_ENABLE_COLUMN_METADATA -DSQLITE_ENABLE_RTREE -DSQLITE_LOCKING_STYLE=1 -DSQLITE_OMIT_BUILTIN_TEST -DSQLITE_OMIT_LOAD_EXTENSION"; }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -364,6 +366,10 @@
 		8B36AA8D386F489E8C123153 /* HCPAppUpdateRequestAlertDialog.h */ = {isa = PBXFileReference; name = "HCPAppUpdateRequestAlertDialog.h"; path = "cordova-hot-code-push-plugin/Utils/HCPAppUpdateRequestAlertDialog.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
 		DE6C5D73647442A9A118E012 /* HCPAssetsFolderHelper.h */ = {isa = PBXFileReference; name = "HCPAssetsFolderHelper.h"; path = "cordova-hot-code-push-plugin/Utils/HCPAssetsFolderHelper.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
 		8E5A60A9A5844C7BAF842249 /* CDVWKWebViewEngine+HCPPlugin_ReadAccessURL.h */ = {isa = PBXFileReference; name = "CDVWKWebViewEngine+HCPPlugin_ReadAccessURL.h"; path = "cordova-hot-code-push-plugin/WKWebViewFix/CDVWKWebViewEngine+HCPPlugin_ReadAccessURL.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		ADCBA09B9C5A455BB5A3660C /* SQLitePlugin.m */ = {isa = PBXFileReference; name = "SQLitePlugin.m"; path = "cordova-sqlite-storage/SQLitePlugin.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		0526683A0A384CFB84447534 /* sqlite3.c */ = {isa = PBXFileReference; name = "sqlite3.c"; path = "cordova-sqlite-storage/sqlite3.c"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		986F473573414E7E8EA1A471 /* SQLitePlugin.h */ = {isa = PBXFileReference; name = "SQLitePlugin.h"; path = "cordova-sqlite-storage/SQLitePlugin.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		3F7EBC4A3FA54CB3B08CF183 /* sqlite3.h */ = {isa = PBXFileReference; name = "sqlite3.h"; path = "cordova-sqlite-storage/sqlite3.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -547,6 +553,10 @@
 				8B36AA8D386F489E8C123153 /* HCPAppUpdateRequestAlertDialog.h */,
 				DE6C5D73647442A9A118E012 /* HCPAssetsFolderHelper.h */,
 				8E5A60A9A5844C7BAF842249 /* CDVWKWebViewEngine+HCPPlugin_ReadAccessURL.h */,
+				ADCBA09B9C5A455BB5A3660C /* SQLitePlugin.m */,
+				0526683A0A384CFB84447534 /* sqlite3.c */,
+				986F473573414E7E8EA1A471 /* SQLitePlugin.h */,
+				3F7EBC4A3FA54CB3B08CF183 /* sqlite3.h */,
 			);
 			name = Plugins;
 			path = HelloCordova/Plugins;
@@ -945,6 +955,8 @@
 				2564DF551ED04E78B2259214 /* HCPAppUpdateRequestAlertDialog.m in Sources */,
 				2D8A2ADAB68B4A59884CED97 /* HCPAssetsFolderHelper.m in Sources */,
 				854E203641B9452AB50798C3 /* CDVWKWebViewEngine+HCPPlugin_ReadAccessURL.m in Sources */,
+				75AA8F79FAB246A284BF2238 /* SQLitePlugin.m in Sources */,
+				C58D58A9DBB246E19C9184E7 /* sqlite3.c in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

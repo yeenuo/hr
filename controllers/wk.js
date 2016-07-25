@@ -96,21 +96,21 @@ exports.data = function (req, res, next) {
             res.end();
         };
         db.c("update REN.H_HR set Point = Point + (?) where id = ?", [value, id], function (datas) {
-                if (datas.affectedRows == 1) {
-                    db.c("update REN.T_USER set point = point + (?) where id = (select user from REN.H_HR where id = ?)", [value, id], function (rtn) {
+            if (datas.affectedRows == 1) {
+                db.c("update REN.T_USER set point = point + (?) where id = (select user from REN.H_HR where id = ?)", [value, id], function (rtn) {
 
-                        if (rtn.affectedRows == 1) {
-                            suc(res);
-                        }
-                        else {
-                            nodata(res);
-                        }
-                    });
-                }
-                else {
-                    nodata(res);
-                }
-            });
+                    if (rtn.affectedRows == 1) {
+                        suc(res);
+                    }
+                    else {
+                        nodata(res);
+                    }
+                });
+            }
+            else {
+                nodata(res);
+            }
+        });
 
 
 //            res.writeHead(200, {"Content-Type": "text/html;charset:utf-8"});
@@ -121,8 +121,8 @@ exports.data = function (req, res, next) {
     }
     else {
         var kind = req.body.kind;//0:寻求帮助 1:有用信息
-        var point  = req.body.point;
-        db.q("SELECT ID as id,Title as title,Lat as lat,Lng as lng,Info as info,Point as point,Voice as voice,Status as status,Type as type,USER as user,KIND as kind FROM REN.H_" + req.body.model.toUpperCase() + " WHERE KIND = ? and Point > ?", [kind,point], function (datas) {
+        var point = req.body.point;
+        db.q("SELECT ID as id,Title as title,Lat as lat,Lng as lng,Info as info,Point as point,Voice as voice,Status as status,Type as type,USER as user,KIND as kind FROM REN.H_" + req.body.model.toUpperCase() + " WHERE KIND = ? and Point > ?", [kind, point], function (datas) {
             res.writeHead(200, {"Content-Type": "text/html;charset:utf-8"});
             res.write(JSON.stringify(datas));
             res.end();
@@ -175,12 +175,25 @@ function rtnInfo(res, info) {
     res.write(info);
     res.end();
 }
-
+function rtnHtml(res, info) {
+    info = '<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/></head><body>' + info + '</body></html>';
+    rtnInfo(res, info);
+}
 
 exports.pwd = function (req, res, next) {
     var me = this;
+
     var data = req.body;
+
+
+    if (typeof (data.option) == "undefined")//get
+    {
+        data = req.query;
+    }
     var option = data.option;
+    console.log(data);
+
+
     if (option == "c")//修改密码
     {
         var sql = "SELECT ID,EMAIL email FROM REN.T_USER WHERE ID =? and PASSWORD = ?"
@@ -228,7 +241,7 @@ exports.pwd = function (req, res, next) {
             }
         });
     }
-    else//重置密码
+    else if (option == "r")//重置密码
     {
 
         var sql = "SELECT u.ID id,email,no FROM REN.T_USER u  WHERE `NO` = ? and EMAIL = ?"
@@ -263,6 +276,81 @@ exports.pwd = function (req, res, next) {
             }
         });
 
+    } else if (option == "g")//进行注册
+    {
+
+        var sql = "SELECT u.ID id,email,no FROM REN.T_USER u  WHERE `NO` = ? or EMAIL = ?"
+
+        var params = [data.name, data.email];
+        db.q(sql, params, function (rows) {
+            if (rows.length == 0) {
+                //重置密码
+
+                console.log(data);
+                var iData = {};
+                iData.table = "`REN`.`T_USER`";
+                iData.no = data.name;
+                iData.name = data.name;
+                iData.email = data.email;
+                iData.password = crypt(data.password);
+                console.log(iData.no + iData.email);
+                var key = crypt(iData.no + iData.email);
+                db.i(iData, function (rtndata) {
+                    if (rtndata.affectedRows == 1)//插入成功
+                    {
+                        console.log(rtndata);
+                        var obj = {};
+                        obj.subject = "注册用户";
+                        obj.html = "恭喜您注册用户成功,欢迎加入好人网。";
+                        obj.html += "<br>登录ID:" + iData.no;
+                        var url = "http://" + config.host + ":" + config.port + "/pwd?option=v&key=" + key + "&c=" + rtndata.insertId;
+                        obj.html += "<br><a href='" + url + "'>请点击链接进行注册</a>";//rtn.insertId
+                        obj.from = "好人网";
+                        obj.to = iData.email;
+                        obj.func = rtnInfo(res, "{success:true}");
+                        //http://153.122.98.240:8379/pwd?option=v&key=08d385f2af39d24789914d49e0dedfc7bc6a119e
+                        exports.mail(obj);
+                    }
+                });
+            }
+            else {
+                rtnInfo(res, "{success:false,info:'no'}");//已存在
+            }
+        });
+
+    } else if (option == "v")//进行验证
+    {
+
+        var sql = "SELECT email,no FROM REN.T_USER u  WHERE `id` = ? "
+
+        var params = [data.c];
+        db.q(sql, params, function (rows) {
+                if (rows.length > 0) {
+                    var key = crypt(rows[0].no + rows[0].email);
+                    if (key == data.key) {
+
+
+                        var updateD = {
+                            "table": "`REN`.`T_USER`",
+                            "verified": 1,
+                            "id": data.c
+                        };
+
+                        db.u(updateD, function (rtndata) {
+                            if (rtndata.affectedRows == 1)//更新成功
+                            {
+                                rtnHtml(res, '验证成功，请登录后使用。');//已存在
+                            }
+                        });
+
+
+                    }
+                }
+                else {
+                    rtnHtml(res, "验证失败");//已存在
+                }
+            }
+        );
     }
 }
 
@@ -280,7 +368,7 @@ exports.login = function (req, res, next) {
             // RowDataPacket { ID: 2, ROLE: null }
             console.log(rows);
             var data = JSON.parse(JSON.stringify(rows));
-            rtn = "{success:true,user:" + data[0].ID+ ",point:'" + data[0].point+ "',no:'" + data[0].no + "',role:" + data[0].ROLE + "}"
+            rtn = "{success:true,user:" + data[0].ID + ",point:'" + data[0].point + "',no:'" + data[0].no + "',role:" + data[0].ROLE + "}"
             req.session.user = data[0].ID;
             req.session.role = data[0].ROLE;
         }

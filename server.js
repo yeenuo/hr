@@ -86,6 +86,7 @@ var router = urlrouter(function (app) {
     app.get('/list', wk.list);
     app.post('/list', wk.list);
     app.post('/login', wk.login);
+    app.get('/pwd', wk.pwd);//修改密码
     app.post('/pwd', wk.pwd);//修改密码
     app.post('/email', wk.mail);//合计时间;
 });

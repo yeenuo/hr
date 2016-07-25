@@ -474,6 +474,13 @@ var app = Ext
                     me.alert('请输入用户ID。');
                     return;
                 }
+                var pwd = Ext.getCmp("password").getValue();
+                if (!me.tool.checkPwd(pwd)) {
+
+                    me.alert("密码应为6-20位由字母数字下划线组成的文字。");
+                    return;
+                }
+
                 var config = {
                     title: "信息",
                     msg: "请输入Email",
@@ -739,6 +746,7 @@ var app = Ext
                 });
             },
             help: function () {
+                var me = this;
                 me.alert(me.data.id);
             },
             checkData: function (cb) {
@@ -1249,8 +1257,8 @@ var app = Ext
                 var data = {
                     "name": Ext.getCmp("no").getValue(),
                     "email": email,
-                    'pwd':Ext.getCmp("password").getValue(),
-                    option: "reg"
+                    'password': Ext.getCmp("password").getValue(),
+                    option: "g"
                 };
                 Ext.Ajax.request({
                     url: me.server + '/pwd',
@@ -1259,9 +1267,9 @@ var app = Ext
                     success: function (response, opts) {
                         var obj = Ext.decode(response.responseText);
                         if (obj.success) {
-                            me.alert("重置成功。请查看邮件。");
+                            me.alert("注册成功，请查看邮件进行验证。");
                         } else {
-                            me.alert("重置失敗、EMAIL输入错误。");
+                            me.alert("注册失败,EMAIL或用户名已被注册。");
                         }
                         console.dir(obj);
                     },

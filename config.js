@@ -8,12 +8,12 @@
 
 exports.debug = true;
 exports.port = 8379;
-exports.site_name = 'Node TODO';
-exports.site_desc = 'Very simple todo, demo for connect web dev.';
+exports.site_name = '好人网';
+exports.site_desc = '人人为我，我为人人';
 exports.session_secret = 'todo session secret';
-
+exports.host = '153.122.98.240';
 exports.db ={
-    host: '153.122.98.240',
+    host: exports.host ,
     user: 'ren',
     password: 'ren456$%^',
     database:'REN',
@@ -22,7 +22,7 @@ exports.db ={
 
 
 exports.dbm ={
-    host: '153.122.98.240',
+    host: exports.host ,
     user: 'ren',
     password: 'ren123',
     database:'ren',
