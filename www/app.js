@@ -27,7 +27,7 @@ var app = Ext
              *
              * Inside our launch method we create the list and show in in the
              * viewport. We get the lists configuration using the
-             * getListConfiguration method which we defined below.
+             * getReplyConfiguration method which we defined below.
              *
              * If the user is not on a phone, we wrap the list inside a panel
              * which is centered on the page.
@@ -35,7 +35,7 @@ var app = Ext
 
             initConfig: function () {
                 var me = this;
-                me.DM = true;//实机测试
+                me.DM = false;//实机测试
                 me.initData();
                 me.record = record;
                 me.record.app = me;
@@ -194,9 +194,9 @@ var app = Ext
                 me.panel_window_need = me.getInfo();
                 //me.panel_window_need = me.getInfo();
 
-                me.panel_list = me.getList();// 列表
+                me.panel_reply = me.getReply();// 列表
                 me.panel_map = me.getMap();// 录入
-                me.panel_config = me.getConfig();// 设定
+                me.panel_info = me.getConfig();// 设定
                 me.mainPanel = Ext.create('Ext.TabPanel', {
                     tabBarPosition: 'bottom',
                     id: 'panel_main',
@@ -214,28 +214,34 @@ var app = Ext
                         styleHtmlContent: true
                     },
                     //activeItem: 2,
-                    activeItem: 0,
-                    // , me.panel_config
-                    items: [me.panel_map, me.panel_list, me.panel_config, me.getLogin() // 登陆页面
+                    activeItem: 3,
+                    // , me.panel_info
+                    items: [me.panel_map, me.getLogin() // 登陆页面
                     ]
                 });
 
-                //me.user = 1;
-                if (me.DM) {
+                if (!me.DM) {
+                    me.mainPanel.insert(1, me.panel_reply);
+                    me.mainPanel.setActiveItem(1);// 初次启动，登录页面
+                }
 
-                    Ext.getCmp('panel_main').setActiveItem(3);//初次启动，登录页面
-                    me.mainPanel.on("activeitemchange", function (tb, value,
-                                                                  oldValue, eOpts) {
-                        if (me.user == -1) {
-                            me.mainPanel.setActiveItem(3);// 初次启动，登录页面
-                        }
-                    });
-                }
-                else {
-                    Ext.getCmp('panel_main').setActiveItem(3);
-                    me.user = 1;
-                }
+
+                //me.user = 1;
+                // if (me.DM) {
+                //
+                //    // Ext.getCmp('panel_main').setActiveItem(3);//初次启动，登录页面
+                //     me.mainPanel.on("activeitemchange", function (tb, value,
+                //                                                   oldValue, eOpts) {
+                //         if (me.user == -1) {
+                //             //me.mainPanel.setActiveItem(3);// 初次启动，登录页面
+                //         }
+                //     });
+                // }
+
+
                 me.refreshData(1);
+
+
             },
             createDB: function () {
                 var me = this;
@@ -258,7 +264,8 @@ var app = Ext
             endPlay: function (file) {
                 var me = this;
                 Ext.getCmp("btn_play").setText("播放");
-                me.ctrlEnabled("btn_record", me.isSelfData());//可以播放
+                me.speeBtnInShowWin((me.user >= 0) && me.isSelfData());//可以录音,可以取消
+                //me.ctrlEnabled("btn_record", me.isSelfData());//可以播放
 
             },
             endRead: function () {
@@ -277,72 +284,168 @@ var app = Ext
             },
             upload: function (url, path, cb) {
                 var me = this;
-                window.requestFileSystem(LocalFileSystem.PERSISTENT, 0,
-                    function (fs) {
-                        var fileURL = "file://" + path;
-                        var options = new FileUploadOptions();
-                        options.fileKey = "spx";
-                        options.fileName = fileURL.substr(fileURL
-                                .lastIndexOf('/') + 1);
-                        options.mimeType = "text/plain";
-                        // 上传参数
-                        var params = {};
-                        params.option = "o";
-                        params.fileName = me.data.id;
-                        options.params = params;
-                        var ft = new FileTransfer();
+                try {
+                    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0,
+                        function (fs) {
+                            var fileURL = "file://" + path;
+                            var options = new FileUploadOptions();
+                            options.fileKey = "spx";
+                            options.fileName = fileURL.substr(fileURL
+                                    .lastIndexOf('/') + 1);
+                            options.mimeType = "text/plain";
+                            // 上传参数
+                            var params = {};
+                            params.option = "o";
+                            params.fileName = me.data.id;
+                            options.params = params;
+                            var ft = new FileTransfer();
 
-                        // 上传地址
-                        ft.upload(fileURL, encodeURI(url), function () {
-                            console.log("成功");
-                        }, function (e) {
-                            console.log(e);
-                        }, options);
+                            // 上传地址
+                            ft.upload(fileURL, encodeURI(url), function () {
+                                console.log("成功");
+                            }, function (e) {
+                                console.log(e);
+                            }, options);
 
-                    }, function (e) {
-                        console.log(e);
-                    });
-
-            },
-
-            downLoad: function (url, path, cb) {
-                window.requestFileSystem(LocalFileSystem.PERSISTENT, 0,
-                    function (fs) {
-                        console.log('打开的文件系统: ' + fs.name);
-                        fs.root.getFile(path, {
-                            create: true,
-                            exclusive: false
-                        }, function (fileEntry) {
-                            var fileTransfer = new FileTransfer();
-                            var fileURL = fileEntry.toURL();
-                            fileTransfer.download(url, fileURL, function (entry) {
-                                    console.log("下载成功！");
-                                    console.log("文件保存位置: " + entry.toURL());
-                                    if (cb) {
-                                        cb(entry.toURL());
-                                    }
-                                },
-                                function (error) {
-                                    console.log("下载失败！");
-                                    console.log("error source "
-                                        + error.source);
-                                    console.log("error target "
-                                        + error.target);
-                                    console.log("error code"
-                                        + error.code);
-                                }, null, // or, pass false
-                                {
-                                    // headers: {
-                                    // "Authorization": "Basic
-                                    // dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA=="
-                                    // }
-                                });
                         }, function (e) {
                             console.log(e);
                         });
-                    }, function (e) {
-                        console.log(e);
-                    });
+                } catch (e) {
+                    console.log(e);
+                }
+
+            },
+            failPlay: function () {
+                Ext.getCmp("btn_play").setText("播放");
+            },
+            failRecord: function () {
+                Ext.getCmp("btn_play").setText("录音");
+            },
+            downLoad: function (url, path, cb) {
+                var me = this;
+                try {
+                    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0,
+                        function (fs) {
+                            console.log('打开的文件系统: ' + fs.name);
+                            fs.root.getFile(path, {
+                                create: true,
+                                exclusive: false
+                            }, function (fileEntry) {
+                                var fileTransfer = new FileTransfer();
+                                var fileURL = fileEntry.toURL();
+                                fileTransfer.download(url, fileURL, function (entry) {
+                                        console.log("下载成功！");
+                                        console.log("文件保存位置: " + entry.toURL());
+                                        if (cb) {
+                                            cb(entry.toURL());
+                                        }
+                                    },
+                                    function (error) {
+                                        me.failPlay();
+                                        console.log("下载失败！");
+                                        console.log("error source "
+                                            + error.source);
+                                        console.log("error target "
+                                            + error.target);
+                                        console.log("error code"
+                                            + error.code);
+                                    }, null, // or, pass false
+                                    {
+                                        // headers: {
+                                        // "Authorization": "Basic
+                                        // dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA=="
+                                        // }
+                                    });
+                            }, function (e) {
+                                me.failPlay();
+                                console.log(e);
+
+                            });
+                        }, function (e) {
+                            me.failPlay();
+                            console.log(e);
+                        });
+                } catch (e) {
+                    console.log(e);
+                    me.failPlay();
+                }
+            },
+            getReply: function () {
+                var me = this;
+                return {
+                    id: 'panel_reply',
+                    title: '回复',
+                    iconCls: 'reply',
+                    layout: 'card',
+                    items: [me.getReplyConfiguration()]
+                };
+            },
+            getConfig: function () {
+                var me = this;
+                return {
+                    id: 'panel_info',
+                    title: '信息',
+                    iconCls: 'info',
+                    scrollable: true,
+                    items: [{
+                        xtype: 'fieldset',
+                        title: '',
+                        hideBorders: false,
+                        baseCls: "x-fieldset_nb", // 无边框
+                        items: [
+                            {
+                                xtype: 'fieldset',
+                                title: '信息',
+                                items: [{
+                                    xtype: 'textfield',
+                                    id: "txt_no",
+                                    label: '分数',
+                                    readOnly: true
+                                }
+                                    ,
+                                    {
+                                        xtype: 'textfield',
+                                        id: "txt_point",
+                                        label: '分数',
+                                        readOnly: true
+                                    }
+                                ]
+                            }
+                            , {
+                                xtype: 'fieldset',
+                                title: '修改密码',
+                                items: [
+                                    {
+                                        xtype: 'passwordfield',
+                                        id: "oldpwd",
+                                        name: 'oldpwd',
+                                        label: '旧密码',
+                                        value: ''
+                                    },
+                                    {
+                                        xtype: 'passwordfield',
+                                        id: "newpwd",
+                                        name: 'newpwd',
+                                        label: '新密码',
+                                        value: ''
+                                    },
+                                    {
+                                        xtype: 'passwordfield',
+                                        id: "newpwd2",
+                                        name: 'newpwd2',
+                                        label: '确认输入',
+                                        value: ''
+                                    }, {
+                                        xtype: 'button',
+                                        text: '変更',
+                                        handler: function () {
+                                            me.changePWD(Ext.getCmp("oldpwd").getValue(), Ext.getCmp("newpwd").getValue(), Ext.getCmp("newpwd2").getValue());
+                                        }
+                                    }
+                                ]
+                            }]
+                    }]
+                };
             },
             getLogin: function () {
                 var me = this;
@@ -408,12 +511,20 @@ var app = Ext
                                                 me.role = obj.role;
                                                 me.point = obj.point;
                                                 me.no = obj.no;
+
+                                                if (me.mainPanel.getItems().length < 4) {
+
+                                                    me.mainPanel.insert(1, me.panel_reply);
+
+                                                    me.mainPanel.insert(2, me.panel_info);
+                                                }
                                                 me.ctrlValue("txt_no", obj.no);
                                                 me.ctrlValue("txt_point", obj.point);
 
-
                                                 me.mainPanel
                                                     .setActiveItem(0);
+
+
                                                 me.refreshData(1);
 
                                             } else {
@@ -434,13 +545,22 @@ var app = Ext
                             xtype: 'fieldset',
                             id: "fs_login",
                             align: 'right',
-                            layout: 'hbox',
+                            layout: {
+                                type: 'hbox',
+                                pack: 'center'
+                            },
                             hideBorders: false,
                             baseCls: "x-fieldset_nb", // 无边框
+                            defaults: {
+                                xtype: 'label',
+                                cls: 'x-button-rpc',
+                                flex: 0.33
+
+
+                            },
                             items: [
                                 {
-                                    xtype: 'label',
-                                    flex: 0.5,
+
                                     html: '<div  style="font-size: 18px;" >重置密码</div>',
 
                                     listeners: {
@@ -450,16 +570,27 @@ var app = Ext
                                         }
                                     }
                                 },
-
                                 {
-                                    xtype: 'label',
-                                    flex: 0.5,
-                                    align: 'right',
+
+
                                     html: '<div  style="font-size: 18px;" >欢迎注册</div>',
                                     listeners: {
                                         element: 'element',
                                         tap: function (e, t) {
                                             me.resetOrReg(1)
+                                        }
+                                    }
+                                },
+                                {
+
+
+                                    html: '<div  style="font-size: 18px;" >随便看看</div>',
+                                    listeners: {
+                                        element: 'element',
+                                        tap: function (e, t) {
+                                            me.user = -1;
+                                            me.mainPanel
+                                                .setActiveItem(0);
                                         }
                                     }
                                 }
@@ -586,22 +717,25 @@ var app = Ext
                                             text: '录音',
                                             handler: function (btn) {
                                                 if (me.record.status != 2) {// 非播放状态
-                                                    me.record
-                                                        .record();
-                                                    me.ctrlEnabled("btn_play", true);
-                                                    if (record.status == 0) {
-                                                        btn
-                                                            .setText("录音");
-                                                        Ext
-                                                            .getCmp(
-                                                                'btn_play')
-                                                            .setDisabled(
-                                                                false);
-                                                    } else {
+
+                                                    if (me.record.status == 0) {
                                                         btn
                                                             .setText("结束");
-                                                        me.ctrlEnabled("btn_play", false);
+                                                        me.ctrlEnabled("btn_play", false);//播放隐藏
+                                                    } else {
+                                                        btn
+                                                            .setText("录音");
+                                                        me.ctrlEnabled("btn_play", true);//播放显示
                                                     }
+
+                                                    try {
+                                                        me.record
+                                                            .record();
+                                                    } catch (e) {
+                                                        me.failRecord();
+                                                    }
+
+
                                                 }
                                             }
                                         },
@@ -612,32 +746,28 @@ var app = Ext
                                             hidden: true,
                                             handler: function (btn) {
                                                 if (me.record.status != 1) {// 非录制状态
+                                                    if (me.record.status == 0) {//开始播放
+                                                        btn
+                                                            .setText("结束");
+                                                        me.speeBtnInShowWin(false);//禁止录音
+                                                    } else {
+                                                        btn
+                                                            .setText("播放");
+                                                        me.speeBtnInShowWin((me.user >= 0) && me.isSelfData());//可以录音
+                                                    }
+
                                                     if (me.record.isNew) {// 新增才读取本地
                                                         me.record
                                                             .play();
                                                     } else {
                                                         if (me.data.id) {// 读取服务器
+
                                                             me
                                                                 .playUrl(me.server
                                                                     + me.uploadUrl
                                                                     + me.data.id
-                                                                    + ".spx" );
-                                                            if (me.record.status == 0) {
-                                                                btn
-                                                                    .setText("播放");
-                                                                me.speeBtnInShowWin(me.isSelfData());
+                                                                    + ".spx");
 
-                                                                Ext
-                                                                    .getCmp(
-                                                                        'btn_record')
-                                                                    .setDisabled(
-                                                                        true);
-                                                            } else {
-                                                                btn
-                                                                    .setText("结束");
-
-                                                                me.ctrlEnabled("btn_record", false);
-                                                            }
                                                         }
                                                     }
 
@@ -650,13 +780,8 @@ var app = Ext
                                             id: "btn_cancelRecord",
                                             text: '取消',
                                             handler: function () {// Todo删除声音文件
-                                                me
-                                                    .upload(
-                                                        me.server
-                                                        + "/data",
-                                                        me.record.fileName,
-                                                        function () {
-                                                        });
+                                                me.data.voice = 0;
+                                                me.record.isNew = false;
                                             }
                                         }]
                                 },
@@ -783,16 +908,7 @@ var app = Ext
                 });
 
             },
-            getList: function () {
-                var me = this;
-                return {
-                    title: '一览',
-                    iconCls: 'calendar',
-                    id: 'tab_list',
-                    layout: 'card',
-                    items: [me.getListConfiguration()]
-                };
-            },
+
             getComboText: function (key, objs) {
                 for (var i = 0; i < objs.length; i++) {
                     var obj = objs[i];
@@ -802,70 +918,7 @@ var app = Ext
                 }
                 return null;
             },
-            getConfig: function () {
-                var me = this;
-                return {
-                    title: '设定',
-                    iconCls: 'settings',
-                    scrollable: true,
-                    items: [{
-                        xtype: 'fieldset',
-                        title: '各种设定',
-                        items: [
-                            {
-                                xtype: 'fieldset',
-                                title: '信息',
-                                items: [{
-                                    xtype: 'textfield',
-                                    id: "txt_no",
-                                    label: '分数',
-                                    readOnly: true
-                                }
-                                    ,
-                                    {
-                                        xtype: 'textfield',
-                                        id: "txt_point",
-                                        label: '分数',
-                                        readOnly: true
-                                    }
-                                ]
-                            }
-                            , {
-                                xtype: 'fieldset',
-                                title: '修改密码',
-                                items: [
-                                    {
-                                        xtype: 'passwordfield',
-                                        id: "oldpwd",
-                                        name: 'oldpwd',
-                                        label: '旧密码',
-                                        value: ''
-                                    },
-                                    {
-                                        xtype: 'passwordfield',
-                                        id: "newpwd",
-                                        name: 'newpwd',
-                                        label: '新密码',
-                                        value: ''
-                                    },
-                                    {
-                                        xtype: 'passwordfield',
-                                        id: "newpwd2",
-                                        name: 'newpwd2',
-                                        label: '确认输入',
-                                        value: ''
-                                    }, {
-                                        xtype: 'button',
-                                        text: '変更',
-                                        handler: function () {
-                                            me.changePWD(Ext.getCmp("oldpwd").getValue(), Ext.getCmp("newpwd").getValue(), Ext.getCmp("newpwd2").getValue());
-                                        }
-                                    }
-                                ]
-                            }]
-                    }]
-                };
-            },
+
             getMap: function () {
 
                 var dt = Ext.Date.add(new Date(), Ext.Date.DAY, 1);
@@ -977,7 +1030,7 @@ var app = Ext
 
                 return {
                     title: '地图',
-                    iconCls: 'compose',
+                    iconCls: 'maps',
                     id: 'tab_input',
                     layout: 'vbox',
                     items: [
@@ -1013,9 +1066,9 @@ var app = Ext
                 //有录音数据
                 me.ctrlEnabled("btn_play", (me.data.id) && (me.data.voice == 1));
                 //录音机按钮部分
-                me.speeBtnInShowWin(me.isSelfData());
+                me.speeBtnInShowWin((me.user >= 0) && me.isSelfData());
+                //其他部分
                 me.selInShowWin();
-
 
                 me.record.isNew = false;// 初始化声音文件
                 me.panel_window_need.setHidden(false);// 显示
@@ -1029,21 +1082,24 @@ var app = Ext
                 }
                 return false;
             },
+
             //控制弹出窗口选择框
             selInShowWin: function () {
                 var me = this;
                 var isNeed = me.infoType == 0;
                 var isSelf = me.isSelfData();
+                var isLogined = me.user >= 0;
                 //need
-                me.ctrlEnabled("btn_help", isNeed && !isSelf);//Need&&他人数据
-                me.ctrlEnabled("show_status", isNeed && isSelf);//Need&&个人数据
+                me.ctrlEnabled("btn_help", isLogined && isNeed && !isSelf);//登录&&Need&&他人数据
+                me.ctrlEnabled("show_status", isLogined && isNeed && isSelf);//登录&&Need&&个人数据
+                //帮助下拉框
                 me.ctrlEnabled("show_need", isNeed);
-
-                //msg
+                //信息下拉框
                 me.ctrlEnabled("show_msg", !isNeed);
-                me.ctrlEnabled("fs_show_review", !isNeed && !isSelf);//消息&&他人数据
-
-                me.ctrlEnabled("btn_save", isSelf);
+                //评价部分
+                me.ctrlEnabled("fs_show_review", isLogined && !isNeed && !isSelf);//登录&&消息&&他人数据
+                //保存部分
+                me.ctrlEnabled("btn_save", isLogined && isSelf);
 
 
                 //只读
@@ -1221,10 +1277,9 @@ var app = Ext
                 } else {
                     console.log("need");
                 }
-                if(!me.DM)
-                {
-                    me.refreshData(1);
-                }
+
+                me.refreshData(1);
+
 
             }
             ,
@@ -1372,10 +1427,12 @@ var app = Ext
                 } else {
                     me.data["type"] = Ext.getCmp("show_msg").getValue();
                 }
-                if (me.record.isNew) {
-                    me.data["voice"] = 1;
-                } else {
-                    me.data["voice"] = 0;
+                if (me.data.voice == 0) {
+                    if (me.record.isNew) {
+                        me.data["voice"] = 1;
+                    } else {
+                        me.data["voice"] = 0;
+                    }
                 }
             }
             ,
@@ -1423,15 +1480,10 @@ var app = Ext
 
 
 // 列表
-            getListConfiguration: function () {
+            getReplyConfiguration: function () {
                 var me = this;
-                var lbl_user_name = {
-                    xtype: 'label',
-                    id: "lbl_user_name",
-                    name: "lbl_user_name",
-                    align: 'right',
-                    html: ""
-                };
+
+
                 me.datas = [];
                 me.store = Ext.create('Ext.data.Store', {
                     // give the store some fields
@@ -1479,13 +1531,88 @@ var app = Ext
                         }
                     }
                 });
+
+
+                var lbl_user_name = {
+                    xtype: 'label',
+                    id: "lbl_user_name",
+                    name: "lbl_user_name",
+                    align: 'right',
+                    html: ""
+                };
+                var reply_btn_msg = {
+                    xtype: 'button',
+                    //align: 'left',
+                    id: "reply_btn_msg",
+                    text: '信息',
+                    handler: function () {
+                        me.alert(me.data.info);
+                    }
+                };
+
+                var reply_btn_play = {
+                    xtype: 'button',
+                    align: 'left',
+                    id: "reply_btn_play",
+                    text: '播放',
+                    handler: function () {
+                        me.alert(me.data.info);
+                    }
+                };
+
+                var reply_btn_confim = {
+                    xtype: 'button',
+                    align: 'right',
+                    id: "reply_btn_confim",
+                    text: '关闭帮助',
+                    handler: function () {
+                        me.alert(me.data.info);
+                    }
+                };
+                var reply_send_voice = {
+                    xtype: 'button',
+                    //align: 'left',
+                    id: "reply_send_voice",
+                    iconCls: "add",
+                    text: '',
+                    handler: function () {
+                        me.alert(me.data.info);
+                    }
+                };
+                var reply_txt_msg = {
+                    xtype: 'textfield',
+                    //align: 'left',
+                    id: "reply_txt_msg",
+                    flex: 0.8,
+                    width:'80%',
+                    text: ''
+                };
+                var reply_send_txt = {
+                    xtype: 'button',
+                    //align: 'left',
+                    id: "reply_send_txt",
+
+                    text: '发送',
+                    handler: function () {
+                        me.alert(me.data.info);
+                    }
+                };
                 return {
                     items: [{
                         docked: 'top',
                         xtype: 'titlebar',
                         items: [
+                            reply_btn_msg,
+                            reply_btn_play,
+                            reply_btn_confim
+                        ]
+                    }, {
+                        docked: 'bottom',
+                        xtype: 'titlebar',
+                        layout:'hbox',
+                        items: [
 
-                            lbl_user_name]
+                            reply_send_voice, reply_txt_msg, reply_send_txt]
                     }],
                     id: 'list_list',
                     xtype: 'list',
