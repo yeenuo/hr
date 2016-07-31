@@ -212,6 +212,30 @@ module.exports = [
         "clobbers": [
             "SQLitePlugin"
         ]
+    },
+    {
+        "file": "plugins/cordova-plugin-splashscreen/www/splashscreen.js",
+        "id": "cordova-plugin-splashscreen.SplashScreen",
+        "pluginId": "cordova-plugin-splashscreen",
+        "clobbers": [
+            "navigator.splashscreen"
+        ]
+    },
+    {
+        "file": "plugins/cordova-plugin-device/www/device.js",
+        "id": "cordova-plugin-device.device",
+        "pluginId": "cordova-plugin-device",
+        "clobbers": [
+            "device"
+        ]
+    },
+    {
+        "file": "plugins/jpush-phonegap-plugin/www/JPushPlugin.js",
+        "id": "jpush-phonegap-plugin.JPushPlugin",
+        "pluginId": "jpush-phonegap-plugin",
+        "clobbers": [
+            "JPush"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -223,7 +247,10 @@ module.exports.metadata =
     "cordova-plugin-file-transfer": "1.5.1",
     "rfl-spee": "1.0.0-res",
     "cordova-hot-code-push-plugin": "1.4.0",
-    "cordova-sqlite-storage": "1.4.5"
+    "cordova-sqlite-storage": "1.4.5",
+    "cordova-plugin-splashscreen": "4.0.0",
+    "cordova-plugin-device": "1.1.2",
+    "jpush-phonegap-plugin": "2.2.4"
 }
 // BOTTOM OF METADATA
 });

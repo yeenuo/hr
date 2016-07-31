@@ -4,6 +4,34 @@ Ext.Loader.setPath({
 });
 // </debug>
 
+Ext.define("com.renxd.RflButton", {
+    extend: "Ext.Button",
+    alias: "rflButton",
+
+    initialize: function() {
+        var $this = this;
+
+
+        this.element.on("tap", function(event, node, options, eOpts) {
+
+
+            $this.fireEvent("tap", event, node);
+        });
+
+
+
+        this.element.on("touchend", function() {
+            $this.fireEvent("touchend", event, $this.element);
+            $this.removeCls("x-button-pressing");
+        })
+
+        this.element.on("touchstart", function(event) {
+            $this.fireEvent("touchstart", event, $this.element);
+
+            $this.addCls("x-button-pressing");
+        });
+    }
+});
 /**
  * This simple example shows the ability of the Ext.List component.
  *
@@ -18,33 +46,22 @@ var app = Ext
         .application({
             isIconPrecomposed: false,
             // require any components/classes what we will use in our example
-            requires: ['Ext.MessageBox', 'OpenCharts.OpenCharts',
+            requires: ['Ext.MessageBox',
                 'Ext.data.Store'],
-
-            /**
-             * The launch method is called when the browser is ready, and the
-             * application can launch.
-             *
-             * Inside our launch method we create the list and show in in the
-             * viewport. We get the lists configuration using the
-             * getListConfiguration method which we defined below.
-             *
-             * If the user is not on a phone, we wrap the list inside a panel
-             * which is centered on the page.
-             */
 
             initConfig: function () {
                 var me = this;
-                me.DM = true;
+                me.DM = false;//实机测试
                 me.initData();
                 me.record = record;
                 me.record.app = me;
                 me.tool = new Tool();
                 me.uploadUrl = "/www/uploadFiles/";
-                // me.server = "http://localhost:8379";
-                me.server = "http://192.168.0.11:8379";
-                //me.server = "http://153.122.98.240:8379";
                 me.infoType = 0;// 0:求助 1:帮忙
+                me.server = "http://192.168.0.11:8379";
+                if (me.DM) {
+                    me.server = "http://153.122.98.240:8379";
+                }
                 me.map = null;
                 me.tomail = "";// 需要发送mail的人，作业时间不足。
                 me.config = {
@@ -52,6 +69,12 @@ var app = Ext
                     itemType: 0,// 0 need 1 help
                     needTxt: '求助',
                     helpTxt: '信息',
+                    infoTxt: '内容',
+                    replyTxt: '回复',
+                    helpa: '所有',
+                    helpi: '发布的',
+                    helpu: '帮助的',
+
                     msgs: [{
                         id: -1,
                         text: '--类别--'
@@ -149,26 +172,20 @@ var app = Ext
                         text: '>0'
                     }],
                     points: [{
-                        id: -1,
-                        text: '--分数--'
-                    }, {
                         id: 0,
-                        text: '0'
+                        text: '分数'
                     }, {
                         id: 1,
-                        text: '<10'
+                        text: '>10'
                     }, {
                         id: 2,
-                        text: '<20'
-                    }, {
-                        id: 3,
-                        text: '<50'
-                    }, {
-                        id: 4,
-                        text: '<100'
+                        text: '>20'
                     }, {
                         id: 5,
-                        text: '100以上'
+                        text: '>50'
+                    }, {
+                        id: 10,
+                        text: '>100'
                     }]
                 };
 
@@ -182,12 +199,14 @@ var app = Ext
             },
             initData: function () {
                 var me = this;
+                me.recordData = false;
                 me.user = -1;
+                me.hr = -1;
+                me.role = -1;
+                me.point = -1;
+                me.no = "";
                 me.data = {};// 当前选中data,便于删除修改添加用
-                me.datas = {
-                    "need": [],
-                    "help": []
-                };
+                me.datas = [];
 
             },
             launch: function () {
@@ -198,13 +217,65 @@ var app = Ext
                 if (me.DM) {
                     me.createDB();
                 }
+                me.createStore();
+                me.createReplyStore();
+                me.panel_window_need = me.getShowWindowNeed();
+                me.panel_window_reply = me.getShowWindowReply();
 
-                me.panel_window_need = me.getInfo();
-                //me.panel_window_need = me.getInfo();
+
+                me.seg_show = Ext.create('Ext.SegmentedButton', {
+                    items: [{
+                        text: me.config.infoTxt,
+                        value: 0,
+                        pressed: true
+                    }, {
+                        text: me.config.replyTxt,
+                        value: 1
+                    }],
+                    listeners: {
+                        toggle: function (container, button, pressed) {
+
+                            var type = 1;//回复
+
+                            if (pressed) {
+                                if (button.getText() == me.config.infoTxt) {
+                                    type = 0;//信息
+                                }
+                                me.changeShowType(type);
+                            }
+
+                        }
+                    }
+                });
+
+
+                me.panel_window = Ext.create('Ext.Panel', {
+                    id: 'panel_window',
+                    centered: true,
+                    modal: true,
+                    width: 300,
+                    height: 450,
+                    hidden: true,
+
+                    items: [{
+                        docked: 'top',
+                        xtype: 'titlebar',
+                        items: [{
+                            align: "right",
+                            iconCls: 'delete',
+                            handler: function () {
+                                me.panel_window
+                                    .setHidden(true);
+                            }
+                        }, me.seg_show
+                        ]
+                    }, me.panel_window_need, me.panel_window_reply // 登陆页面
+                    ]
+                });
 
                 me.panel_list = me.getList();// 列表
                 me.panel_map = me.getMap();// 录入
-                me.panel_config = me.getConfig();// 设定
+                me.panel_info = me.getConfig();// 设定
                 me.mainPanel = Ext.create('Ext.TabPanel', {
                     tabBarPosition: 'bottom',
                     id: 'panel_main',
@@ -222,26 +293,29 @@ var app = Ext
                         styleHtmlContent: true
                     },
                     //activeItem: 2,
-                    activeItem: 0,
-                    // , me.panel_config
-                    items: [me.panel_map, me.panel_list, me.getLogin() // 登陆页面
+                    activeItem: 1,
+                    // , me.panel_info
+                    items: [me.panel_map, me.getLogin() // 登陆页面
                     ]
                 });
 
-                //me.user = 1;
-                if (me.DM) {
+                if (!me.DM) {
+                    //  me.mainPanel.insert(1, me.panel_reply);
+                    //me.mainPanel.setActiveItem(1);// 初次启动，登录页面
+                }
 
-                    Ext.getCmp('panel_main').setActiveItem(3);//初次启动，登录页面
-                    me.mainPanel.on("activeitemchange", function (tb, value,
-                                                                  oldValue, eOpts) {
-                        if (me.user == -1) {
-                            me.mainPanel.setActiveItem(2);// 初次启动，登录页面
-                        }
-                    });
-                }
-                else {
-                    me.user = 1;
-                }
+                //me.user = 1;
+                // if (me.DM) {
+                //
+                //    // Ext.getCmp('panel_main').setActiveItem(3);//初次启动，登录页面
+                // me.mainPanel.on("activeitemchange", function (tb, value,
+                //                                               oldValue, eOpts) {
+                //     me.changeListHelp(me.listHelpType);
+                //
+                // });
+                // }
+
+                me.refreshData(1);
             },
             createDB: function () {
                 var me = this;
@@ -257,95 +331,327 @@ var app = Ext
             },
             endRecord: function (file) {
                 var me = this;
-                Ext.getCmp("btn_record").setText("录音");
-                me.ctrlEnabled("btn_play", true);//可以录音
+                if (me.recordData) {
+                    Ext.getCmp("btn_record").setText("录音");
+                    me.ctrlEnabled("btn_play", true);//可以录音
+                }
+                else {//记录reply
+                    console.log("记录reply......");
+                    var addReply = {
+                        option: "s",
+                        table: "REPLY",
+                        "hr": me.hr,
+                        "user": me.user,
+                        "date": Ext.util.Format.date(new Date(), "YmdHis"),
+                        "info": "这是一条语音...",
+                        "voice": 1
+                    };
+                    me.submitData(addReply, function (insertId) {
 
+                        me.upload(me.server + "/data",
+                            me.record.fileName, function () {
+                                me.replyStore.add({
+                                    "id": insertId,
+                                    "hr": me.hr,
+                                    "user": me.no,
+                                    "voice": 1,
+                                    "date": Ext.util.Format.date(new Date(), "YmdHis"),
+                                    "info": "这是一条语音..."
+                                });
+                            }, "reply_" + insertId);
+                    });
+                }
             },
             endPlay: function (file) {
+                var me = this;
                 Ext.getCmp("btn_play").setText("播放");
-                me.ctrlEnabled("btn_record", true);//可以播放
+                me.speeBtnInShowWin((me.user >= 0) && me.isSelfData());//可以录音,可以取消
+                //me.ctrlEnabled("btn_record", me.isSelfData());//可以播放
 
             },
             endRead: function () {
                 // alert(222);
             },
 
-            playUrl: function (url) {
+            playUrl: function (url, cb) {
                 var me = this;
                 me.downLoad(url, "nuofun.spx", function (path) {
                     path = path.replace("file://", "");
                     me.record.play(path);
+                    if (cb) {
+                        cb(path);
+                    }
                 });
             },
-            upload: function (url, path, cb) {
+            upload: function (url, path, cb, fileId) {
                 var me = this;
-                window.requestFileSystem(LocalFileSystem.PERSISTENT, 0,
-                    function (fs) {
-                        var fileURL = "file://" + path;
-                        var options = new FileUploadOptions();
-                        options.fileKey = "spx";
-                        options.fileName = fileURL.substr(fileURL
-                                .lastIndexOf('/') + 1);
-                        options.mimeType = "text/plain";
-                        // 上传参数
-                        var params = {};
-                        params.option = "o";
-                        params.fileName = me.data.id;
-                        options.params = params;
-                        var ft = new FileTransfer();
+                try {
+                    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0,
+                        function (fs) {
+                            var fileURL = "file://" + path;
+                            var options = new FileUploadOptions();
+                            options.fileKey = "spx";
+                            options.fileName = fileURL.substr(fileURL
+                                    .lastIndexOf('/') + 1);
+                            options.mimeType = "text/plain";
+                            // 上传参数
+                            console.log("upload:"+options.fileName);
+                            var params = {};
+                            params.option = "o";
+                            fileId = fileId || me.data.id;
+                            params.fileName = fileId;
+                            options.params = params;
+                            var ft = new FileTransfer();
 
-                        // 上传地址
-                        ft.upload(fileURL, encodeURI(url), function () {
-                            console.log("成功");
-                        }, function (e) {
-                            console.log(e);
-                        }, options);
+                            // 上传地址
+                            ft.upload(fileURL, encodeURI(url), function () {
+                                console.log("成功");
+                                cb();
+                            }, function (e) {
+                                cb();
+                                console.log(e);
+                            }, options);
 
-                    }, function (e) {
-                        console.log(e);
-                    });
-
-            },
-
-            downLoad: function (url, path, cb) {
-                window.requestFileSystem(LocalFileSystem.PERSISTENT, 0,
-                    function (fs) {
-                        console.log('打开的文件系统: ' + fs.name);
-                        fs.root.getFile(path, {
-                            create: true,
-                            exclusive: false
-                        }, function (fileEntry) {
-                            var fileTransfer = new FileTransfer();
-                            var fileURL = fileEntry.toURL();
-                            fileTransfer.download(url, fileURL, function (entry) {
-                                    console.log("下载成功！");
-                                    console.log("文件保存位置: " + entry.toURL());
-                                    if (cb) {
-                                        cb(entry.toURL());
-                                    }
-                                },
-                                function (error) {
-                                    console.log("下载失败！");
-                                    console.log("error source "
-                                        + error.source);
-                                    console.log("error target "
-                                        + error.target);
-                                    console.log("error code"
-                                        + error.code);
-                                }, null, // or, pass false
-                                {
-                                    // headers: {
-                                    // "Authorization": "Basic
-                                    // dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA=="
-                                    // }
-                                });
                         }, function (e) {
                             console.log(e);
                         });
-                    }, function (e) {
-                        console.log(e);
-                    });
+                } catch (e) {
+                    console.log(e);
+                }
+
             },
+            failPlay: function () {
+                Ext.getCmp("btn_play").setText("播放");
+            },
+            failRecord: function () {
+                me.recordData = false;
+                Ext.getCmp("btn_play").setText("录音");
+            },
+            downLoad: function (url, path, cb) {
+                var me = this;
+                try {
+                    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0,
+                        function (fs) {
+                            console.log('打开的文件系统: ' + fs.name);
+                            fs.root.getFile(path, {
+                                create: true,
+                                exclusive: false
+                            }, function (fileEntry) {
+                                var fileTransfer = new FileTransfer();
+                                var fileURL = fileEntry.toURL();
+                                fileTransfer.download(url, fileURL, function (entry) {
+                                        console.log("下载成功！");
+                                        console.log("文件保存位置: " + entry.toURL());
+                                        if (cb) {
+                                            cb(entry.toURL());
+                                        }
+                                    },
+                                    function (error) {
+                                        me.failPlay();
+                                        console.log("下载失败！");
+                                        console.log("error source "
+                                            + error.source);
+                                        console.log("error target "
+                                            + error.target);
+                                        console.log("error code"
+                                            + error.code);
+                                    }, null, // or, pass false
+                                    {
+                                        // headers: {
+                                        // "Authorization": "Basic
+                                        // dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA=="
+                                        // }
+                                    });
+                            }, function (e) {
+                                me.failPlay();
+                                console.log(e);
+
+                            });
+                        }, function (e) {
+                            me.failPlay();
+                            console.log(e);
+                        });
+                } catch (e) {
+                    console.log(e);
+                    me.failPlay();
+                }
+            },
+            getList: function () {
+                var me = this;
+
+                me.seg_help = Ext.create('Ext.SegmentedButton', {
+                    items: [{
+                        text: me.config.helpa,//所有
+                        value: 0,
+                        pressed: true
+                    }, {
+                        text: me.config.helpi,//发布的
+                        value: 1
+                    }, {
+                        text: me.config.helpu,//帮助的
+                        value: 2
+                    }],
+                    listeners: {
+                        toggle: function (container, button, pressed) {
+
+                            var type = 2;
+
+                            if (pressed) {
+                                if (button.getText() == me.config.helpa) {
+                                    type = 0;
+                                }
+                                else if (button.getText() == me.config.helpi) {
+                                    type = 1;
+                                }
+                                me.changeListHelp(type);
+                            }
+
+                        }
+                    }
+                });
+
+                me.seg_info = Ext.create('Ext.SegmentedButton', {
+                    items: [{
+                        text: me.config.helpa,//我帮助的
+                        value: 0,
+                        pressed: true
+                    }, {
+                        text: me.config.helpm,//我帮助的
+                        value: 1
+                    }, {
+                        text: me.config.helpu,//帮助我的
+                        value: 2
+                    }],
+                    listeners: {
+                        toggle: function (container, button, pressed) {
+
+                            var type = 2;
+
+                            if (pressed) {
+                                if (button.getText() == me.config.helpa) {
+                                    type = 0;
+                                }
+                                else if (button.getText() == me.config.helpm) {
+                                    type = 1;
+                                }
+                                me.changeListHelp(type);
+                            }
+
+                        }
+                    }
+                });
+                return {
+                    id: 'panel_list',
+                    title: '列表',
+                    iconCls: 'bookmarks',
+                    xtype: 'list',
+                    scrollable: {
+                        direction: 'vertical'
+                    },
+                    store: me.store,
+                    items: [
+                        {
+                            docked: 'top',
+                            xtype: 'titlebar',
+                            items: [me.seg_help]
+                        }],
+                    variableHeights: true,
+                    itemHeight: 10,
+                    itemTpl: new Ext.XTemplate(
+                        // '<table><tr><td height="40" bgcolor
+                        // ="{status}">{[this.date(values.date)]}【{starttime}~{endtime}】:{worktime}
+                        // ({[this.rest(values.rest)]})</td></tr></table>',
+                        '<div  style=" width:100%;height:100%;white-space:nowrap;text-overflow:ellipsis;overflow: hidden; ">{[this.info(values.info)]}</div>',
+                        {
+                            info: function (v) {
+                                if (v.length == 0) {
+                                    return "暂无信息";
+                                }
+                                return v;
+                            }
+                        }
+                    )
+
+                };
+            },
+
+            getConfig: function () {
+                var me = this;
+                return {
+                    id: 'panel_info',
+                    title: '信息',
+                    iconCls: 'info',
+                    scrollable: true,
+                    items: [{
+                        xtype: 'fieldset',
+                        title: '',
+                        hideBorders: false,
+                        baseCls: "x-fieldset_nb", // 无边框
+                        items: [Ext.create('Ext.List', {
+
+                            itemTpl: '{title}',
+                            data: [
+                                {title: 'Item 1'},
+                                {title: 'Item 2'},
+                                {title: 'Item 3'},
+                                {title: 'Item 4'}
+                            ]
+                        }),
+                            {
+                                xtype: 'fieldset',
+                                title: '信息',
+                                items: [{
+                                    xtype: 'textfield',
+                                    id: "txt_no",
+                                    label: '分数',
+                                    readOnly: true
+                                }
+                                    ,
+                                    {
+                                        xtype: 'textfield',
+                                        id: "txt_point",
+                                        label: '分数',
+                                        readOnly: true
+                                    }
+                                ]
+                            }
+                            , {
+                                xtype: 'fieldset',
+                                title: '修改密码',
+                                items: [
+                                    {
+                                        xtype: 'passwordfield',
+                                        id: "oldpwd",
+                                        name: 'oldpwd',
+                                        label: '旧密码',
+                                        value: ''
+                                    },
+                                    {
+                                        xtype: 'passwordfield',
+                                        id: "newpwd",
+                                        name: 'newpwd',
+                                        label: '新密码',
+                                        value: ''
+                                    },
+                                    {
+                                        xtype: 'passwordfield',
+                                        id: "newpwd2",
+                                        name: 'newpwd2',
+                                        label: '确认输入',
+                                        value: ''
+                                    }, {
+                                        xtype: 'button',
+                                        text: '変更',
+                                        handler: function () {
+                                            me.changePWD(Ext.getCmp("oldpwd").getValue(), Ext.getCmp("newpwd").getValue(), Ext.getCmp("newpwd2").getValue());
+                                        }
+                                    }
+                                ]
+                            }]
+                    }]
+                };
+            },
+
             getLogin: function () {
                 var me = this;
                 return {
@@ -355,10 +661,20 @@ var app = Ext
                     layout: 'vbox',
                     items: [
                         {
+                            xtype: 'label',
+                            width: '100%',
+                            html: '<div style="width:100%;font-size: 24px;" align="center">  好人网  </div>'
+                        },
+                        {
+                            xtype: 'label',
+                            width: '100%',
+                            html: '<div style="width:100%;font-size: 18px;" align="center"> 人人为我 我为人人</div>'
+                        },
+                        {
                             xtype: 'textfield',
-                            id: 'name',
-                            name: 'name',
-                            label: 'ユーザ',
+                            id: 'no',
+                            name: 'no',
+                            label: '用户ID',
                             value: 'tj1'
                         },
                         {
@@ -374,12 +690,12 @@ var app = Ext
                             handler: function () {
                                 // record.endRecord("111");
                                 me.initData();// 初始化数据
-                                var name = Ext.getCmp("name").getValue();
+                                var name = Ext.getCmp("no").getValue();
                                 var password = Ext.getCmp("password")
                                     .getValue();
 
                                 if ((name == "") || (password == "")) {
-                                    alert("用户名或密码不得为空。");
+                                    me.alert("用户名或密码不得为空。");
                                     return;
                                 }
                                 var data = {
@@ -398,16 +714,25 @@ var app = Ext
                                             if (obj.success) {// 登陆成功
                                                 me.user = obj.user;
                                                 me.role = obj.role;
-                                                Ext
-                                                    .getCmp(
-                                                        "lbl_user_name")
-                                                    .setHtml(
-                                                        data.name);
+                                                me.point = obj.point;
+                                                me.no = obj.no;
+
+                                                if (me.mainPanel.getItems().length < 4) {
+
+                                                    me.mainPanel.insert(1, me.panel_list);
+                                                    me.mainPanel.insert(2, me.panel_info);
+                                                }
+                                                me.ctrlValue("txt_no", obj.no);
+                                                me.ctrlValue("txt_point", obj.point);
+                                                me.ctrlEnabled("btn_add", true);//添加按钮
                                                 me.mainPanel
                                                     .setActiveItem(0);
 
+
+                                                me.refreshData(1);
+
                                             } else {
-                                                alert("用户名或密码错误。");
+                                                me.alert("用户名或密码错误或没通过验证");
                                             }
                                             // console.dir(obj);
                                         },
@@ -419,62 +744,128 @@ var app = Ext
                                     });
                             }
                         },
+
                         {
-                            xtype: 'button',
-                            text: '重置密码',
-                            handler: function () {
+                            xtype: 'fieldset',
+                            id: "fs_login",
+                            align: 'right',
+                            layout: {
+                                type: 'hbox',
+                                pack: 'center'
+                            },
+                            hideBorders: false,
+                            baseCls: "x-fieldset_nb", // 无边框
+                            defaults: {
+                                xtype: 'label',
+                                cls: 'x-button-rpc',
+                                flex: 0.33
 
-                                // me.record.read("12345, asdad");
-                                return;
 
-                                var name = Ext.getCmp("name").getValue();
-                                if (name.length == 0) {
-                                    alert('请输入姓名。');
-                                    return;
-                                }
-                                Ext.Msg.prompt('EMAIL', 'EMAILを入力してください。',
-                                    function (id, text) {
-                                        text = "javaandnet@gmail.com";// Todo
-                                        if (text.length > 0) {
-                                            me.resetPWD(text);
+                            },
+                            items: [
+                                {
+
+                                    html: '<div  style="font-size: 18px;" >重置密码</div>',
+
+                                    listeners: {
+                                        element: 'element',
+                                        tap: function (e, t) {
+                                            me.resetOrReg(0)
                                         }
+                                    }
+                                },
+                                {
 
-                                    });
-                            }
-                        }]
+
+                                    html: '<div  style="font-size: 18px;" >欢迎注册</div>',
+                                    listeners: {
+                                        element: 'element',
+                                        tap: function (e, t) {
+                                            me.resetOrReg(1)
+                                        }
+                                    }
+                                },
+                                {
+
+
+                                    html: '<div  style="font-size: 18px;" >随便看看</div>',
+                                    listeners: {
+                                        element: 'element',
+                                        tap: function (e, t) {
+                                            me.user = -1;
+                                            me.mainPanel
+                                                .setActiveItem(0);
+                                        }
+                                    }
+                                }
+                            ]
+
+                        }
+
+
+                    ]
                 };
             },
+            /**注册或重置密码**/
+            resetOrReg: function (flag) {
+                var me = this;
+                var name = Ext.getCmp("no").getValue();
+                if (name.length == 0) {
+                    me.alert('请输入用户ID。');
+                    return;
+                }
+                var pwd = Ext.getCmp("password").getValue();
+                if (!me.tool.checkPwd(pwd)) {
 
-            getInfo: function () {
+                    me.alert("密码应为6-20位由字母数字下划线组成的文字。");
+                    return;
+                }
+
+                var config = {
+                    title: "信息",
+                    msg: "请输入Email",
+                    buttons: Ext.Msg.OK,
+                    icon: Ext.Msg.Info,
+                    prompt: {
+                        xtype: 'textfield',
+                        placeHolder: '请输入邮箱地址',
+                        value: ''
+                    },
+                    fn: function (id, text) {
+                        if (id == "ok") {
+                            //text = "javaandnet@gmai.com";// Todo
+                            if (text.length > 0) {
+                                if (flag == 0) {
+                                    me.resetPWD(text);
+                                } else {
+                                    me.regedit(text);
+                                }
+                            }
+
+                        }
+                    }
+                };
+                Ext.Msg.show(config);
+
+            },
+            //查看信息部分
+            getShowWindowNeed: function () {
                 var me = this;
                 me.record.isNew = false;// 初始化
-                // me.record.fileName = "";
-
                 return Ext
                     .create(
                         "Ext.Panel",
                         {
-                            centered: true,
-                            modal: true,
+                            id: 'panel_window_need',
                             width: 300,
                             height: 400,
-                            hidden: true,
+
                             scrollable: {
                                 direction: 'vertical',
                                 directionLock: true
                             },
                             items: [
-                                {
-                                    docked: 'top',
-                                    xtype: 'titlebar',
-                                    items: [{
-                                        text: '关闭',
-                                        handler: function () {
-                                            me.panel_window_need
-                                                .setHidden(true);
-                                        }
-                                    }]
-                                },
+
 
                                 // 类别
                                 {
@@ -496,28 +887,16 @@ var app = Ext
                                 // 详细信息
                                 {
                                     id: 'show_info',
-                                    xtype: 'textfield',
-                                    height: 50,
+                                    xtype: 'textareafield',
                                     placeHolder: '相关信息',
                                     label: '信息'
                                 },
                                 // 分数
                                 {
-                                    xtype: 'sliderfield',
+                                    xtype: 'numberfield',
                                     id: 'show_point',
-                                    label: 'P(0)',
-                                    value: 0,
-                                    minValue: 0,
-                                    maxValue: 100,
-                                    listeners: {
-                                        change: function (me, sl,
-                                                          thumb, value,
-                                                          pressed) {
-                                            me.setLabel("P("
-                                                + value + ")");
-
-                                        }
-                                    }
+                                    label: '分数',
+                                    value: 0
                                 },
                                 {
                                     xtype: 'fieldset',
@@ -530,22 +909,26 @@ var app = Ext
                                             text: '录音',
                                             handler: function (btn) {
                                                 if (me.record.status != 2) {// 非播放状态
-                                                    me.record
-                                                        .record();
-                                                    me.ctrlEnabled("btn_play", true);
-                                                    if (record.status == 0) {
-                                                        this
-                                                            .setText("录音");
-                                                        Ext
-                                                            .getCmp(
-                                                                'btn_play')
-                                                            .setDisabled(
-                                                                false);
-                                                    } else {
-                                                        this
+
+                                                    if (me.record.status == 0) {
+                                                        btn
                                                             .setText("结束");
-                                                        me.ctrlEnabled("btn_play", false);
+                                                        me.ctrlEnabled("btn_play", false);//播放隐藏
+                                                    } else {
+                                                        btn
+                                                            .setText("录音");
+                                                        me.ctrlEnabled("btn_play", true);//播放显示
                                                     }
+
+                                                    try {
+                                                        me.recordData = true;
+                                                        me.record
+                                                            .record();
+                                                    } catch (e) {
+                                                        me.failRecord();
+                                                    }
+
+
                                                 }
                                             }
                                         },
@@ -556,33 +939,32 @@ var app = Ext
                                             hidden: true,
                                             handler: function (btn) {
                                                 if (me.record.status != 1) {// 非录制状态
+                                                    if (me.record.status == 0) {//开始播放
+                                                        btn
+                                                            .setText("结束");
+                                                        me.speeBtnInShowWin(false);//禁止录音
+                                                    } else {
+                                                        btn
+                                                            .setText("播放");
+                                                        me.speeBtnInShowWin((me.user >= 0) && me.isSelfData());//可以录音
+                                                    }
+
                                                     if (me.record.isNew) {// 新增才读取本地
                                                         me.record
                                                             .play();
                                                     } else {
                                                         if (me.data.id) {// 读取服务器
+
                                                             me
                                                                 .playUrl(me.server
                                                                     + me.uploadUrl
                                                                     + me.data.id
                                                                     + ".spx");
+
                                                         }
                                                     }
 
-                                                    if (record.status == 0) {
-                                                        this
-                                                            .setText("播放");
-                                                        me.ctrlEnabled("btn_record", true);
-                                                        Ext
-                                                            .getCmp(
-                                                                'btn_record')
-                                                            .setDisabled(
-                                                                true);
-                                                    } else {
-                                                        this
-                                                            .setText("结束");
-                                                        me.ctrlEnabled("btn_record", false);
-                                                    }
+
                                                 }
                                             }
                                         },
@@ -591,13 +973,8 @@ var app = Ext
                                             id: "btn_cancelRecord",
                                             text: '取消',
                                             handler: function () {// Todo删除声音文件
-                                                me
-                                                    .upload(
-                                                        me.server
-                                                        + "/data",
-                                                        me.record.fileName,
-                                                        function () {
-                                                        });
+                                                me.data.voice = 0;
+                                                me.record.isNew = false;
                                             }
                                         }]
                                 },
@@ -653,6 +1030,7 @@ var app = Ext
                             ]
                         });
             },
+            //评价
             review: function (value) {
                 var me = this;
                 if (me.DM) {
@@ -669,6 +1047,7 @@ var app = Ext
                     me.reviewServer(value);
                 }
             },
+            //向服务器提交
             reviewServer: function (value) {
                 var me = this;
                 var param = {
@@ -685,7 +1064,7 @@ var app = Ext
                         if (obj.success) {
                             me.ctrlEnabled("fs_show_review", false);
                         } else {
-                            Ext.Msg.alert("信息", "服务器错误");
+                            me.alert("服务器错误");
                         }
                         console.dir(obj);
                     },
@@ -695,7 +1074,8 @@ var app = Ext
                 });
             },
             help: function () {
-                alert(me.data.id);
+                var me = this;
+                me.alert(me.data.id);
             },
             checkData: function (cb) {
                 var me = this;
@@ -717,21 +1097,19 @@ var app = Ext
                     me.data.table = model;
                     me.data.option = "s";
                     //保存数据后，上传录音文件
-                    me.submitData(me.data, function () {
-                        me.panel_window_need.setHidden(true);
-                    });
+                    me.submitData(me.data, function (objId) {
+
+                        me.data.id = objId;
+                        if (me.record.isNew) {//
+                            me.upload(me.server + "/data",
+                                me.record.fileName, function () {
+                                    me.panel_window_need.setHidden(true);
+                                });
+                        }
+
+                    }, true);
                 });
 
-            },
-            getList: function () {
-                var me = this;
-                return {
-                    title: '一览',
-                    iconCls: 'calendar',
-                    id: 'tab_list',
-                    layout: 'card',
-                    items: [me.getListConfiguration()]
-                };
             },
             getComboText: function (key, objs) {
                 for (var i = 0; i < objs.length; i++) {
@@ -742,29 +1120,7 @@ var app = Ext
                 }
                 return null;
             },
-            getConfig: function () {
-                var me = this;
-                return {
-                    title: '设定',
-                    iconCls: 'settings',
-                    scrollable: true,
-                    items: [{
-                        xtype: 'fieldset',
-                        title: '修改密码',
-                        items: [
-
-                            {
-                                xtype: 'button',
-                                text: '変更',
-                                handler: function () {
-                                    me.changePWD(Ext.getCmp("oldpwd").getValue(),
-                                        Ext.getCmp("newpwd").getValue(), Ext
-                                            .getCmp("newpwd2").getValue());
-                                }
-                            }]
-                    }]
-                };
-            },
+            //获取地图Panel
             getMap: function () {
 
                 var dt = Ext.Date.add(new Date(), Ext.Date.DAY, 1);
@@ -774,9 +1130,15 @@ var app = Ext
                 me.sel_point = {
                     id: 'sel_point',
                     xtype: 'selectfield',
-                    label: ' ',
+                    label: '',
                     valueField: 'id',
-                    options: me.config.points
+                    width: 100,
+                    options: me.config.points,
+                    listeners: {
+                        change: function (sel, newValue, oldValue, eOpts) {
+                            me.refreshData(0);
+                        }
+                    }
                 };
                 me.sel_kind = {
                     id: 'sel_kind',
@@ -809,12 +1171,13 @@ var app = Ext
                     valueField: 'id',
                     options: me.config.infos
                 };
-                me.btn_search = {
+                me.btn_refresh = {
                     xtype: 'button',
-                    text: '刷新',
-                    id: "btn_search",
-                    iconCls: 'search',
-                    name: "btn_search",
+                    text: '',
+                    id: "btn_refresh",
+
+                    iconCls: 'refresh',
+                    name: "btn_refresh",
                     align: 'right',
                     handler: function () {
                         // var month =
@@ -826,8 +1189,9 @@ var app = Ext
                 };
                 me.btn_add = {
                     xtype: 'button',
-                    text: '添加',
+                    text: '',
                     id: "btn_add",
+                    hidden: true,
                     iconCls: 'add',
                     name: "btn_add",
                     align: 'right',
@@ -870,31 +1234,32 @@ var app = Ext
 
                 return {
                     title: '地图',
-                    iconCls: 'compose',
+                    iconCls: 'maps',
                     id: 'tab_input',
                     layout: 'vbox',
                     items: [
                         {
                             docked: 'top',
                             xtype: 'titlebar',
-                            items: [me.seg_type, me.btn_search,
+                            items: [me.seg_type, me.sel_point, me.btn_refresh,
                                 me.btn_add]
                         },
-                        me.panel_window_need,
-                        me.map,
-                        {
-                            xtype: 'fieldset',
-                            width: '100%',
-                            hideBorders: false,
-                            layout: 'hbox',
-                            baseCls: "x-fieldset_nb", // 无边框
-                            defaults: {
-                                width: '30%'
+                        me.panel_window,
+                        me.map
+                        /*,{
+                         xtype: 'fieldset',
+                         width: '100%',
 
-                            },
-                            items: [me.sel_distance, me.sel_msg,
-                                me.sel_kind, me.sel_point,]
-                        }]
+                         layout: 'hbox',
+                         hideBorders: false,
+                         baseCls: "x-fieldset_nb", // 无边框
+                         defaults: {
+                         width: '30%'
+
+                         },
+                         items: [me.sel_distance, me.sel_msg,
+                         me.sel_kind, me.sel_point,]
+                         }*/]
                 };
             },
             showWindow: function (marker) {
@@ -905,12 +1270,13 @@ var app = Ext
                 //有录音数据
                 me.ctrlEnabled("btn_play", (me.data.id) && (me.data.voice == 1));
                 //录音机按钮部分
-                me.speeBtnInShowWin(me.isSelfData());
+                me.speeBtnInShowWin((me.user >= 0) && me.isSelfData());
+                //其他部分
                 me.selInShowWin();
-                //me.initShowData();
 
                 me.record.isNew = false;// 初始化声音文件
-                me.panel_window_need.setHidden(false);// 显示
+                me.panel_window.setHidden(false);// 显示
+                me.refreshReply();
             },
             //打开窗口是否可以修正数据
             isSelfData: function () {
@@ -926,38 +1292,44 @@ var app = Ext
                 var me = this;
                 var isNeed = me.infoType == 0;
                 var isSelf = me.isSelfData();
+                var isLogined = me.user >= 0;
                 //need
-                me.ctrlEnabled("btn_help", isNeed && !isSelf);//Need&&他人数据
-                me.ctrlEnabled("show_status", isNeed && isSelf);//Need&&个人数据
+                me.ctrlEnabled("btn_help", isLogined && isNeed && !isSelf);//登录&&Need&&他人数据
+                me.ctrlEnabled("show_status", isLogined && isNeed && isSelf);//登录&&Need&&个人数据
+                //帮助下拉框
                 me.ctrlEnabled("show_need", isNeed);
-                me.ctrlEnabled("show_point", isNeed);
-                //msg
+                //信息下拉框
                 me.ctrlEnabled("show_msg", !isNeed);
-                me.ctrlEnabled("fs_show_review", !isNeed && !isSelf);//消息&&他人数据
-
-                me.ctrlEnabled("btn_save", isSelf);
+                //评价部分
+                me.ctrlEnabled("fs_show_review", isLogined && !isNeed && !isSelf);//登录&&消息&&他人数据
+                //保存部分
+                me.ctrlEnabled("btn_save", isLogined && isSelf);
 
 
                 //只读
-                me.ctrlReadOnly("show_point", !isSelf);
+                me.ctrlReadOnly("show_point", !(isNeed && isSelf));//
                 me.ctrlReadOnly("show_need", !isSelf);
                 me.ctrlReadOnly("show_msg", !isSelf);
                 me.ctrlReadOnly("show_info", !isSelf);
 
+
                 //已评价过
-                if (me.DM) {
+                if ((me.DM) && !isNeed) {
                     if (me.isReviewed(me.data.id)) {
                         me.ctrlEnabled("fs_show_review", false);
                     }
                 }
 
             },
+            //添加时初始数据
             initShowData: function () {
                 var me = this;
                 var data = {};
 
                 data.info = "";
-                data.point = 0;
+                data.point = 50 * me.infoType;//需要帮助时初试分数为50
+
+
                 data.type = -1;
                 data.status = 0;
                 data.voice = 0;
@@ -985,6 +1357,7 @@ var app = Ext
 
                 }
             },
+            //设置控件Value
             ctrlValue: function (id, value) {
                 Ext.getCmp(id).setValue(value);
             },
@@ -1002,11 +1375,11 @@ var app = Ext
             showNeed: function () {
 
             },
-
             showInfo: function () {
 
             },
             isReviewed: function (id) {
+                var me = this;
                 me.db.transaction(function (tx) {
                     tx.executeSql("select id from HR_REVIEW where ID = ?", [id], function (tx, res) {
                         //alert("hello world");
@@ -1019,11 +1392,34 @@ var app = Ext
             },
             getParam: function () {
                 var me = this;
+                var point = 0;
+                if (me.sel_point) {
+                    point = me.getCmpById(me.sel_point).getValue();
+                }
+
                 var param = {
-                    model: "HR",
-                    kind: me.infoType
+                    params: {
+                        model: "HR",
+                        kind: me.infoType,
+                        point: point * 10
+                    }
                 };
                 return param;
+            },
+            getReplyParam: function () {
+                var me = this;
+                var param = {
+                    params: {
+                        hr: me.hr,
+                        option: 'rp'
+                    }
+                };
+                return param;
+            },
+            refreshReply: function () {
+                var me = this;
+                var param = me.getReplyParam();
+                me.replyStore.load(param);
             },
             /**
              * 刷新数据
@@ -1034,34 +1430,41 @@ var app = Ext
             refreshData: function (flag) {
                 var me = this;
                 var param = me.getParam();
-
+                var cb = function (data, me) {
+                    me.changeListHelp(0);//初始数据
+                    if (me.infoType == 1) {
+                        me.seg_help.getItems().items[2].setHidden(true);
+                    }
+                    else {
+                        me.seg_help.getItems().items[2].setHidden(false);
+                    }
+                    me.refreshMap(data, me);
+                }
                 if (flag == 0) {
-                    me.refreshLocal(param, me.refreshMap);
+                    me.refreshLocal(param, cb);
                 } else {
-                    me.refreshServer(param, me.refreshMap);
+                    me.refreshServer(param, cb);
                 }
 
             },
 
             refreshServer: function (param, cb) {
                 var me = this;
-                Ext.Ajax.request({
-                    url: me.server + '/data',
-                    method: 'POST',
-                    params: param,
-                    success: function (response, opts) {
-                        var obj = Ext.decode(response.responseText);
+                me.StoreCb = cb;
+                me.store.load(param);
 
-                        cb(obj, me);
-                        console.dir(obj);
-                    },
-                    failure: function (response, opts) {
-                        console.log('server erro:' + response.status);
-                    }
-                });
             },
-
-            refreshLocal: function (param) {
+            refreshLocal: function (param, cb) {
+                var me = this;
+                var point = param.point;
+                var newDatas = [];
+                for (var i = 0; i < me.datas.length; i++) {
+                    var data = me.datas[i];
+                    if (data.point > point) {
+                        newDatas.push(data);
+                    }
+                }
+                cb(newDatas, me);
 
             },
 
@@ -1070,7 +1473,7 @@ var app = Ext
                 me.map.updateData(datas);
 
             },
-
+            //向地图添加元素
             addItem: function () {
                 var me = this;
                 var a = me.map.bmap.getCenter();
@@ -1090,43 +1493,105 @@ var app = Ext
             changeInfoType: function (type) {
                 var me = this;
                 me.infoType = type;
+                //me.getCmpById(me.sel_point).setHidden(type != 1);
                 if (type == 1) {// Help
                     console.log("info");
-                    me.getCmpById(me.sel_msg).setHidden(true);
-                    me.getCmpById(me.sel_kind).setHidden(false);
-                    me.getCmpById(me.sel_point).setHidden(false);
+
+                } else {
+
+                    console.log("need");
+                }
+
+                me.refreshData(1);
+            },
+
+
+            changeShowType: function (type) {
+                var me = this;
+                me.showType = type;
+                //me.getCmpById(me.sel_point).setHidden(type != 1);
+                if (type == 1) {// Help
+                    console.log("info");
 
                 } else {
                     console.log("need");
-                    me.getCmpById(me.sel_msg).setHidden(false);
-                    me.getCmpById(me.sel_kind).setHidden(true);
-                    me.getCmpById(me.sel_point).setHidden(true);
+                }
+                me.ctrlEnabled("panel_window_need", type == 0);
+                me.ctrlEnabled("panel_window_reply", type == 1);
+
+            },
+            changeListHelp: function (flag) {
+                var me = this;
+                me.listHelpType = flag;
+                me.store.clearFilter();
+                if (flag > 0) {
+
+                    if (flag == 2) {
+                        me.store.filter('helper', me.user);
+                    }
+                    else {
+                        me.store.filter('user', me.user);
+
+                    }
+
+                    me.getCmpById(me.panel_list).setStore(me.store);
                 }
 
-            }
-            ,
+            },
             getCmpById: function (obj) {
                 return Ext.getCmp(obj.id);
             }
             ,
+            alert: function (info, title) {
+                var title = title || "信息";
+                Ext.Msg.alert(title, info);
+            },
             resetPWD: function (email) {
                 var me = this;
 
                 var data = {
-                    "name": Ext.getCmp("name").getValue(),
+                    "name": Ext.getCmp("no").getValue(),
                     "email": email,
                     option: "r"
                 };
                 Ext.Ajax.request({
-                    url: '../../rspwd',
+                    url: me.server + '/pwd',
                     method: 'POST',
                     params: data,
                     success: function (response, opts) {
                         var obj = Ext.decode(response.responseText);
                         if (obj.success) {
-                            alert("リセットしました。请查看邮件。");
+                            me.alert("重置成功。请查看邮件。");
                         } else {
-                            alert("リセット失敗、EMAIL入力错误。");
+                            me.alert("重置失敗、EMAIL输入错误。");
+                        }
+                        console.dir(obj);
+                    },
+                    failure: function (response, opts) {
+                        console.log('server erro:' + response.status);
+                    }
+                });
+            }
+            ,
+            regedit: function (email) {
+                var me = this;
+
+                var data = {
+                    "name": Ext.getCmp("no").getValue(),
+                    "email": email,
+                    'password': Ext.getCmp("password").getValue(),
+                    option: "g"
+                };
+                Ext.Ajax.request({
+                    url: me.server + '/pwd',
+                    method: 'POST',
+                    params: data,
+                    success: function (response, opts) {
+                        var obj = Ext.decode(response.responseText);
+                        if (obj.success) {
+                            me.alert("注册成功，请查看邮件进行验证。");
+                        } else {
+                            me.alert("注册失败,EMAIL或用户名已被注册。");
                         }
                         console.dir(obj);
                     },
@@ -1138,7 +1603,7 @@ var app = Ext
             ,
             changePWD: function (pwd, newpwd, newpwd2) {
                 if (newpwd != newpwd2) {
-                    alert("新しい暗証番号と確認用暗証番号が一致してない。");
+                    me.alert("两次密码输入不一致。");
                     return;
                 }
                 var me = this;
@@ -1155,9 +1620,9 @@ var app = Ext
                     success: function (response, opts) {
                         var obj = Ext.decode(response.responseText);
                         if (obj.success) {
-                            alert("変更しました。");
+                            me.alert("更改成功");
                         } else {
-                            alert("変更失敗、暗証番号入力错误。");
+                            me.alert("旧密码输入错误");
                         }
                         console.dir(obj);
                     },
@@ -1184,6 +1649,7 @@ var app = Ext
 
                 if (obj.id) {
                     me.data.id = obj.id;
+                    me.hr = obj.id;
                 }
                 var fields = ["status", "point", "info"];
                 for (var i = 0; i < fields.length; i++) {
@@ -1199,6 +1665,13 @@ var app = Ext
             ,
             setData: function () {
                 var me = this;
+
+                me.data.user = me.user;
+
+                me.data.kind = me.infoType;
+
+                me.data.date = Ext.util.Format.date(new Date(), "YmdHis");
+
                 var fields = ["status", "point", "info"];
 
                 for (var i = 0; i < fields.length; i++) {
@@ -1210,15 +1683,17 @@ var app = Ext
                 } else {
                     me.data["type"] = Ext.getCmp("show_msg").getValue();
                 }
-                if (me.record.isNew) {
-                    me.data["voice"] = 1;
-                } else {
-                    me.data["voice"] = 0;
+                if (me.data.voice == 0) {
+                    if (me.record.isNew) {
+                        me.data["voice"] = 1;
+                    } else {
+                        me.data["voice"] = 0;
+                    }
                 }
             }
             ,
-// 提交数据
-            submitData: function (data, callback) {
+            // 提交数据
+            submitData: function (data, callback, flag) {
                 var me = this;
                 Ext.Ajax.request({
                     url: me.server + '/data',
@@ -1227,28 +1702,18 @@ var app = Ext
                     success: function (response, opts) {
                         var obj = Ext.decode(response.responseText);
                         if (obj.success) {
+
                             if (obj.id) {
                                 data.id = obj.id;
-                                alert("追加成功");
+                                if (flag === true) {
+                                    me.alert("追加成功");
+                                }
                             } else {
-                                alert("更新成功");
-                            }
-                            //
-                            me.data.id = data.id;
-                            if (me.record.isNew) {//
-                                me.upload(me.server + "/data",
-                                    me.record.fileName, function () {
-                                        if (callback) {
-                                            callback();
-                                        }
-
-                                    });
-                            } else {
-                                if (callback) {
-                                    callback();
+                                if (flag === true) {
+                                    me.alert("更新成功");
                                 }
                             }
-
+                            callback(obj.id);
                         }
                         console.dir(obj);
                     },
@@ -1259,48 +1724,37 @@ var app = Ext
             }
             ,
 
-
-// 列表
-            getListConfiguration: function () {
+            createStore: function () {
                 var me = this;
-                var lbl_user_name = {
-                    xtype: 'label',
-                    id: "lbl_user_name",
-                    name: "lbl_user_name",
-                    align: 'right',
-                    html: ""
-                };
-                me.datas = [];
                 me.store = Ext.create('Ext.data.Store', {
                     // give the store some fields
-                    fields: ['id', 'date', 'starttime', 'endtime',
-                        'worktime', 'rest', 'reason', 'status', 'memo',
-                        'confim'],
+                    fields: ['id', 'title', 'lat', 'lng',
+                        'info', 'point', 'voice', 'status', 'type',
+                        'user', 'helper', 'kind'],
                     // filter the data using the firstName field
-                    sorters: 'date',
+                    sorters: 'id',
                     // autoload the data from the server
-                    // autoLoad: true,
+                    autoLoad: false,
                     listeners: {
                         load: function (st, records) {
-
-                            me.changeDatas(st);// 更换数据,重新计算时间等多种变量
-                            Ext.getCmp('list_list').setStore(null);
-                            Ext.getCmp('list_list').setStore(me.store);// 此处刷新数据后，重新绑定
-
                             me.datas = [];
+                            if (records.length > 0) {
+                                me.ctrlEnabled("fs_show_review", false);
+                            }
                             for (var i = 0; i < records.length; i++) {
                                 me.datas.push(records[i].data);
                             }
-                            if (me.config.mintime) {
-                                me.calAllTime();// 计算总计时间
-                                me.setAllTime();// 设置合计时间
-                                me.saveAllTime();
+                            me.StoreCb(me.datas, me);
+                        },
+                        refresh: function (st, datas) {
+                            if (me.mainPanel.getActiveItem() == 3) {
+                                me.getCmpById(me.panel_list).refresh();
                             }
                         }
                     },
                     proxy: {
                         type: 'ajax',
-                        url: '../../wk/list',
+                        url: me.server + '/data',
                         reader: {
                             type: 'json',
                             root: 'data'
@@ -1311,21 +1765,146 @@ var app = Ext
                             update: 'POST',
                             destroy: 'POST'
                         },
-                        extraParams: {
-                            'user': me.user,
-                            'month': me.month
-                        }
+                        extraParams: {}
                     }
                 });
-                return {
-                    items: [{
-                        docked: 'top',
-                        xtype: 'titlebar',
-                        items: [
+            },
+            createReplyStore: function () {
+                var me = this;
+                me.replyStore = Ext.create('Ext.data.Store', {
+                    // give the store some fields
+                    fields: ['id',
+                        'info', 'voice', 'hr', 'date',
+                        'user'],
+                    // filter the data using the firstName field
+                    sorters: 'id',
+                    // autoload the data from the server
+                    autoLoad: false,
+                    listeners: {
+                        load: function (st, records) {
+                            me.replyDatas = [];
+                            for (var i = 0; i < records.length; i++) {
+                                me.replyDatas.push(records[i].data);
+                            }
 
-                            lbl_user_name]
+                            Ext.getCmp("panel_window_reply").refresh();
+                            //me.StoreCb(me.datas, me);
+                        }
+                    },
+                    proxy: {
+                        type: 'ajax',
+                        url: me.server + '/data',
+                        reader: {
+                            type: 'json',
+                            root: 'data'
+                        },
+                        actionMethods: {
+                            create: 'POST',
+                            read: 'POST', // by default GET
+                            update: 'POST',
+                            destroy: 'POST'
+                        },
+                        extraParams: {}
+                    }
+                });
+            },
+
+            // 回复
+            getShowWindowReply: function () {
+                var me = this;
+
+                var reply_send_refresh = {
+                    xtype: 'button',
+                    //align: 'left',
+                    id: "reply_send_refresh",
+                    iconCls: "refresh",
+                    flex: 0.1,
+
+                    handler: function () {
+                        //Ext.getCmp("panel_window_reply").refresh();
+                        me.refreshReply();
+                    }
+                };
+                var reply_send_voice =
+
+                    Ext.create('com.renxd.RflButton', {
+
+                        //align: 'left',
+                        id: "reply_send_voice",
+                        iconCls: "add",
+                        flex: 0.1,
+                        listeners: {
+
+                            touchstart: function (event) {
+                                console.log("touchstart");
+                                me.record.record();
+                            },
+                            touchend: function (event) {
+                                console.log("touchend");
+                                me.record.record();
+                            }
+                        }
+                    });
+
+
+
+
+
+
+                var reply_txt_msg = {
+                    xtype: 'textfield',
+                    //align: 'left',
+                    id: "reply_txt_msg",
+                    flex: 0.6,
+                    width: '80%',
+                    text: ''
+                };
+                var reply_btn_msg = {
+                    xtype: 'button',
+                    //align: 'left',
+                    id: "reply_btn_msg",
+
+                    text: '发送',
+                    handler: function () {
+                        var addReply = {
+                            option: "s",
+                            table: "REPLY",
+                            "hr": me.hr,
+                            "user": me.user,
+                            "date": Ext.util.Format.date(new Date(), "YmdHis"),
+                            "info": Ext.getCmp("reply_txt_msg")
+                                .getValue(),
+                            "voice": 0
+                        };
+                        me.submitData(addReply, function (insertId) {
+
+
+                            me.replyStore.add({
+                                "id": insertId,
+                                "hr": me.hr,
+                                "user": me.no,
+                                "voice": 0,
+                                "date": Ext.util.Format.date(new Date(), "YmdHis"),
+                                "info": Ext.getCmp("reply_txt_msg")
+                                    .getValue()
+                            });
+                            me.ctrlValue("reply_txt_msg", "");
+                        });
+                    }
+                };
+                return {
+                    id: 'panel_window_reply',
+                    width: 300,
+                    height: 400,
+                    items: [{
+                        docked: 'bottom',
+                        xtype: 'titlebar',
+                        layout: 'hbox',
+                        items: [
+                            reply_send_refresh,
+                            reply_send_voice, reply_txt_msg, reply_btn_msg]
                     }],
-                    id: 'list_list',
+                    store: me.replyStore,
                     xtype: 'list',
                     scrollable: {
                         direction: 'vertical'
@@ -1333,31 +1912,12 @@ var app = Ext
                     variableHeights: true,
                     itemHeight: 10,
                     itemTpl: new Ext.XTemplate(
-                        // '<table><tr><td height="40" bgcolor
-                        // ="{status}">{[this.date(values.date)]}【{starttime}~{endtime}】:{worktime}
-                        // ({[this.rest(values.rest)]})</td></tr></table>',
-                        '<div  style="background-color:{status};width:100%;height:100%">{[this.date(values.date)]}【{[this.time(values.starttime)]}~{[this.time(values.endtime)]}】:{worktime} ({[this.rest(values.rest)]})</div>',
+                        '<div  style="width:100%;height:100%">({[this.date(values.date)]}){user}:{info}</div>',
                         {
-                            rest: function (v) {
-                                return me.tool.getListText(v, me.rest_data);
-                            },
                             date: function (v) {
-                                return me.tool.day(v) + "("
-                                    + me.tool.jweek(v) + ")";
-                            },
-                            time: function (v) {
-                                return me.tool.timeStr(v);
+                                return me.tool.mdStr(v);
                             }
-                        }),
-                    listeners: {
-                        selectionchange: function (view, records) {
-                            var data = records[0].data;
-                            me.index = parseInt(data.date.substring(6, 8)) - 1// 日期设为Index
-                            me.data = me.datas[me.index];
-                            Ext.getCmp('panel_main').setActiveItem(1);
-                            me.getData();
-                        }
-                    }
+                        })
                 };
             }
         })

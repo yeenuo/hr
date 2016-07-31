@@ -17,15 +17,19 @@ var dbm = require('../dbm');
 var crypto = require('crypto');
 var url = require('url');
 var fs = require('fs');
+
+var JPush = require("../lib/JPush/JPush.js")
+var client = JPush.buildClient('your appKey', 'your masterSecret')
+
 exports.app = function (req, res, next) {
     // console.log("app");
     res.redirect('/www/index.html');
 };
 
 exports.data = function (req, res, next) {
-    console.log(req.files);
+
     var option = req.body.option;
-    if (option == "s")//添加
+    if (option == "s")//保存数据
     {
         var data = req.body;
         data.table = "H_" + data.table;
@@ -42,7 +46,7 @@ exports.data = function (req, res, next) {
                 res.end();
             }
         };
-        if (data.id) {
+        if (data.id) {//添加
             db.u(req.body, func);
         }
         else {
@@ -74,7 +78,16 @@ exports.data = function (req, res, next) {
             }
         }
     }
-
+    else if (option == "rp")//reply查询
+    {
+        var hr = req.body.hr;
+        var sql = "";
+        db.q("SELECT r.ID as id,HR as hr,Info as info,Date as date,Voice as voice ,u.no as user   FROM REN.H_REPLY r left join T_USER u on r.user = u.id   WHERE HR = ? ", [hr], function (datas) {
+            res.writeHead(200, {"Content-Type": "text/html;charset:utf-8"});
+            res.write(JSON.stringify(datas));
+            res.end();
+        });
+    }
     else if (option == "rv")//评价
     {
         var data = req.body;
@@ -112,17 +125,26 @@ exports.data = function (req, res, next) {
             }
         });
 
-
-//            res.writeHead(200, {"Content-Type": "text/html;charset:utf-8"});
-        //  res.write(JSON.stringify(datas));
-        //  res.end();
-
-
+    }
+    else if (option == "push") {
+        client.push().setPlatform('ios', 'android')
+            .setAudience(JPush.tag('555', '666'), JPush.alias('666,777'))
+            .setNotification('Hi, JPush', JPush.ios('ios alert'), JPush.android('android alert', null, 1))
+            .setMessage('msg content')
+            .setOptions(null, 60)
+            .send(function(err, res) {
+                if (err) {
+                    console.log(err.message)
+                } else {
+                    console.log('Sendno: ' + res.sendno)
+                    console.log('Msg_id: ' + res.msg_id)
+                }
+            });
     }
     else {
         var kind = req.body.kind;//0:寻求帮助 1:有用信息
         var point = req.body.point;
-        db.q("SELECT ID as id,Title as title,Lat as lat,Lng as lng,Info as info,Point as point,Voice as voice,Status as status,Type as type,USER as user,KIND as kind FROM REN.H_" + req.body.model.toUpperCase() + " WHERE KIND = ? and Point > ?", [kind, point], function (datas) {
+        db.q("SELECT ID as id,Title as title,Lat as lat,Lng as lng,Info as info,Point as point,Voice as voice,Status as status,Type as type,USER as user,Helper as helper, KIND as kind FROM REN.H_" + req.body.model.toUpperCase() + " WHERE KIND = ? and Point > ?", [kind, point], function (datas) {
             res.writeHead(200, {"Content-Type": "text/html;charset:utf-8"});
             res.write(JSON.stringify(datas));
             res.end();

@@ -24,11 +24,21 @@
         },
         "cordova-sqlite-storage": {
             "PACKAGE_NAME": "com.renxd.hr"
+        },
+        "cordova-plugin-splashscreen": {
+            "PACKAGE_NAME": "com.renxd.hr"
+        },
+        "jpush-phonegap-plugin": {
+            "API_KEY": "cc88762a409b84bfdc957f80",
+            "PACKAGE_NAME": "com.renxd.hr"
         }
     },
     "dependent_plugins": {
         "cordova-plugin-compat": {
             "PACKAGE_NAME": "blank"
+        },
+        "cordova-plugin-device": {
+            "PACKAGE_NAME": "com.renxd.hr"
         }
     }
 }

@@ -5,6 +5,22 @@ Tool.prototype = {
         var a = str.substring(0, 4) + "-" + str.substring(4, 6) + "-" + str.substring(6, 8);
         return new Date(Date.parse(a));
     },
+    dayStr: function (str) {
+        var a = str.substring(6, 8);
+        return new Date(Date.parse(a));
+    },
+    monthStr: function (str) {
+        var a = str.substring(4, 6);
+        return a;
+    },
+    dayStr: function (str) {
+        var a = str.substring(6, 8);
+        return new Date(Date.parse(a));
+    },
+    mdStr: function (str) {
+        var a = str.substring(4, 8);
+        return a;
+    },
     timeStr: function (str) {
         var a = str.substring(0, 2) + ":" + str.substring(2, 4);
         return a;
