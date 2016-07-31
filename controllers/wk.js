@@ -19,7 +19,7 @@ var url = require('url');
 var fs = require('fs');
 
 var JPush = require("../lib/JPush/JPush.js")
-var client = JPush.buildClient('your appKey', 'your masterSecret')
+var client = JPush.buildClient('cc88762a409b84bfdc957f80', '379645d6a232ffc2f4c9b5d1')
 
 exports.app = function (req, res, next) {
     // console.log("app");
@@ -28,7 +28,15 @@ exports.app = function (req, res, next) {
 
 exports.data = function (req, res, next) {
 
-    var option = req.body.option;
+    var data = req.body;
+
+    if (typeof (data.option) == "undefined")//get
+    {
+        data = req.query;
+    }
+    var option = data.option;
+    console.log(data);
+
     if (option == "s")//保存数据
     {
         var data = req.body;
@@ -38,6 +46,11 @@ exports.data = function (req, res, next) {
             if (rtn.affectedRows == 1) {
                 res.writeHead(200, {"Content-Type": "text/html;charset:utf-8"});
                 if (parseInt(rtn.insertId) > 0) {
+                    if (data.table == "H_REPLY")//回复
+                    {
+                        pushReply(data.hr, data.info);
+                    }
+
                     res.write("{success:true,id:" + rtn.insertId + ",option:'a'}");
                 }
                 else {
@@ -127,19 +140,19 @@ exports.data = function (req, res, next) {
 
     }
     else if (option == "push") {
-        client.push().setPlatform('ios', 'android')
-            .setAudience(JPush.tag('555', '666'), JPush.alias('666,777'))
-            .setNotification('Hi, JPush', JPush.ios('ios alert'), JPush.android('android alert', null, 1))
-            .setMessage('msg content')
-            .setOptions(null, 60)
-            .send(function(err, res) {
-                if (err) {
-                    console.log(err.message)
-                } else {
-                    console.log('Sendno: ' + res.sendno)
-                    console.log('Msg_id: ' + res.msg_id)
-                }
-            });
+        //easy push
+
+        /*        client.push().setPlatform(JPush.ALL)
+         .setAudience(JPush.ALL)
+         .setNotification('Hi, JPush', JPush.ios('ios alert', 'happy', 5))
+         .send(function(err, res) {
+         if (err) {
+         console.log(err.message)
+         } else {
+         console.log('Sendno: ' + res.sendno)
+         console.log('Msg_id: ' + res.msg_id)
+         }
+         });*/
     }
     else {
         var kind = req.body.kind;//0:寻求帮助 1:有用信息
@@ -152,6 +165,49 @@ exports.data = function (req, res, next) {
     }
 
 };
+
+
+function push(users, msg, title) {
+    var str_users = users.join();
+
+    console.log(str_users);
+    client.push().setPlatform('ios', 'android')
+        .setAudience(JPush.alias(str_users))
+        .setNotification(title || msg, JPush.ios(title || msg), JPush.android(title || msg, null, 1))
+        .setMessage(msg)
+        .setOptions(null, 60)
+        .send(function (err, res) {
+            if (err) {
+                console.log(err.message)
+            } else {
+                console.log('Sendno: ' + res.sendno)
+                console.log('Msg_id: ' + res.msg_id)
+            }
+        });
+}
+function pushReply(hr, info) {
+    var users = [];
+
+    var sql = " SELECT Distinct User+'' user FROM REN.H_REPLY where HR = ? "
+    sql = sql + "  union select user  from REN.H_HR where id = ?  "
+    sql = sql + "  union select info user  from REN.H_HR where id = ?  "
+    db.q(sql, [hr, hr, hr], function (datas) {
+        console.log(datas);
+        //datas
+        if (datas.length > 1) {
+            for (var i = 0; i < datas.length - 1; i++) {
+                users.push(datas[i].user);
+            }
+
+            if (users.length > 0) {
+                push(users, "您好,有人回复了您的信息(" + datas[datas.length - 1].user + ")。");
+            }
+        }
+
+    });
+
+
+}
 
 exports.list = function (req, res, next) {
 

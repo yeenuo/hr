@@ -23,19 +23,17 @@
         <param name="android-package" value="org.apache.cordova.splashscreen.SplashScreen" />
         <param name="onload" value="true" />
     </feature>
-    <feature name="Spee">
-        <param name="android-package" value="com.renxd.plugin.Spee" />
-        <param name="onload" value="true" />
-    </feature>
-    <preference name="loadUrlTimeoutValue" value="60000" />
-    <name>好人多</name>
-    <preference name="SplashScreenDelay" value="3000" />
     <feature name="Device">
         <param name="android-package" value="org.apache.cordova.device.Device" />
     </feature>
     <feature name="JPushPlugin">
         <param name="android-package" value="cn.jpush.phonegap.JPushPlugin" />
     </feature>
+    <feature name="Spee">
+        <param name="android-package" value="com.renxd.plugin.Spee" />
+        <param name="onload" value="true" />
+    </feature>
+    <preference name="loadUrlTimeoutValue" value="60000" />
     <allow-intent href="market:*" />
     <icon density="ldpi" src="res/mipmap-ldpi/ic_launcher.png" />
     <icon density="mdpi" src="res/mipmap-mdpi/ic_launcher.png" />

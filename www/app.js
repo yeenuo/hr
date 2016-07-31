@@ -1,27 +1,27 @@
 //<debug>
 Ext.Loader.setPath({
-    'Ext' : '../../src'
+    'Ext': '../../src'
 });
 // </debug>
 
 Ext.define("com.renxd.RflButton", {
-    extend : "Ext.Button",
-    alias : "rflButton",
+    extend: "Ext.Button",
+    alias: "rflButton",
 
-    initialize : function() {
+    initialize: function () {
         var $this = this;
 
-        this.element.on("tap", function(event, node, options, eOpts) {
+        this.element.on("tap", function (event, node, options, eOpts) {
 
             $this.fireEvent("tap", event, node);
         });
 
-        this.element.on("touchend", function() {
+        this.element.on("touchend", function () {
             $this.fireEvent("touchend", event, $this.element);
             $this.removeCls("x-button-pressing");
         })
 
-        this.element.on("touchstart", function(event) {
+        this.element.on("touchstart", function (event) {
             $this.fireEvent("touchstart", event, $this.element);
 
             $this.addCls("x-button-pressing");
@@ -40,11 +40,11 @@ Ext.define("com.renxd.RflButton", {
 // define the application
 var app = Ext
     .application({
-        isIconPrecomposed : false,
+        isIconPrecomposed: false,
         // require any components/classes what we will use in our example
-        requires : [ 'Ext.MessageBox', 'Ext.data.Store' ],
+        requires: ['Ext.MessageBox', 'Ext.data.Store'],
 
-        initConfig : function() {
+        initConfig: function () {
             var me = this;
             me.DM = true;// 实机测试
             me.initData();
@@ -63,7 +63,7 @@ var app = Ext
                 // 调试模式，这样报错会在应用中弹出一个遮罩层显示错误信息
                 window.plugins.jPushPlugin.setDebugMode(true);
 
-                var onReceiveNotification = function(event) {
+                var onReceiveNotification = function (event) {
                     try {
                         console.log('接收新的推送通知');
                         // var alert = event.aps.alert;//通知内容
@@ -77,7 +77,7 @@ var app = Ext
                     }
                 };
                 // 打开通知
-                var onOpenNotification = function(event) {
+                var onOpenNotification = function (event) {
                     try {
                         console.log('打开通知消息');
                         window.plugins.jPushPlugin.setBadge(0);
@@ -97,128 +97,128 @@ var app = Ext
             me.map = null;
             me.tomail = "";// 需要发送mail的人，作业时间不足。
             me.config = {
-                isAdd : false,// 是否自己添加
-                itemType : 0,// 0 need 1 help
-                needTxt : '求助',
-                helpTxt : '信息',
-                infoTxt : '内容',
-                replyTxt : '回复',
-                helpa : '所有',
-                helpi : '发布的',
-                helpu : '帮助的',
+                isAdd: false,// 是否自己添加
+                itemType: 0,// 0 need 1 help
+                needTxt: '求助',
+                helpTxt: '信息',
+                infoTxt: '内容',
+                replyTxt: '回复',
+                helpa: '所有',
+                helpi: '发布的',
+                helpu: '帮助的',
 
-                msgs : [ {
-                    id : -1,
-                    text : '--类别--'
+                msgs: [{
+                    id: -1,
+                    text: '--类别--'
                 }, {
-                    id : 0,
-                    text : '便民活动'
+                    id: 0,
+                    text: '便民活动'
                 }, {
-                    id : 1,
-                    text : '商家打折'
+                    id: 1,
+                    text: '商家打折'
                 }, {
-                    id : 2,
-                    text : '拾取归还'
+                    id: 2,
+                    text: '拾取归还'
                 }, {
-                    id : 3,
-                    text : '二手物品'
+                    id: 3,
+                    text: '二手物品'
                 }, {
-                    id : 3,
-                    text : '免费体检'
-                } ],
-                needs : [ {
-                    id : -1,
-                    text : '--类别--'
+                    id: 3,
+                    text: '免费体检'
+                }],
+                needs: [{
+                    id: -1,
+                    text: '--类别--'
                 }, {
-                    id : 0,
-                    text : '寻物'
+                    id: 0,
+                    text: '寻物'
                 }, {
-                    id : 1,
-                    text : '寻人'
+                    id: 1,
+                    text: '寻人'
                 }, {
-                    id : 2,
-                    text : '问答'
+                    id: 2,
+                    text: '问答'
                 }, {
-                    id : 3,
-                    text : '求购'
+                    id: 3,
+                    text: '求购'
                 }, {
-                    id : 4,
-                    text : '其他'
-                } ],
-                distances : [ {
-                    id : -1,
-                    text : '--距离--'
+                    id: 4,
+                    text: '其他'
+                }],
+                distances: [{
+                    id: -1,
+                    text: '--距离--'
                 }, {
-                    id : 0,
-                    text : '200M'
+                    id: 0,
+                    text: '200M'
                 }, {
-                    id : 1,
-                    text : '500M'
+                    id: 1,
+                    text: '500M'
                 }, {
-                    id : 2,
-                    text : '1KM'
+                    id: 2,
+                    text: '1KM'
                 }, {
-                    id : 3,
-                    text : '3KM'
+                    id: 3,
+                    text: '3KM'
                 }, {
-                    id : 4,
-                    text : '10KM'
+                    id: 4,
+                    text: '10KM'
                 }, {
-                    id : 3,
-                    text : '3KM'
+                    id: 3,
+                    text: '3KM'
                 }, {
-                    id : 4,
-                    text : '以上'
-                } ],
-                relations : [ {
-                    id : 0,
-                    text : '普通'
+                    id: 4,
+                    text: '以上'
+                }],
+                relations: [{
+                    id: 0,
+                    text: '普通'
                 }, {
-                    id : 1,
-                    text : '朋友'
+                    id: 1,
+                    text: '朋友'
                 }, {
-                    id : 2,
-                    text : '密友'
-                } ],
-                status : [ {
-                    id : 0,
-                    text : '确认中'
+                    id: 2,
+                    text: '密友'
+                }],
+                status: [{
+                    id: 0,
+                    text: '确认中'
                 }, {
-                    id : 1,
-                    text : '帮助中'
+                    id: 1,
+                    text: '帮助中'
                 }, {
-                    id : 2,
-                    text : '已完成'
-                } ],
-                levels : [ {
-                    id : 0,
-                    text : '>10'
+                    id: 2,
+                    text: '已完成'
+                }],
+                levels: [{
+                    id: 0,
+                    text: '>10'
                 }, {
-                    id : 1,
-                    text : '>5'
+                    id: 1,
+                    text: '>5'
                 }, {
-                    id : 2,
-                    text : '>2'
+                    id: 2,
+                    text: '>2'
                 }, {
-                    id : 3,
-                    text : '>0'
-                } ],
-                points : [ {
-                    id : 0,
-                    text : '分数'
+                    id: 3,
+                    text: '>0'
+                }],
+                points: [{
+                    id: 0,
+                    text: '分数'
                 }, {
-                    id : 1,
-                    text : '>10'
+                    id: 1,
+                    text: '>10'
                 }, {
-                    id : 2,
-                    text : '>20'
+                    id: 2,
+                    text: '>20'
                 }, {
-                    id : 5,
-                    text : '>50'
+                    id: 5,
+                    text: '>50'
                 }, {
-                    id : 10,
-                    text : '>100'
-                } ]
+                    id: 10,
+                    text: '>100'
+                }]
             };
 
             // me.map = null;
@@ -229,7 +229,7 @@ var app = Ext
             me.seg_type = null;
             me.marker = null;
         },
-        initData : function() {
+        initData: function () {
             var me = this;
             me.recordData = false;
             me.user = -1;
@@ -241,7 +241,7 @@ var app = Ext
             me.datas = [];
 
         },
-        launch : function() {
+        launch: function () {
             var me = this;
 
             me.initConfig();
@@ -255,16 +255,16 @@ var app = Ext
             me.panel_window_reply = me.getShowWindowReply();
 
             me.seg_show = Ext.create('Ext.SegmentedButton', {
-                items : [ {
-                    text : me.config.infoTxt,
-                    value : 0,
-                    pressed : true
+                items: [{
+                    text: me.config.infoTxt,
+                    value: 0,
+                    pressed: true
                 }, {
-                    text : me.config.replyTxt,
-                    value : 1
-                } ],
-                listeners : {
-                    toggle : function(container, button, pressed) {
+                    text: me.config.replyTxt,
+                    value: 1
+                }],
+                listeners: {
+                    toggle: function (container, button, pressed) {
 
                         var type = 1;// 回复
 
@@ -280,23 +280,23 @@ var app = Ext
             });
 
             me.panel_window = Ext.create('Ext.Panel', {
-                id : 'panel_window',
-                centered : true,
-                modal : true,
-                width : 300,
-                height : 450,
-                hidden : true,
+                id: 'panel_window',
+                centered: true,
+                modal: true,
+                width: 300,
+                height: 450,
+                hidden: true,
 
-                items : [ {
-                    docked : 'top',
-                    xtype : 'titlebar',
-                    items : [ {
-                        align : "right",
-                        iconCls : 'delete',
-                        handler : function() {
+                items: [{
+                    docked: 'top',
+                    xtype: 'titlebar',
+                    items: [{
+                        align: "right",
+                        iconCls: 'delete',
+                        handler: function () {
                             me.panel_window.setHidden(true);
                         }
-                    }, me.seg_show ]
+                    }, me.seg_show]
                 }, me.panel_window_need, me.panel_window_reply // 登陆页面
                 ]
             });
@@ -305,25 +305,25 @@ var app = Ext
             me.panel_map = me.getMap();// 录入
             me.panel_info = me.getConfig();// 设定
             me.mainPanel = Ext.create('Ext.TabPanel', {
-                tabBarPosition : 'bottom',
-                id : 'panel_main',
-                fullscreen : true,
-                showAnimation : {
-                    type : 'cube'
+                tabBarPosition: 'bottom',
+                id: 'panel_main',
+                fullscreen: true,
+                showAnimation: {
+                    type: 'cube'
                 },
-                layout : {
-                    type : 'card',
-                    animation : {
-                        type : 'cube'
+                layout: {
+                    type: 'card',
+                    animation: {
+                        type: 'cube'
                     }
                 },
-                defaults : {
-                    styleHtmlContent : true
+                defaults: {
+                    styleHtmlContent: true
                 },
                 // activeItem: 2,
-                activeItem : 1,
+                activeItem: 1,
                 // , me.panel_info
-                items : [ me.panel_map, me.getLogin() // 登陆页面
+                items: [me.panel_map, me.getLogin() // 登陆页面
                 ]
             });
 
@@ -345,26 +345,26 @@ var app = Ext
 
             me.refreshData(1);
         },
-        createDB : function() {
+        createDB: function () {
             var me = this;
             // 本地数据库
             me.db = window.sqlitePlugin.openDatabase({
-                name : "hr.db",
-                location : 'default'
+                name: "hr.db",
+                location: 'default'
             });
             me.db
-                .transaction(function(tx) {
+                .transaction(function (tx) {
                     tx
                         .executeSql(
                             "create table if not exists HR_REVIEW (id PRIMARY KEY, value INT)",
-                            [], function() {
+                            [], function () {
                                 console.log("success");
-                            }, function() {
+                            }, function () {
                                 console.log("error");
                             });
                 });
         },
-        endRecord : function(file) {
+        endRecord: function (file) {
             var me = this;
             if (me.recordData) {
                 Ext.getCmp("btn_record").setText("录音");
@@ -372,45 +372,47 @@ var app = Ext
             } else {// 记录reply
                 console.log("记录reply......");
                 var addReply = {
-                    option : "s",
-                    table : "REPLY",
-                    "hr" : me.hr,
-                    "user" : me.user,
-                    "date" : Ext.util.Format.date(new Date(), "YmdHis"),
-                    "info" : "这是一条语音...",
-                    "voice" : 1
+                    option: "s",
+                    table: "REPLY",
+                    "hr": me.hr,
+                    "user": me.user,
+                    "date": Ext.util.Format.date(new Date(), "YmdHis"),
+                    "info": "这是一条语音...",
+                    "voice": 1
                 };
-                me.submitData(addReply, function(insertId) {
+                me.submitData(addReply, function (insertId) {
 
                     me.upload(me.server + "/data", me.record.fileName,
-                        function() {
+                        function () {
                             me.replyStore.add({
-                                "id" : insertId,
-                                "hr" : me.hr,
-                                "user" : me.no,
-                                "voice" : 1,
-                                "date" : Ext.util.Format.date(
+                                "id": insertId,
+                                "hr": me.hr,
+                                "user": me.no,
+                                "voice": 1,
+                                "date": Ext.util.Format.date(
                                     new Date(), "YmdHis"),
-                                "info" : "这是一条语音..."
+                                "info": "这是一条语音..."
                             });
+
+                            // Ext.getCmp("panel_window_reply").getScrollable().getScroller().scrollToEnd();
                         }, "reply_" + insertId);
                 });
             }
         },
-        endPlay : function(file) {
+        endPlay: function (file) {
             var me = this;
             Ext.getCmp("btn_play").setText("播放");
             me.speeBtnInShowWin((me.user >= 0) && me.isSelfData());// 可以录音,可以取消
             // me.ctrlEnabled("btn_record", me.isSelfData());//可以播放
 
         },
-        endRead : function() {
+        endRead: function () {
             // alert(222);
         },
 
-        playUrl : function(url, cb) {
+        playUrl: function (url, cb) {
             var me = this;
-            me.downLoad(url, "nuofun.spx", function(path) {
+            me.downLoad(url, "nuofun.spx", function (path) {
                 path = path.replace("file://", "");
                 me.record.play(path);
                 if (cb) {
@@ -418,11 +420,11 @@ var app = Ext
                 }
             });
         },
-        upload : function(url, path, cb, fileId) {
+        upload: function (url, path, cb, fileId) {
             var me = this;
             try {
                 window.requestFileSystem(LocalFileSystem.PERSISTENT, 0,
-                    function(fs) {
+                    function (fs) {
                         var fileURL = "file://" + path;
                         var options = new FileUploadOptions();
                         options.fileKey = "spx";
@@ -439,15 +441,15 @@ var app = Ext
                         var ft = new FileTransfer();
 
                         // 上传地址
-                        ft.upload(fileURL, encodeURI(url), function() {
+                        ft.upload(fileURL, encodeURI(url), function () {
                             console.log("成功");
                             cb();
-                        }, function(e) {
+                        }, function (e) {
                             cb();
                             console.log(e);
                         }, options);
 
-                    }, function(e) {
+                    }, function (e) {
                         console.log(e);
                     });
             } catch (e) {
@@ -455,34 +457,34 @@ var app = Ext
             }
 
         },
-        failPlay : function() {
+        failPlay: function () {
             Ext.getCmp("btn_play").setText("播放");
         },
-        failRecord : function() {
+        failRecord: function () {
             me.recordData = false;
             Ext.getCmp("btn_play").setText("录音");
         },
-        downLoad : function(url, path, cb) {
+        downLoad: function (url, path, cb) {
             var me = this;
             try {
                 window.requestFileSystem(LocalFileSystem.PERSISTENT, 0,
-                    function(fs) {
+                    function (fs) {
                         console.log('打开的文件系统: ' + fs.name);
                         fs.root.getFile(path, {
-                            create : true,
-                            exclusive : false
-                        }, function(fileEntry) {
+                            create: true,
+                            exclusive: false
+                        }, function (fileEntry) {
                             var fileTransfer = new FileTransfer();
                             var fileURL = fileEntry.toURL();
                             fileTransfer.download(url, fileURL,
-                                function(entry) {
+                                function (entry) {
                                     console.log("下载成功！");
                                     console.log("文件保存位置: "
                                         + entry.toURL());
                                     if (cb) {
                                         cb(entry.toURL());
                                     }
-                                }, function(error) {
+                                }, function (error) {
                                     me.failPlay();
                                     console.log("下载失败！");
                                     console.log("error source "
@@ -498,12 +500,12 @@ var app = Ext
                                     // dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA=="
                                     // }
                                 });
-                        }, function(e) {
+                        }, function (e) {
                             me.failPlay();
                             console.log(e);
 
                         });
-                    }, function(e) {
+                    }, function (e) {
                         me.failPlay();
                         console.log(e);
                     });
@@ -512,26 +514,26 @@ var app = Ext
                 me.failPlay();
             }
         },
-        getList : function() {
+        getList: function () {
             var me = this;
 
             me.seg_help = Ext
                 .create(
                     'Ext.SegmentedButton',
                     {
-                        items : [ {
-                            text : me.config.helpa,// 所有
-                            value : 0,
-                            pressed : true
+                        items: [{
+                            text: me.config.helpa,// 所有
+                            value: 0,
+                            pressed: true
                         }, {
-                            text : me.config.helpi,// 发布的
-                            value : 1
+                            text: me.config.helpi,// 发布的
+                            value: 1
                         }, {
-                            text : me.config.helpu,// 帮助的
-                            value : 2
-                        } ],
-                        listeners : {
-                            toggle : function(container, button,
+                            text: me.config.helpu,// 帮助的
+                            value: 2
+                        }],
+                        listeners: {
+                            toggle: function (container, button,
                                               pressed) {
 
                                 var type = 2;
@@ -553,19 +555,19 @@ var app = Ext
                 .create(
                     'Ext.SegmentedButton',
                     {
-                        items : [ {
-                            text : me.config.helpa,// 我帮助的
-                            value : 0,
-                            pressed : true
+                        items: [{
+                            text: me.config.helpa,// 我帮助的
+                            value: 0,
+                            pressed: true
                         }, {
-                            text : me.config.helpm,// 我帮助的
-                            value : 1
+                            text: me.config.helpm,// 我帮助的
+                            value: 1
                         }, {
-                            text : me.config.helpu,// 帮助我的
-                            value : 2
-                        } ],
-                        listeners : {
-                            toggle : function(container, button,
+                            text: me.config.helpu,// 帮助我的
+                            value: 2
+                        }],
+                        listeners: {
+                            toggle: function (container, button,
                                               pressed) {
 
                                 var type = 2;
@@ -583,28 +585,28 @@ var app = Ext
                         }
                     });
             return {
-                id : 'panel_list',
-                title : '列表',
-                iconCls : 'bookmarks',
-                xtype : 'list',
-                scrollable : {
-                    direction : 'vertical'
+                id: 'panel_list',
+                title: '列表',
+                iconCls: 'bookmarks',
+                xtype: 'list',
+                scrollable: {
+                    direction: 'vertical'
                 },
-                store : me.store,
-                items : [ {
-                    docked : 'top',
-                    xtype : 'titlebar',
-                    items : [ me.seg_help ]
-                } ],
-                variableHeights : true,
-                itemHeight : 10,
-                itemTpl : new Ext.XTemplate(
+                store: me.store,
+                items: [{
+                    docked: 'top',
+                    xtype: 'titlebar',
+                    items: [me.seg_help]
+                }],
+                variableHeights: true,
+                itemHeight: 10,
+                itemTpl: new Ext.XTemplate(
                     // '<table><tr><td height="40" bgcolor
                     // ="{status}">{[this.date(values.date)]}【{starttime}~{endtime}】:{worktime}
                     // ({[this.rest(values.rest)]})</td></tr></table>',
                     '<div  style=" width:100%;height:100%;white-space:nowrap;text-overflow:ellipsis;overflow: hidden; ">{[this.info(values.info)]}</div>',
                     {
-                        info : function(v) {
+                        info: function (v) {
                             if (v.length == 0) {
                                 return "暂无信息";
                             }
@@ -615,76 +617,76 @@ var app = Ext
             };
         },
 
-        getConfig : function() {
+        getConfig: function () {
             var me = this;
             return {
-                id : 'panel_info',
-                title : '信息',
-                iconCls : 'info',
-                scrollable : true,
-                items : [ {
-                    xtype : 'fieldset',
-                    title : '',
-                    hideBorders : false,
-                    baseCls : "x-fieldset_nb", // 无边框
-                    items : [
+                id: 'panel_info',
+                title: '信息',
+                iconCls: 'info',
+                scrollable: true,
+                items: [{
+                    xtype: 'fieldset',
+                    title: '',
+                    hideBorders: false,
+                    baseCls: "x-fieldset_nb", // 无边框
+                    items: [
                         Ext.create('Ext.List', {
 
-                            itemTpl : '{title}',
-                            data : [ {
-                                title : 'Item 1'
+                            itemTpl: '{title}',
+                            data: [{
+                                title: 'Item 1'
                             }, {
-                                title : 'Item 2'
+                                title: 'Item 2'
                             }, {
-                                title : 'Item 3'
+                                title: 'Item 3'
                             }, {
-                                title : 'Item 4'
-                            } ]
+                                title: 'Item 4'
+                            }]
                         }),
                         {
-                            xtype : 'fieldset',
-                            title : '信息',
-                            items : [ {
-                                xtype : 'textfield',
-                                id : "txt_no",
-                                label : '分数',
-                                readOnly : true
+                            xtype: 'fieldset',
+                            title: '信息',
+                            items: [{
+                                xtype: 'textfield',
+                                id: "txt_no",
+                                label: '分数',
+                                readOnly: true
                             }, {
-                                xtype : 'textfield',
-                                id : "txt_point",
-                                label : '分数',
-                                readOnly : true
-                            } ]
+                                xtype: 'textfield',
+                                id: "txt_point",
+                                label: '分数',
+                                readOnly: true
+                            }]
                         },
                         {
-                            xtype : 'fieldset',
-                            title : '修改密码',
-                            items : [
+                            xtype: 'fieldset',
+                            title: '修改密码',
+                            items: [
                                 {
-                                    xtype : 'passwordfield',
-                                    id : "oldpwd",
-                                    name : 'oldpwd',
-                                    label : '旧密码',
-                                    value : ''
+                                    xtype: 'passwordfield',
+                                    id: "oldpwd",
+                                    name: 'oldpwd',
+                                    label: '旧密码',
+                                    value: ''
                                 },
                                 {
-                                    xtype : 'passwordfield',
-                                    id : "newpwd",
-                                    name : 'newpwd',
-                                    label : '新密码',
-                                    value : ''
+                                    xtype: 'passwordfield',
+                                    id: "newpwd",
+                                    name: 'newpwd',
+                                    label: '新密码',
+                                    value: ''
                                 },
                                 {
-                                    xtype : 'passwordfield',
-                                    id : "newpwd2",
-                                    name : 'newpwd2',
-                                    label : '确认输入',
-                                    value : ''
+                                    xtype: 'passwordfield',
+                                    id: "newpwd2",
+                                    name: 'newpwd2',
+                                    label: '确认输入',
+                                    value: ''
                                 },
                                 {
-                                    xtype : 'button',
-                                    text : '変更',
-                                    handler : function() {
+                                    xtype: 'button',
+                                    text: '変更',
+                                    handler: function () {
                                         me.changePWD(Ext.getCmp(
                                             "oldpwd")
                                             .getValue(), Ext
@@ -693,48 +695,48 @@ var app = Ext
                                             .getCmp("newpwd2")
                                             .getValue());
                                     }
-                                } ]
-                        } ]
-                } ]
+                                }]
+                        }]
+                }]
             };
         },
 
-        getLogin : function() {
+        getLogin: function () {
             var me = this;
             return {
-                title : '登录',
-                iconCls : 'user',
-                id : 'tab_login',
-                layout : 'vbox',
-                items : [
+                title: '登录',
+                iconCls: 'user',
+                id: 'tab_login',
+                layout: 'vbox',
+                items: [
                     {
-                        xtype : 'label',
-                        width : '100%',
-                        html : '<div style="width:100%;font-size: 24px;" align="center">  好人网  </div>'
+                        xtype: 'label',
+                        width: '100%',
+                        html: '<div style="width:100%;font-size: 24px;" align="center">  好人网  </div>'
                     },
                     {
-                        xtype : 'label',
-                        width : '100%',
-                        html : '<div style="width:100%;font-size: 18px;" align="center"> 人人为我 我为人人</div>'
+                        xtype: 'label',
+                        width: '100%',
+                        html: '<div style="width:100%;font-size: 18px;" align="center"> 人人为我 我为人人</div>'
                     },
                     {
-                        xtype : 'textfield',
-                        id : 'no',
-                        name : 'no',
-                        label : '用户ID',
-                        value : 'tj1'
+                        xtype: 'textfield',
+                        id: 'no',
+                        name: 'no',
+                        label: '用户ID',
+                        value: 'tj1'
                     },
                     {
-                        xtype : 'passwordfield',
-                        id : 'password',
-                        name : 'password',
-                        label : '密码',
-                        value : '111111'
+                        xtype: 'passwordfield',
+                        id: 'password',
+                        name: 'password',
+                        label: '密码',
+                        value: '111111'
                     },
                     {
-                        xtype : 'button',
-                        text : '登录',
-                        handler : function() {
+                        xtype: 'button',
+                        text: '登录',
+                        handler: function () {
                             // record.endRecord("111");
                             me.initData();// 初始化数据
                             var name = Ext.getCmp("no").getValue();
@@ -746,15 +748,15 @@ var app = Ext
                                 return;
                             }
                             var data = {
-                                "name" : name,
-                                "password" : password
+                                "name": name,
+                                "password": password
                             };
                             Ext.Ajax
                                 .request({
-                                    url : me.server + '/login',
-                                    method : 'POST',
-                                    params : data,
-                                    success : function(response,
+                                    url: me.server + '/login',
+                                    method: 'POST',
+                                    params: data,
+                                    success: function (response,
                                                        opts) {
                                         var obj = Ext
                                             .decode(response.responseText);
@@ -763,6 +765,8 @@ var app = Ext
                                             me.role = obj.role;
                                             me.point = obj.point;
                                             me.no = obj.no;
+
+                                            window.plugins.jPushPlugin.setAlias(me.user);
 
                                             if (me.mainPanel
                                                     .getItems().length < 4) {
@@ -796,7 +800,7 @@ var app = Ext
                                         }
                                         // console.dir(obj);
                                     },
-                                    failure : function(response,
+                                    failure: function (response,
                                                        opts) {
                                         console.log('server erro:'
                                             + response.status);
@@ -806,55 +810,55 @@ var app = Ext
                     },
 
                     {
-                        xtype : 'fieldset',
-                        id : "fs_login",
-                        align : 'right',
-                        layout : {
-                            type : 'hbox',
-                            pack : 'center'
+                        xtype: 'fieldset',
+                        id: "fs_login",
+                        align: 'right',
+                        layout: {
+                            type: 'hbox',
+                            pack: 'center'
                         },
-                        hideBorders : false,
-                        baseCls : "x-fieldset_nb", // 无边框
-                        defaults : {
-                            xtype : 'label',
-                            cls : 'x-button-rpc',
-                            flex : 0.33
+                        hideBorders: false,
+                        baseCls: "x-fieldset_nb", // 无边框
+                        defaults: {
+                            xtype: 'label',
+                            cls: 'x-button-rpc',
+                            flex: 0.33
 
                         },
-                        items : [
+                        items: [
                             {
 
-                                html : '<div  style="font-size: 18px;" >重置密码</div>',
+                                html: '<div  style="font-size: 18px;" >重置密码</div>',
 
-                                listeners : {
-                                    element : 'element',
-                                    tap : function(e, t) {
+                                listeners: {
+                                    element: 'element',
+                                    tap: function (e, t) {
                                         me.resetOrReg(0)
                                     }
                                 }
                             },
                             {
 
-                                html : '<div  style="font-size: 18px;" >欢迎注册</div>',
-                                listeners : {
-                                    element : 'element',
-                                    tap : function(e, t) {
+                                html: '<div  style="font-size: 18px;" >欢迎注册</div>',
+                                listeners: {
+                                    element: 'element',
+                                    tap: function (e, t) {
                                         me.resetOrReg(1)
                                     }
                                 }
                             },
                             {
 
-                                html : '<div  style="font-size: 18px;" >随便看看</div>',
-                                listeners : {
-                                    element : 'element',
-                                    tap : function(e, t) {
+                                html: '<div  style="font-size: 18px;" >随便看看</div>',
+                                listeners: {
+                                    element: 'element',
+                                    tap: function (e, t) {
                                         me.user = -1;
                                         me.mainPanel
                                             .setActiveItem(0);
                                     }
                                 }
-                            } ]
+                            }]
 
                     }
 
@@ -862,7 +866,7 @@ var app = Ext
             };
         },
         /** 注册或重置密码* */
-        resetOrReg : function(flag) {
+        resetOrReg: function (flag) {
             var me = this;
             var name = Ext.getCmp("no").getValue();
             if (name.length == 0) {
@@ -877,16 +881,16 @@ var app = Ext
             }
 
             var config = {
-                title : "信息",
-                msg : "请输入Email",
-                buttons : Ext.Msg.OK,
-                icon : Ext.Msg.Info,
-                prompt : {
-                    xtype : 'textfield',
-                    placeHolder : '请输入邮箱地址',
-                    value : ''
+                title: "信息",
+                msg: "请输入Email",
+                buttons: Ext.Msg.OK,
+                icon: Ext.Msg.Info,
+                prompt: {
+                    xtype: 'textfield',
+                    placeHolder: '请输入邮箱地址',
+                    value: ''
                 },
-                fn : function(id, text) {
+                fn: function (id, text) {
                     if (id == "ok") {
                         // text = "javaandnet@gmai.com";// Todo
                         if (text.length > 0) {
@@ -904,65 +908,64 @@ var app = Ext
 
         },
         // 查看信息部分
-        getShowWindowNeed : function() {
+        getShowWindowNeed: function () {
             var me = this;
             me.record.isNew = false;// 初始化
             return Ext
                 .create(
                     "Ext.Panel",
                     {
-                        id : 'panel_window_need',
-                        width : 300,
-                        height : 400,
+                        id: 'panel_window_need',
+                        width: 300,
+                        height: 400,
 
-                        scrollable : {
-                            direction : 'vertical',
-                            directionLock : true
+                        scrollable: {
+                            direction: 'vertical',
+                            directionLock: true
                         },
-                        items : [
+                        items: [
 
                             // 类别
                             {
-                                id : 'show_need',
-                                xtype : 'selectfield',
-                                label : '类别',
-                                valueField : 'id',
-                                options : me.config.needs
+                                id: 'show_need',
+                                xtype: 'selectfield',
+                                label: '类别',
+                                valueField: 'id',
+                                options: me.config.needs
                             },
                             {
-                                id : 'show_msg',
-                                xtype : 'selectfield',
-                                hidden : true,
-                                label : '类别',
-                                valueField : 'id',
-                                options : me.config.msgs
+                                id: 'show_msg',
+                                xtype: 'selectfield',
+                                hidden: true,
+                                label: '类别',
+                                valueField: 'id',
+                                options: me.config.msgs
                             },
 
                             // 详细信息
                             {
-                                id : 'show_info',
-                                xtype : 'textareafield',
-                                placeHolder : '相关信息',
-                                label : '信息'
+                                id: 'show_info',
+                                xtype: 'textareafield',
+                                placeHolder: '相关信息',
+                                label: '信息'
                             },
                             // 分数
                             {
-                                xtype : 'numberfield',
-                                id : 'show_point',
-                                label : '分数',
-                                value : 0
+                                xtype: 'numberfield',
+                                id: 'show_point',
+                                label: '分数',
+                                value: 0
                             },
                             {
-                                xtype : 'fieldset',
-                                id : "fs_spee",
-                                layout : 'hbox',
-                                items : [
+                                xtype: 'fieldset',
+                                id: "fs_spee",
+                                layout: 'hbox',
+                                items: [
                                     {
-                                        xtype : 'button',
-                                        id : "btn_record",
-                                        text : '录音',
-                                        handler : function(
-                                            btn) {
+                                        xtype: 'button',
+                                        id: "btn_record",
+                                        text: '录音',
+                                        handler: function (btn) {
                                             if (me.record.status != 2) {// 非播放状态
 
                                                 if (me.record.status == 0) {
@@ -994,12 +997,11 @@ var app = Ext
                                         }
                                     },
                                     {
-                                        xtype : 'button',
-                                        id : "btn_play",
-                                        text : '播放',
-                                        hidden : true,
-                                        handler : function(
-                                            btn) {
+                                        xtype: 'button',
+                                        id: "btn_play",
+                                        text: '播放',
+                                        hidden: true,
+                                        handler: function (btn) {
                                             if (me.record.status != 1) {// 非录制状态
                                                 if (me.record.status == 0) {// 开始播放
                                                     btn
@@ -1034,57 +1036,50 @@ var app = Ext
                                         }
                                     },
                                     {
-                                        xtype : 'button',
-                                        id : "btn_cancelRecord",
-                                        text : '取消',
-                                        handler : function() {// Todo删除声音文件
+                                        xtype: 'button',
+                                        id: "btn_cancelRecord",
+                                        text: '取消',
+                                        handler: function () {// Todo删除声音文件
                                             me.data.voice = 0;
                                             me.record.isNew = false;
                                         }
-                                    } ]
+                                    }]
                             },
 
                             // 状态
                             {
-                                xtype : 'selectfield',
-                                id : 'show_status',
-                                label : '状态',
-                                valueField : 'id',
-                                options : me.config.status
+                                xtype: 'selectfield',
+                                id: 'show_status',
+                                label: '状态',
+                                valueField: 'id',
+                                options: me.config.status
                             },
 
                             {
-                                xtype : 'fieldset',
-                                id : "fs_show_review",
-                                layout : 'hbox',
-                                items : [ {
-                                    xtype : 'button',
-                                    id : "btn_show_r0",
-                                    text : '好',
-                                    handler : function() {
+                                xtype: 'fieldset',
+                                id: "fs_show_review",
+                                layout: 'hbox',
+                                items: [{
+                                    xtype: 'button',
+                                    id: "btn_show_r0",
+                                    text: '好',
+                                    handler: function () {
                                         me.review(1);
                                     }
                                 }, {
-                                    xtype : 'button',
-                                    id : "btn_show_r1",
-                                    text : '差',
-                                    handler : function() {
+                                    xtype: 'button',
+                                    id: "btn_show_r1",
+                                    text: '差',
+                                    handler: function () {
                                         me.review(-1);
                                     }
-                                } ]
+                                }]
                             }, {
-                                xtype : 'button',
-                                id : "btn_save",
-                                text : '保存',
-                                handler : function() {
+                                xtype: 'button',
+                                id: "btn_save",
+                                text: '保存',
+                                handler: function () {
                                     me.saveData("HR");
-                                }
-                            }, {
-                                xtype : 'button',
-                                id : "btn_help",
-                                text : '帮助',
-                                handler : function() {
-                                    me.help();
                                 }
                             }
 
@@ -1092,20 +1087,20 @@ var app = Ext
                     });
         },
         // 评价
-        review : function(value) {
+        review: function (value) {
             var me = this;
             if (me.DM) {
                 me.db
-                    .transaction(function(tx) {
+                    .transaction(function (tx) {
                         tx
                             .executeSql(
                                 "INSERT INTO HR_REVIEW (id, value) VALUES (?,?)",
-                                [ me.data.id, value ],
-                                function() {
+                                [me.data.id, value],
+                                function () {
                                     console.log("success");
                                     me.reviewServer(value);
 
-                                }, function() {
+                                }, function () {
                                     Ext.Msg
                                         .alert("信息",
                                             "已评价过。");
@@ -1116,18 +1111,18 @@ var app = Ext
             }
         },
         // 向服务器提交
-        reviewServer : function(value) {
+        reviewServer: function (value) {
             var me = this;
             var param = {
-                option : 'rv',
-                id : me.data.id,
-                value : value
+                option: 'rv',
+                id: me.data.id,
+                value: value
             };
             Ext.Ajax.request({
-                url : me.server + '/data',
-                method : 'POST',
-                params : param,
-                success : function(response, opts) {
+                url: me.server + '/data',
+                method: 'POST',
+                params: param,
+                success: function (response, opts) {
                     var obj = Ext.decode(response.responseText);
                     if (obj.success) {
                         me.ctrlEnabled("fs_show_review", false);
@@ -1136,20 +1131,20 @@ var app = Ext
                     }
                     console.dir(obj);
                 },
-                failure : function(response, opts) {
+                failure: function (response, opts) {
                     console.log('server erro:' + response.status);
                 }
             });
         },
-        help : function() {
+        help: function () {
             var me = this;
             me.alert(me.data.id);
         },
-        checkData : function(cb) {
+        checkData: function (cb) {
             var me = this;
             if (me.data.type == -1) {
                 // alert();
-                Ext.Msg.alert("信息", "请选择类型", function() {
+                Ext.Msg.alert("信息", "请选择类型", function () {
                     return false;
                 });
             } else {
@@ -1157,20 +1152,20 @@ var app = Ext
             }
 
         },
-        saveData : function(model) {
+        saveData: function (model) {
             var me = this;
             me.setData();
 
-            me.checkData(function() {
+            me.checkData(function () {
                 me.data.table = model;
                 me.data.option = "s";
                 // 保存数据后，上传录音文件
-                me.submitData(me.data, function(objId) {
+                me.submitData(me.data, function (objId) {
 
                     me.data.id = objId;
                     if (me.record.isNew) {//
                         me.upload(me.server + "/data", me.record.fileName,
-                            function() {
+                            function () {
                                 me.panel_window_need.setHidden(true);
                             });
                     }
@@ -1179,7 +1174,7 @@ var app = Ext
             });
 
         },
-        getComboText : function(key, objs) {
+        getComboText: function (key, objs) {
             for (var i = 0; i < objs.length; i++) {
                 var obj = objs[i];
                 if (obj.value == key) {
@@ -1189,65 +1184,65 @@ var app = Ext
             return null;
         },
         // 获取地图Panel
-        getMap : function() {
+        getMap: function () {
 
             var dt = Ext.Date.add(new Date(), Ext.Date.DAY, 1);
             var me = this;
             me.map = Ext.create("map");
             me.map.app = me;
             me.sel_point = {
-                id : 'sel_point',
-                xtype : 'selectfield',
-                label : '',
-                valueField : 'id',
-                width : 100,
-                options : me.config.points,
-                listeners : {
-                    change : function(sel, newValue, oldValue, eOpts) {
+                id: 'sel_point',
+                xtype: 'selectfield',
+                label: '',
+                valueField: 'id',
+                width: 100,
+                options: me.config.points,
+                listeners: {
+                    change: function (sel, newValue, oldValue, eOpts) {
                         me.refreshData(0);
                     }
                 }
             };
             me.sel_kind = {
-                id : 'sel_kind',
-                xtype : 'selectfield',
-                label : ' ',
-                valueField : 'id',
-                options : me.config.kinds
+                id: 'sel_kind',
+                xtype: 'selectfield',
+                label: ' ',
+                valueField: 'id',
+                options: me.config.kinds
             };
 
             me.sel_distance = {
-                id : 'sel_distance',
-                xtype : 'selectfield',
-                label : ' ',
-                valueField : 'id',
-                options : me.config.distances
+                id: 'sel_distance',
+                xtype: 'selectfield',
+                label: ' ',
+                valueField: 'id',
+                options: me.config.distances
             };
 
             me.sel_level = {
-                id : 'sel_level',
-                xtype : 'selectfield',
-                label : ' ',
-                valueField : 'id',
-                options : me.config.distances
+                id: 'sel_level',
+                xtype: 'selectfield',
+                label: ' ',
+                valueField: 'id',
+                options: me.config.distances
             };
             me.sel_msg = {
-                id : 'sel_msg',
-                xtype : 'selectfield',
-                label : ' ',
-                hidden : true,
-                valueField : 'id',
-                options : me.config.infos
+                id: 'sel_msg',
+                xtype: 'selectfield',
+                label: ' ',
+                hidden: true,
+                valueField: 'id',
+                options: me.config.infos
             };
             me.btn_refresh = {
-                xtype : 'button',
-                text : '',
-                id : "btn_refresh",
+                xtype: 'button',
+                text: '',
+                id: "btn_refresh",
 
-                iconCls : 'refresh',
-                name : "btn_refresh",
-                align : 'right',
-                handler : function() {
+                iconCls: 'refresh',
+                name: "btn_refresh",
+                align: 'right',
+                handler: function () {
                     // var month =
                     // Ext.Date.format(Ext.getCmp("month_admin").getValue(),
                     // "Ym");
@@ -1256,14 +1251,14 @@ var app = Ext
                 }
             };
             me.btn_add = {
-                xtype : 'button',
-                text : '',
-                id : "btn_add",
-                hidden : true,
-                iconCls : 'add',
-                name : "btn_add",
-                align : 'right',
-                handler : function(btn) {
+                xtype: 'button',
+                text: '',
+                id: "btn_add",
+                hidden: true,
+                iconCls: 'add',
+                name: "btn_add",
+                align: 'right',
+                handler: function (btn) {
                     // var month =
                     // Ext.Date.format(Ext.getCmp("month_admin").getValue(),
                     // "Ym");
@@ -1276,16 +1271,16 @@ var app = Ext
             };
 
             me.seg_type = Ext.create('Ext.SegmentedButton', {
-                items : [ {
-                    text : me.config.needTxt,
-                    value : 0,
-                    pressed : true
+                items: [{
+                    text: me.config.needTxt,
+                    value: 0,
+                    pressed: true
                 }, {
-                    text : me.config.helpTxt,
-                    value : 1
-                } ],
-                listeners : {
-                    toggle : function(container, button, pressed) {
+                    text: me.config.helpTxt,
+                    value: 1
+                }],
+                listeners: {
+                    toggle: function (container, button, pressed) {
 
                         var type = 1;
 
@@ -1301,16 +1296,16 @@ var app = Ext
             });
 
             return {
-                title : '地图',
-                iconCls : 'maps',
-                id : 'tab_input',
-                layout : 'vbox',
-                items : [
+                title: '地图',
+                iconCls: 'maps',
+                id: 'tab_input',
+                layout: 'vbox',
+                items: [
                     {
-                        docked : 'top',
-                        xtype : 'titlebar',
-                        items : [ me.seg_type, me.sel_point,
-                            me.btn_refresh, me.btn_add ]
+                        docked: 'top',
+                        xtype: 'titlebar',
+                        items: [me.seg_type, me.sel_point,
+                            me.btn_refresh, me.btn_add]
                     }, me.panel_window, me.map
                     /*
                      * ,{ xtype: 'fieldset', width: '100%',
@@ -1322,7 +1317,7 @@ var app = Ext
                      */]
             };
         },
-        showWindow : function(marker) {
+        showWindow: function (marker) {
             var me = this;
             me.marker = marker;
             me.getData();
@@ -1341,7 +1336,7 @@ var app = Ext
             me.refreshReply();
         },
         // 打开窗口是否可以修正数据
-        isSelfData : function() {
+        isSelfData: function () {
             var me = this;
             if ((me.data.user == me.user)
                 || !(Ext.isDefined(me.data.id) && me.data.id != null)) {
@@ -1350,13 +1345,13 @@ var app = Ext
             return false;
         },
         // 控制弹出窗口选择框
-        selInShowWin : function() {
+        selInShowWin: function () {
             var me = this;
             var isNeed = me.infoType == 0;
             var isSelf = me.isSelfData();
             var isLogined = me.user >= 0;
             // need
-            me.ctrlEnabled("btn_help", isLogined && isNeed && !isSelf);// 登录&&Need&&他人数据
+            //me.ctrlEnabled("btn_help", isLogined && isNeed && !isSelf);// 登录&&Need&&他人数据
             me.ctrlEnabled("show_status", isLogined && isNeed && isSelf);// 登录&&Need&&个人数据
             // 帮助下拉框
             me.ctrlEnabled("show_need", isNeed);
@@ -1383,7 +1378,7 @@ var app = Ext
 
         },
         // 添加时初始数据
-        initShowData : function() {
+        initShowData: function () {
             var me = this;
             var data = {};
 
@@ -1400,13 +1395,13 @@ var app = Ext
 
         },
         // 录音部分按钮控制
-        speeBtnInShowWin : function(flag) {
+        speeBtnInShowWin: function (flag) {
             var me = this;
             me.ctrlEnabled("btn_record", flag);
             me.ctrlEnabled("btn_cancelRecord", flag);
         },
         // 按钮有效隐藏
-        ctrlEnabled : function(id, flag) {
+        ctrlEnabled: function (id, flag) {
 
             // 有些控件无Disabled属性
             try {
@@ -1417,11 +1412,11 @@ var app = Ext
             }
         },
         // 设置控件Value
-        ctrlValue : function(id, value) {
+        ctrlValue: function (id, value) {
             Ext.getCmp(id).setValue(value);
         },
         // 按钮有效隐藏
-        ctrlReadOnly : function(id, flag) {
+        ctrlReadOnly: function (id, flag) {
 
             // ReadOnly
             try {
@@ -1430,17 +1425,17 @@ var app = Ext
 
             }
         },
-        showNeed : function() {
+        showNeed: function () {
 
         },
-        showInfo : function() {
+        showInfo: function () {
 
         },
-        isReviewed : function(id) {
+        isReviewed: function (id) {
             var me = this;
-            me.db.transaction(function(tx) {
+            me.db.transaction(function (tx) {
                 tx.executeSql("select id from HR_REVIEW where ID = ?",
-                    [ id ], function(tx, res) {
+                    [id], function (tx, res) {
                         // alert("hello world");
                         if (res.rows.length > 0) {
                             return true;
@@ -1449,7 +1444,7 @@ var app = Ext
             });
             return false;
         },
-        getParam : function() {
+        getParam: function () {
             var me = this;
             var point = 0;
             if (me.sel_point) {
@@ -1457,25 +1452,25 @@ var app = Ext
             }
 
             var param = {
-                params : {
-                    model : "HR",
-                    kind : me.infoType,
-                    point : point * 10
+                params: {
+                    model: "HR",
+                    kind: me.infoType,
+                    point: point * 10
                 }
             };
             return param;
         },
-        getReplyParam : function() {
+        getReplyParam: function () {
             var me = this;
             var param = {
-                params : {
-                    hr : me.hr,
-                    option : 'rp'
+                params: {
+                    hr: me.hr,
+                    option: 'rp'
                 }
             };
             return param;
         },
-        refreshReply : function() {
+        refreshReply: function () {
             var me = this;
             var param = me.getReplyParam();
             me.replyStore.load(param);
@@ -1486,10 +1481,10 @@ var app = Ext
          * @param flag
          *            0:本地刷新 1:服务器刷新
          */
-        refreshData : function(flag) {
+        refreshData: function (flag) {
             var me = this;
             var param = me.getParam();
-            var cb = function(data, me) {
+            var cb = function (data, me) {
                 me.changeListHelp(0);// 初始数据
                 if (me.infoType == 1) {
                     me.seg_help.getItems().items[2].setHidden(true);
@@ -1506,13 +1501,13 @@ var app = Ext
 
         },
 
-        refreshServer : function(param, cb) {
+        refreshServer: function (param, cb) {
             var me = this;
             me.StoreCb = cb;
             me.store.load(param);
 
         },
-        refreshLocal : function(param, cb) {
+        refreshLocal: function (param, cb) {
             var me = this;
             var point = param.point;
             var newDatas = [];
@@ -1527,17 +1522,17 @@ var app = Ext
         },
 
         // 刷新页面
-        refreshMap : function(datas, me) {
+        refreshMap: function (datas, me) {
             me.map.updateData(datas);
 
         },
         // 向地图添加元素
-        addItem : function() {
+        addItem: function () {
             var me = this;
             var a = me.map.bmap.getCenter();
             me.data = me.initShowData();
 
-            var fields = [ "status", "point", "info", "type" ];
+            var fields = ["status", "point", "info", "type"];
             for (var i = 0; i < fields.length; i++) {
 
                 a[fields[i]] = me.data[fields[i]];
@@ -1547,7 +1542,7 @@ var app = Ext
 
         },
 
-        changeInfoType : function(type) {
+        changeInfoType: function (type) {
             var me = this;
             me.infoType = type;
             // me.getCmpById(me.sel_point).setHidden(type != 1);
@@ -1562,7 +1557,7 @@ var app = Ext
             me.refreshData(1);
         },
 
-        changeShowType : function(type) {
+        changeShowType: function (type) {
             var me = this;
             me.showType = type;
             // me.getCmpById(me.sel_point).setHidden(type != 1);
@@ -1576,7 +1571,7 @@ var app = Ext
             me.ctrlEnabled("panel_window_reply", type == 1);
 
         },
-        changeListHelp : function(flag) {
+        changeListHelp: function (flag) {
             var me = this;
             me.listHelpType = flag;
             me.store.clearFilter();
@@ -1593,26 +1588,26 @@ var app = Ext
             }
 
         },
-        getCmpById : function(obj) {
+        getCmpById: function (obj) {
             return Ext.getCmp(obj.id);
         },
-        alert : function(info, title) {
+        alert: function (info, title) {
             var title = title || "信息";
             Ext.Msg.alert(title, info);
         },
-        resetPWD : function(email) {
+        resetPWD: function (email) {
             var me = this;
 
             var data = {
-                "name" : Ext.getCmp("no").getValue(),
-                "email" : email,
-                option : "r"
+                "name": Ext.getCmp("no").getValue(),
+                "email": email,
+                option: "r"
             };
             Ext.Ajax.request({
-                url : me.server + '/pwd',
-                method : 'POST',
-                params : data,
-                success : function(response, opts) {
+                url: me.server + '/pwd',
+                method: 'POST',
+                params: data,
+                success: function (response, opts) {
                     var obj = Ext.decode(response.responseText);
                     if (obj.success) {
                         me.alert("重置成功。请查看邮件。");
@@ -1621,25 +1616,25 @@ var app = Ext
                     }
                     console.dir(obj);
                 },
-                failure : function(response, opts) {
+                failure: function (response, opts) {
                     console.log('server erro:' + response.status);
                 }
             });
         },
-        regedit : function(email) {
+        regedit: function (email) {
             var me = this;
 
             var data = {
-                "name" : Ext.getCmp("no").getValue(),
-                "email" : email,
-                'password' : Ext.getCmp("password").getValue(),
-                option : "g"
+                "name": Ext.getCmp("no").getValue(),
+                "email": email,
+                'password': Ext.getCmp("password").getValue(),
+                option: "g"
             };
             Ext.Ajax.request({
-                url : me.server + '/pwd',
-                method : 'POST',
-                params : data,
-                success : function(response, opts) {
+                url: me.server + '/pwd',
+                method: 'POST',
+                params: data,
+                success: function (response, opts) {
                     var obj = Ext.decode(response.responseText);
                     if (obj.success) {
                         me.alert("注册成功，请查看邮件进行验证。");
@@ -1648,28 +1643,28 @@ var app = Ext
                     }
                     console.dir(obj);
                 },
-                failure : function(response, opts) {
+                failure: function (response, opts) {
                     console.log('server erro:' + response.status);
                 }
             });
         },
-        changePWD : function(pwd, newpwd, newpwd2) {
+        changePWD: function (pwd, newpwd, newpwd2) {
             if (newpwd != newpwd2) {
                 me.alert("两次密码输入不一致。");
                 return;
             }
             var me = this;
             var data = {
-                user : me.user,
-                "password" : pwd,
-                "newpassword" : newpwd,
-                option : "c"
+                user: me.user,
+                "password": pwd,
+                "newpassword": newpwd,
+                option: "c"
             };
             Ext.Ajax.request({
-                url : '../../pwd',
-                method : 'POST',
-                params : data,
-                success : function(response, opts) {
+                url: '../../pwd',
+                method: 'POST',
+                params: data,
+                success: function (response, opts) {
                     var obj = Ext.decode(response.responseText);
                     if (obj.success) {
                         me.alert("更改成功");
@@ -1678,12 +1673,12 @@ var app = Ext
                     }
                     console.dir(obj);
                 },
-                failure : function(response, opts) {
+                failure: function (response, opts) {
                     console.log('server erro:' + response.status);
                 }
             });
         },
-        getData : function() {
+        getData: function () {
             var me = this;
             var obj = me.marker.options;
             me.data = {};
@@ -1702,7 +1697,7 @@ var app = Ext
                 me.data.id = obj.id;
                 me.hr = obj.id;
             }
-            var fields = [ "status", "point", "info" ];
+            var fields = ["status", "point", "info"];
             for (var i = 0; i < fields.length; i++) {
                 Ext.getCmp("show_" + fields[i]).setValue(obj[fields[i]]);
             }
@@ -1713,7 +1708,7 @@ var app = Ext
                 Ext.getCmp("show_msg").setValue(me.data["type"]);
             }
         },
-        setData : function() {
+        setData: function () {
             var me = this;
 
             me.data.user = me.user;
@@ -1722,7 +1717,7 @@ var app = Ext
 
             me.data.date = Ext.util.Format.date(new Date(), "YmdHis");
 
-            var fields = [ "status", "point", "info" ];
+            var fields = ["status", "point", "info"];
 
             for (var i = 0; i < fields.length; i++) {
                 me.data[fields[i]] = Ext.getCmp("show_" + fields[i])
@@ -1742,13 +1737,13 @@ var app = Ext
             }
         },
         // 提交数据
-        submitData : function(data, callback, flag) {
+        submitData: function (data, callback, flag) {
             var me = this;
             Ext.Ajax.request({
-                url : me.server + '/data',
-                method : 'POST',
-                params : data,
-                success : function(response, opts) {
+                url: me.server + '/data',
+                method: 'POST',
+                params: data,
+                success: function (response, opts) {
                     var obj = Ext.decode(response.responseText);
                     if (obj.success) {
 
@@ -1766,28 +1761,28 @@ var app = Ext
                     }
                     console.dir(obj);
                 },
-                failure : function(response, opts) {
+                failure: function (response, opts) {
                     console.log('server erro:' + response.status);
                 }
             });
         },
 
-        createStore : function() {
+        createStore: function () {
             var me = this;
             me.store = Ext
                 .create(
                     'Ext.data.Store',
                     {
                         // give the store some fields
-                        fields : [ 'id', 'title', 'lat', 'lng',
+                        fields: ['id', 'title', 'lat', 'lng',
                             'info', 'point', 'voice', 'status',
-                            'type', 'user', 'helper', 'kind' ],
+                            'type', 'user', 'helper', 'kind'],
                         // filter the data using the firstName field
-                        sorters : 'id',
+                        sorters: 'id',
                         // autoload the data from the server
-                        autoLoad : false,
-                        listeners : {
-                            load : function(st, records) {
+                        autoLoad: false,
+                        listeners: {
+                            load: function (st, records) {
                                 me.datas = [];
                                 if (records.length > 0) {
                                     me
@@ -1800,80 +1795,87 @@ var app = Ext
                                 }
                                 me.StoreCb(me.datas, me);
                             },
-                            refresh : function(st, datas) {
+                            refresh: function (st, datas) {
                                 if (me.mainPanel.getActiveItem() == 3) {
                                     me.getCmpById(me.panel_list)
                                         .refresh();
                                 }
                             }
                         },
-                        proxy : {
-                            type : 'ajax',
-                            url : me.server + '/data',
-                            reader : {
-                                type : 'json',
-                                root : 'data'
+                        proxy: {
+                            type: 'ajax',
+                            url: me.server + '/data',
+                            reader: {
+                                type: 'json',
+                                root: 'data'
                             },
-                            actionMethods : {
-                                create : 'POST',
-                                read : 'POST', // by default GET
-                                update : 'POST',
-                                destroy : 'POST'
+                            actionMethods: {
+                                create: 'POST',
+                                read: 'POST', // by default GET
+                                update: 'POST',
+                                destroy: 'POST'
                             },
-                            extraParams : {}
+                            extraParams: {}
                         }
                     });
         },
-        createReplyStore : function() {
+        createReplyStore: function () {
             var me = this;
             me.replyStore = Ext.create('Ext.data.Store', {
                 // give the store some fields
-                fields : [ 'id', 'info', 'voice', 'hr', 'date', 'user' ],
+                fields: ['id', 'info', 'voice', 'hr', 'date', 'user'],
                 // filter the data using the firstName field
-                sorters : 'id',
+                sorters: 'id',
                 // autoload the data from the server
-                autoLoad : false,
-                listeners : {
-                    load : function(st, records) {
+                autoLoad: false,
+                listeners: {
+                    load: function (st, records) {
                         me.replyDatas = [];
                         for (var i = 0; i < records.length; i++) {
                             me.replyDatas.push(records[i].data);
                         }
 
-                        Ext.getCmp("panel_window_reply").refresh();
+                        Ext.getCmp("panel_window_reply").getScrollable().getScroller().scrollToEnd();
                         // me.StoreCb(me.datas, me);
+                    },
+
+                    addrecords: function (store, records, eOpts) {
+                        var scroller = Ext.getCmp("panel_window_reply").getScrollable().getScroller();
+                        scroller.scrollTo(0, scroller.getSize().y - scroller.getContainerSize().y + 20);
+
                     }
+
                 },
-                proxy : {
-                    type : 'ajax',
-                    url : me.server + '/data',
-                    reader : {
-                        type : 'json',
-                        root : 'data'
+                proxy: {
+                    type: 'ajax',
+                    url: me.server + '/data',
+                    reader: {
+                        type: 'json',
+                        root: 'data'
                     },
-                    actionMethods : {
-                        create : 'POST',
-                        read : 'POST', // by default GET
-                        update : 'POST',
-                        destroy : 'POST'
+                    actionMethods: {
+                        create: 'POST',
+                        read: 'POST', // by default GET
+                        update: 'POST',
+                        destroy: 'POST'
                     },
-                    extraParams : {}
+                    extraParams: {}
                 }
             });
         },
 
         // 回复
-        getShowWindowReply : function() {
+        getShowWindowReply: function () {
             var me = this;
 
             var reply_send_refresh = {
-                xtype : 'button',
+                xtype: 'button',
                 // align: 'left',
-                id : "reply_send_refresh",
-                iconCls : "refresh",
-                flex : 0.1,
+                id: "reply_send_refresh",
+                iconCls: "refresh",
+                flex: 0.1,
 
-                handler : function() {
+                handler: function () {
                     // Ext.getCmp("panel_window_reply").refresh();
                     me.refreshReply();
                 }
@@ -1883,16 +1885,16 @@ var app = Ext
                 Ext.create('com.renxd.RflButton', {
 
                     // align: 'left',
-                    id : "reply_send_voice",
-                    iconCls : "add",
-                    flex : 0.1,
-                    listeners : {
+                    id: "reply_send_voice",
+                    iconCls: "add",
+                    flex: 0.1,
+                    listeners: {
 
-                        touchstart : function(event) {
+                        touchstart: function (event) {
                             console.log("touchstart");
                             me.record.record();
                         },
-                        touchend : function(event) {
+                        touchend: function (event) {
                             console.log("touchend");
                             me.record.record();
                         }
@@ -1900,66 +1902,71 @@ var app = Ext
                 });
 
             var reply_txt_msg = {
-                xtype : 'textfield',
+                xtype: 'textfield',
                 // align: 'left',
-                id : "reply_txt_msg",
-                flex : 0.6,
-                width : '80%',
-                text : ''
+                id: "reply_txt_msg",
+                flex: 0.6,
+                width: '80%',
+                text: ''
             };
             var reply_btn_msg = {
-                xtype : 'button',
+                xtype: 'button',
                 // align: 'left',
-                id : "reply_btn_msg",
+                id: "reply_btn_msg",
 
-                text : '发送',
-                handler : function() {
+                text: '发送',
+                handler: function () {
+
+
+                    if (Ext.getCmp("reply_txt_msg").getValue() == "") {
+                        return;
+                    }
                     var addReply = {
-                        option : "s",
-                        table : "REPLY",
-                        "hr" : me.hr,
-                        "user" : me.user,
-                        "date" : Ext.util.Format.date(new Date(), "YmdHis"),
-                        "info" : Ext.getCmp("reply_txt_msg").getValue(),
-                        "voice" : 0
+                        option: "s",
+                        table: "REPLY",
+                        "hr": me.hr,
+                        "user": me.user,
+                        "date": Ext.util.Format.date(new Date(), "YmdHis"),
+                        "info": Ext.getCmp("reply_txt_msg").getValue(),
+                        "voice": 0
                     };
-                    me.submitData(addReply, function(insertId) {
+                    me.submitData(addReply, function (insertId) {
 
                         me.replyStore.add({
-                            "id" : insertId,
-                            "hr" : me.hr,
-                            "user" : me.no,
-                            "voice" : 0,
-                            "date" : Ext.util.Format.date(new Date(),
+                            "id": insertId,
+                            "hr": me.hr,
+                            "user": me.no,
+                            "voice": 0,
+                            "date": Ext.util.Format.date(new Date(),
                                 "YmdHis"),
-                            "info" : Ext.getCmp("reply_txt_msg").getValue()
+                            "info": Ext.getCmp("reply_txt_msg").getValue()
                         });
                         me.ctrlValue("reply_txt_msg", "");
                     });
                 }
             };
             return {
-                id : 'panel_window_reply',
-                width : 300,
-                height : 400,
-                items : [ {
-                    docked : 'bottom',
-                    xtype : 'titlebar',
-                    layout : 'hbox',
-                    items : [ reply_send_refresh, reply_send_voice,
-                        reply_txt_msg, reply_btn_msg ]
-                } ],
-                store : me.replyStore,
-                xtype : 'list',
-                scrollable : {
-                    direction : 'vertical'
+                id: 'panel_window_reply',
+                width: 300,
+                height: 400,
+                items: [{
+                    docked: 'bottom',
+                    xtype: 'titlebar',
+                    layout: 'hbox',
+                    items: [reply_send_refresh, reply_send_voice,
+                        reply_txt_msg, reply_btn_msg]
+                }],
+                store: me.replyStore,
+                xtype: 'list',
+                scrollable: {
+                    direction: 'vertical'
                 },
-                variableHeights : true,
-                itemHeight : 10,
-                itemTpl : new Ext.XTemplate(
-                    '<div  style="width:100%;height:100%">({[this.date(values.date)]}){user}:{info}</div>',
+                variableHeights: true,
+                itemHeight: 30,
+                itemTpl: new Ext.XTemplate(
+                    '<div  style="width:100%;height:100%;white-space:nowrap;text-overflow:ellipsis;overflow: hidden; ">({[this.date(values.date)]}){user}:{info}</div>',
                     {
-                        date : function(v) {
+                        date: function (v) {
                             return me.tool.mdStr(v);
                         }
                     })
