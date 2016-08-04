@@ -5,11 +5,11 @@
   },
   {
     "file": "app.js",
-    "hash": "a0a5a5bd0c63a1a29f7a0e9c8c93a782"
+    "hash": "1f6c3d27c772676ea3c9533affef3f01"
   },
   {
     "file": "app.json",
-    "hash": "4715d67fe49822019ecafd412c474098"
+    "hash": "3a1bf2846517692fb60eed0167fb59b1"
   },
   {
     "file": "bootstrap.js",
@@ -40,12 +40,36 @@
     "hash": "0c8e06617106a7006e5837a043c7c08c"
   },
   {
+    "file": "img/1_0.png",
+    "hash": "5246115bea9065edd539cc1746b9c082"
+  },
+  {
+    "file": "img/1_1.png",
+    "hash": "546f772e4f2c62157912b93a1b734a0f"
+  },
+  {
+    "file": "img/1_2.png",
+    "hash": "0f16b1c33d2dca4fc000315e2f3cd32f"
+  },
+  {
+    "file": "img/1_3.png",
+    "hash": "a9d39f98dc8a41879361251b069ca376"
+  },
+  {
+    "file": "img/1_4.png",
+    "hash": "91aa47b4115de2588d3949e215c6019c"
+  },
+  {
     "file": "img/logo.png",
     "hash": "7e34c95ac701f8cd9f793586b9df2156"
   },
   {
+    "file": "img/markers.png",
+    "hash": "7effcd968edf5bc9b53a0853e3d802f6"
+  },
+  {
     "file": "index.html",
-    "hash": "3bcd4a549fa556c7132163c8ac55b2bb"
+    "hash": "abb5f0fc2a0b3b273342177bfeed9be6"
   },
   {
     "file": "js/chcp.js",
@@ -60,8 +84,12 @@
     "hash": "0ba83df8459288fd1fa1576465163ff5"
   },
   {
+    "file": "js/JPushPlugin.js",
+    "hash": "6a7e86431e58622de87f0e2752d33ace"
+  },
+  {
     "file": "js/map.js",
-    "hash": "b616ea9da21f4b03e3937811d7d3f928"
+    "hash": "560db95bd69a2730963907dae3b7f650"
   },
   {
     "file": "js/mapEvent.js",
@@ -144,8 +172,16 @@
     "hash": "c24d961ed74875a0ed402d67da5dc724"
   },
   {
+    "file": "js/SQLitePlugin.js",
+    "hash": "42a544e57363f372a15129a1e8d57d4b"
+  },
+  {
     "file": "js/tool.js",
-    "hash": "2b8c9eb5cdbd1d68113a7f175bffcfaf"
+    "hash": "62f6ad528df38d7de4571dc4a57e9787"
+  },
+  {
+    "file": "md5.txt",
+    "hash": "c6c35d334551ec6bf529a25da7eec445"
   },
   {
     "file": "microloader/development.js",
@@ -8760,15 +8796,11 @@
     "hash": "36e2168c53c72540a0a278aa450ff253"
   },
   {
-    "file": "sencha-touch-all-debug.js",
-    "hash": "f198b24d4512e1c618468c203646d5d9"
-  },
-  {
-    "file": "sencha-touch-all.js",
-    "hash": "8b5dd6f98f50d55a875fb2d57d685938"
-  },
-  {
     "file": "sencha-touch.js",
     "hash": "876c955de85f2a4ae72eb521e85c3884"
+  },
+  {
+    "file": "tool.js",
+    "hash": "e7ce4bbb9638de35115dcc5355a061b9"
   }
 ]
