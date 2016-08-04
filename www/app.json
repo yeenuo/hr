@@ -50,11 +50,11 @@
       "path": "bootstrap.js",
       "x-bootstrap": true
     },
-         {
-         "path": "js/record.js",
-         "update": "delta"
-         },
-         {
+    {
+      "path": "js/record.js",
+      "update": "delta"
+    },
+    {
       "path": "app.js",
       "bundle": true,
       /* Indicates that all class dependencies are concatenated into this file when build */
@@ -95,11 +95,11 @@
       "path": "http://api.map.baidu.com/api?v=2.0&ak=NWAfATK0qZ6S1aev2RwaV4Bp6eSomxIO",
       "update": "delta"
     }
-/*  ,
-    {
-      "path": "http://api.map.baidu.com/library/SearchInfoWindow/1.5/src/SearchInfoWindow_min.js",
-      "update": "delta"
-    } */
+    /*  ,
+        {
+          "path": "http://api.map.baidu.com/library/SearchInfoWindow/1.5/src/SearchInfoWindow_min.js",
+          "update": "delta"
+        } */
   ],
   /**
    * List of all CSS assets in the right inclusion order.
@@ -155,10 +155,10 @@
       "theme": "MountainView",
       "update": "delta"
     }
-/*  , {
-      "path": "http://api.map.baidu.com/library/SearchInfoWindow/1.5/src/SearchInfoWindow_min.css",
-      "update": "delta"
-    }*/
+    /*  , {
+          "path": "http://api.map.baidu.com/library/SearchInfoWindow/1.5/src/SearchInfoWindow_min.css",
+          "update": "delta"
+        }*/
   ],
   /**
    * Used to automatically generate cache.manifest (HTML 5 application cache manifest) file when you build

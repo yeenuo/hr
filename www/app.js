@@ -1,1 +1,1991 @@
-eval(function(p,a,c,k,e,d){e=function(c){return(c<a?"":e(parseInt(c/a)))+((c=c%a)>35?String.fromCharCode(c+29):c.toString(36))};if(!''.replace(/^/,String)){while(c--)d[e(c)]=k[c]||e(c);k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1;};while(c--)if(k[c])p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c]);return p;}('f.6j.6n({\'f\':\'../../6I\'});f.6s("4Z.52.5e",{6e:"f.6G",6C:"6K",6v:8(){b t=k;k.1d.3I("2h",8(1m,5C,U,34){t.3J("2h",1m,5C)});k.1d.3I("3g",8(){t.3J("3g",1m,t.1d);t.6D("x-E-5l")});k.1d.3I("35",8(1m){t.3J("35",1m,t.1d);t.6E("x-E-5l")})}});b 2P=f.6h({6g:D,7y:[\'f.7v\',\'f.d.3O\'],4S:8(){b 7=k;7.1I=u;7.46();7.C=C;7.C.2P=7;7.3R=1c 7B();7.47="/7r/7P/";7.1g=0;7.L="5t://7Q.7O.0.11:54";h(7.1I){7.L="5t://7V.7S.98.7T:54"}h(7.1I){1i.1J.1P.7G();1i.1J.1P.7H(u);b 3w=8(1m){1K{n.q(\'7E\');1i.1J.1P.5h(1m.51.7F);n.q("6X:3w 3G 51.J:"+J)}1L(68){n.q(65)}};b 5G=8(1m){1K{n.q(\'73\');1i.1J.1P.5h(0);1i.1J.1P.6O();1i.1J.1P.6P(0);s.6N(\'2P.6Q\')}1L(68){n.q(65)}};5M.5I("5D.6k",3w,D);5M.5I("5D.7k",5G,D)}7.1q=1j;7.76="";7.B={77:D,74:0,3j:\'75\',4i:\'1w\',3Z:\'7b\',4V:\'7c\',2r:\'7a\',42:\'79\',3i:\'78\',4s:[{9:-1,j:\'--2J--\'},{9:0,j:\'7j\'},{9:1,j:\'7i\'},{9:2,j:\'7l\'},{9:3,j:\'7h\'},{9:3,j:\'7e\'}],4r:[{9:-1,j:\'--2J--\'},{9:0,j:\'7d\'},{9:1,j:\'7g\'},{9:2,j:\'7f\'},{9:3,j:\'6S\'},{9:4,j:\'6R\'}],3q:[{9:-1,j:\'--6U--\'},{9:0,j:\'6T\'},{9:1,j:\'6M\'},{9:2,j:\'71\'},{9:3,j:\'4M\'},{9:4,j:\'70\'},{9:3,j:\'4M\'},{9:4,j:\'72\'}],6Z:[{9:0,j:\'6W\'},{9:1,j:\'6V\'},{9:2,j:\'6Y\'}],O:[{9:0,j:\'7K\'},{9:1,j:\'7J\'},{9:2,j:\'7M\'}],7L:[{9:0,j:\'>10\'},{9:1,j:\'>5\'},{9:2,j:\'>2\'},{9:3,j:\'>0\'}],4L:[{9:0,j:\'2K\'},{9:1,j:\'>10\'},{9:2,j:\'>20\'},{9:5,j:\'>50\'},{9:10,j:\'>1l\'}]};7.3s=1j;7.3r=1j;7.3y=1j;7.24=1j;7.48=1j;7.2y=1j},46:8(){b 7=k;7.29=D;7.w=-1;7.1h=-1;7.3L=-1;7.Q=-1;7.1o="";7.d={};7.1s=[]},7I:8(){b 7=k;7.4S();h(7.1I){7.4x()}7.5k();7.5d();7.2C=7.4k();7.1M=7.4X();7.4z=f.V(\'f.38\',{G:[{j:7.B.3Z,A:0,1b:u},{j:7.B.4V,A:1}],1a:{2E:8(2F,E,1b){b p=1;h(1b){h(E.22()==7.B.3Z){p=0;}7.5c(p)}}}});7.2q=f.V(\'f.4l\',{9:\'2q\',7U:u,7R:u,1e:3v,2B:7N,1O:u,G:[{3c:\'3W\',l:\'3a\',G:[{1Z:"2I",1r:\'7s\',18:8(){7.2q.25(u)}},7.4z]},7.2C,7.1M]});7.2l=7.4e();7.4u=7.4H();7.3K=7.4K();7.1G=f.V(\'f.7u\',{7t:\'66\',9:\'7q\',7n:u,7m:{p:\'4v\'},1Q:{p:\'7p\',7o:{p:\'4v\'}},4y:{7A:u},7D:1,G:[7.4u,7.4q()]});h(!7.1I){}7.1Y(1)},4x:8(){b 7=k;7.2s=1i.7C.7z({T:"1h.2s",7w:\'7x\'});7.2s.43(8(1H){1H.40("V 2U h 6l 6m 3n (9 6p 6o, A 6c)",[],8(){n.q("12")},8(){n.q("1v")})})},6b:8(2Z){b 7=k;h(7.29){f.z("3U").1y("2D");7.P("1A",u);}I{n.q("6f......");b 2V={1t:"s",2U:"59","1h":7.1h,"w":7.w,"1n":f.3C.3A.1n(1c 21(),"3F"),"N":"6r...","15":1};7.2R(2V,8(3x){7.2m(7.L+"/d",7.C.2n,8(){7.2u();},"5V"+3x)})}},6F:8(2Z){b 7=k;f.z("1A").1y("2L");7.2A((7.w>=0)&&7.2i());},6J:8(){},45:8(13,R){b 7=k;7.4R(13,"6H.2X",8(1p){1p=1p.6u("2Z://","");7.C.4O(1p);h(R){R(1p)}})},2m:8(13,1p,R,32){b 7=k;1K{1i.4U(4E.4J,0,8(3d){b 26="2Z://"+1p;b U=1c 6t();U.6B="2X";U.2n=26.6z(26.6x(\'/\')+1);U.6y="j/6A";n.q("2m:"+U.2n);b 17={};17.1t="o";32=32||7.d.9;17.2n=32;U.17=17;b 4P=1c 4h();4P.2m(26,6w(13),8(){n.q("6q");R()},8(e){R();n.q(e)},U)},8(e){n.q(e)})}1L(e){n.q(e)}},2t:8(){f.z("1A").1y("2L")},4Q:8(){7.29=D;f.z("1A").1y("2D")},4R:8(13,1p,R){b 7=k;1K{1i.4U(4E.4J,0,8(3d){n.q(\'6i: \'+3d.T);3d.3M.6L(1p,{V:u,6d:D},8(49){b 62=1c 4h();b 26=49.3V();62.9O(13,26,8(3P){n.q("9a！");n.q("9o: "+3P.3V());h(R){R(3P.3V())}},8(1v){7.2t();n.q("9p！");n.q("1v 4j "+1v.4j);n.q("1v 4d "+1v.4d);n.q("1v 4f"+1v.4f)},1j,{})},8(e){7.2t();n.q(e)})},8(e){7.2t();n.q(e)})}1L(e){n.q(e);7.2t()}},4e:8(){b 7=k;7.2N=f.V(\'f.38\',{G:[{j:7.B.2r,A:0,1b:u},{j:7.B.42,A:1},{j:7.B.3i,A:2}],1a:{2E:8(2F,E,1b){b p=2;h(1b){h(E.22()==7.B.2r){p=0}I h(E.22()==7.B.42){p=1}7.2M(p)}}}});7.9s=f.V(\'f.38\',{G:[{j:7.B.2r,A:0,1b:u},{j:7.B.4c,A:1},{j:7.B.3i,A:2}],1a:{2E:8(2F,E,1b){b p=2;h(1b){h(E.22()==7.B.2r){p=0}I h(E.22()==7.B.4c){p=1}7.2M(p)}}}});F{9:\'2l\',S:\'9g\',1r:\'9f\',l:\'67\',2S:{3l:\'3h\'},1k:7.1k,G:[{3c:\'3W\',l:\'3a\',G:[7.2N]}],63:u,6a:10,3N:1c f.5U(\'<14  1F=" 1e:1l%;2B:1l%;5W-5X:5T;j-2T:5P;2T: 1O; ">{[k.N(5O.N)]}</14>\',{N:8(v){h(v.16==0){F"9i"}F v}})}},4K:8(){b 7=k;F{9:\'3K\',S:\'1w\',1r:\'N\',2S:u,G:[{l:\'28\',S:\'\',4A:D,4C:"x-4B",G:[f.V(\'f.9j\',{3N:\'{S}\',d:[{S:\'31 1\'},{S:\'31 2\'},{S:\'31 3\'},{S:\'31 4\'}]}),{l:\'28\',S:\'1w\',G:[{l:\'2p\',9:"4m",K:\'2K\',4T:u},{l:\'2p\',9:"4t",K:\'2K\',4T:u}]},{l:\'28\',S:\'9k\',G:[{l:\'2Y\',9:"3Y",T:\'3Y\',K:\'9h\',A:\'\'},{l:\'2Y\',9:"1U",T:\'1U\',K:\'9e\',A:\'\'},{l:\'2Y\',9:"2z",T:\'2z\',K:\'9l\',A:\'\'},{l:\'E\',j:\'9q\',18:8(){7.5x(f.z("3Y").W(),f.z("1U").W(),f.z("2z").W())}}]}]}]}},4q:8(){b 7=k;F{S:\'4o\',1r:\'w\',9:\'9r\',1Q:\'4b\',G:[{l:\'K\',1e:\'1l%\',2g:\'<14 1F="1e:1l%;2k-2j: 9m;" 1Z="3T">  9n  </14>\'},{l:\'K\',1e:\'1l%\',2g:\'<14 1F="1e:1l%;2k-2j: 39;" 1Z="3T"> 92 93</14>\'},{l:\'2p\',9:\'1o\',T:\'1o\',K:\'94\',A:\'\'},{l:\'2Y\',9:\'1f\',T:\'1f\',K:\'91\',A:\'\'},{l:\'E\',j:\'4o\',18:8(){7.46();b T=f.z("1o").W();b 1f=f.z("1f").W();h((T=="")||(1f=="")){7.J("8Y。");F}b d={"T":T,"1f":1f};f.1X.1W({13:7.L+\'/8Z\',1T:\'Y\',17:d,12:8(H,19){b m=f.1R(H.1S);h(m.12){7.w=m.w;7.3L=m.3L;7.Q=m.Q;7.1o=m.1o;1i.1J.1P.90(7.w);h(7.1G.3k().16<4){7.1G.4n(1,7.2l);7.1G.4n(2,7.3K)}7.3f("4m",m.1o);7.3f("4t",m.Q);7.P("2v",u);7.1G.4w(0);7.1Y(1)}I{7.J("95")}},2b:8(H,19){n.q(\'L 27:\'+H.O)}})}},{l:\'28\',9:"9b",1Z:\'2I\',1Q:{p:\'36\',9c:\'3T\'},4A:D,4C:"x-4B",4y:{l:\'K\',9d:\'x-E-96\',3b:0.33},G:[{2g:\'<14  1F="2k-2j: 39;" >97</14>\',1a:{1d:\'1d\',2h:8(e,t){7.41(0)}}},{2g:\'<14  1F="2k-2j: 39;" >99</14>\',1a:{1d:\'1d\',2h:8(e,t){7.41(1)}}},{2g:\'<14  1F="2k-2j: 39;" >9M</14>\',1a:{1d:\'1d\',2h:8(e,t){7.w=-1;7.1G.4w(0)}}}]}]}},41:8(M){b 7=k;b T=f.z("1o").W();h(T.16==0){7.J(\'9L。\');F}b 1D=f.z("1f").W();h(!7.3R.9Q(1D)){7.J("9P-9N。");F}b B={S:"1w",9S:"9T",9R:f.2c.9K,9y:f.2c.9x,9A:{l:\'2p\',4p:\'9z\',A:\'\'},9u:8(9,j){h(9=="9t"){h(j.16>0){h(M==0){7.5f(j)}I{7.55(j)}}}}};f.2c.9w(B)},4k:8(){b 7=k;7.C.1V=D;F f.V("f.4l",{9:\'2C\',1e:3v,2B:5a,2S:{3l:\'3h\',9v:u},G:[{9:\'2x\',l:\'1z\',K:\'2J\',1B:\'9\',U:7.B.4r},{9:\'2w\',l:\'1z\',1O:u,K:\'2J\',1B:\'9\',U:7.B.4s},{9:\'5S\',l:\'9B\',4p:\'9H\',K:\'1w\'},{l:\'9G\',9:\'5R\',K:\'2K\',A:0},{l:\'28\',9:"9J",1Q:\'36\',G:[{l:\'E\',9:"3U",j:\'2D\',18:8(1C){h(7.C.O!=2){h(7.C.O==0){1C.1y("4N");7.P("1A",D);}I{1C.1y("2D");7.P("1A",u);}1K{7.29=u;7.C.C()}1L(e){7.4Q()}}}},{l:\'E\',9:"1A",j:\'2L\',1O:u,18:8(1C){h(7.C.O!=1){h(7.C.O==0){1C.1y("4N");7.2A(D);}I{1C.1y("2L");7.2A((7.w>=0)&&7.2i());}h(7.C.1V){7.C.4O()}I{h(7.d.9){7.45(7.L+7.47+7.d.9+".2X")}}}}},{l:\'E\',9:"5Q",j:\'9I\',18:8(){7.d.15=0;7.C.1V=D}}]},{l:\'1z\',9:\'4a\',K:\'9D\',1B:\'9\',U:7.B.O},{l:\'28\',9:"2e",1Q:\'36\',G:[{l:\'E\',9:"9C",j:\'9F\',18:8(){7.3o(1)}},{l:\'E\',9:"9E",j:\'8h\',18:8(){7.3o(-1)}}]},{l:\'E\',9:"4W",j:\'8i\',18:8(){7.4F("5E")}}]})},3o:8(A){b 7=k;h(7.1I){7.2s.43(8(1H){1H.40("8j 8g 3n (9, A) 8d (?,?)",[7.d.9,A],8(){n.q("12");7.3m(A)},8(){f.2c.J("1w","8e。")})})}I{7.3m(A)}},3m:8(A){b 7=k;b X={1t:\'8f\',9:7.d.9,A:A};f.1X.1W({13:7.L+\'/d\',1T:\'Y\',17:X,12:8(H,19){b m=f.1R(H.1S);h(m.12){7.P("2e",D)}I{7.J("8k")}n.2f(m)},2b:8(H,19){n.q(\'L 27:\'+H.O)}})},8p:8(){b 7=k;7.J(7.d.9)},4G:8(R){b 7=k;h(7.d.p==-1){f.2c.J("1w","8q",8(){F D})}I{R()}},4F:8(3p){b 7=k;7.5y();7.4G(8(){7.d.2U=3p;7.d.1t="s";7.2R(7.d,8(4D){7.d.9=4D;h(7.C.1V){7.2m(7.L+"/d",7.C.2n,8(){7.2C.25(u)})}},u)})},8r:8(3G,3z){1E(b i=0;i<3z.16;i++){b m=3z[i];h(m.A==3G){F m.j}}F 1j},4H:8(){b 8o=f.21.3X(1c 21(),f.21.8l,1);b 7=k;7.1q=f.V("1q");7.1q.2P=7;7.24={9:\'24\',l:\'1z\',K:\'\',1B:\'9\',1e:1l,U:7.B.4L,1a:{8m:8(8n,8c,81,34){7.1Y(0)}}};7.3y={9:\'3y\',l:\'1z\',K:\' \',1B:\'9\',U:7.B.82};7.3s={9:\'3s\',l:\'1z\',K:\' \',1B:\'9\',U:7.B.3q};7.4I={9:\'4I\',l:\'1z\',K:\' \',1B:\'9\',U:7.B.3q};7.3r={9:\'3r\',l:\'1z\',K:\' \',1O:u,1B:\'9\',U:7.B.83};7.2G={l:\'E\',j:\'\',9:"2G",1r:\'2W\',T:"2G",1Z:\'2I\',18:8(){7.1Y(1)}};7.2v={l:\'E\',j:\'\',9:"2v",1O:u,1r:\'3X\',T:"2v",1Z:\'2I\',18:8(1C){7.5Z();}};7.48=f.V(\'f.38\',{G:[{j:7.B.3j,A:0,1b:u},{j:7.B.4i,A:1}],1a:{2E:8(2F,E,1b){b p=1;h(1b){h(E.22()==7.B.3j){p=0}7.5b(p)}}}});F{S:\'7W\',1r:\'7X\',9:\'7Y\',1Q:\'4b\',G:[{3c:\'3W\',l:\'3a\',G:[7.48,7.24,7.2G,7.2v]},7.2q,7.1q]}},84:8(2y){b 7=k;7.2y=2y;7.5A();7.P("1A",(7.d.9)&&(7.d.15==1));7.2A((7.w>=0)&&7.2i());7.4g();7.C.1V=D;7.2q.25(D);7.2u()},2i:8(){b 7=k;h((7.d.w==7.w)||!(f.89(7.d.9)&&7.d.9!=1j)){F u}F D},4g:8(){b 7=k;b 1N=7.1g==0;b 1u=7.2i();b 2H=7.w>=0;7.P("4a",2H&&1N&&1u);7.P("2x",1N);7.P("2w",!1N);7.P("2e",2H&&!1N&&!1u);7.P("4W",2H&&1u);7.2o("5R",!(1N&&1u));7.2o("2x",!1u);7.2o("2w",!1u);7.2o("5S",!1u);7.P("1M",7.d.9>0);h((7.1I)&&!1N){h(7.5Y(7.d.9)){7.P("2e",D)}}},69:8(){b 7=k;b d={};d.N="";d.Q=50*7.1g;d.p=-1;d.O=0;d.15=0;d.w=7.w;d.2d=7.1g;F d},2A:8(M){b 7=k;7.P("3U",M);7.P("5Q",M)},P:8(9,M){1K{f.z(9).25(!M);f.z(9).8a(!M)}1L(e){}},3f:8(9,A){f.z(9).2O(A)},2o:8(9,M){1K{f.z(9).8b(M)}1L(e){}},88:8(){},85:8(){},5Y:8(9){b 7=k;7.2s.43(8(1H){1H.40("5N 9 86 3n 87 8s = ?",[9],8(1H,5F){h(5F.8N.16>0){F u}})});F D},5J:8(){b 7=k;b Q=0;h(7.24){Q=7.37(7.24).W()}b X={17:{3p:"5E",2d:7.1g,Q:Q*10}};F X},5L:8(){b 7=k;b X={17:{1h:7.1h,1t:\'8O\'}};F X},2u:8(){b 7=k;b X=7.5L();7.3B.3e(X)},1Y:8(M){b 7=k;b X=7.5J();b R=8(d,7){7.2M(0);h(7.1g==1){7.2N.3k().G[2].25(u)}I{7.2N.3k().G[2].25(D)}7.60(d,7)};h(M==0){7.61(X,R)}I{7.5K(X,R)}},5K:8(X,R){b 7=k;7.5s=R;7.1k.3e(X)},61:8(X,R){b 7=k;b Q=X.Q;b 3u=[];1E(b i=0;i<7.1s.16;i++){b d=7.1s[i];h(d.Q>Q){3u.3Q(d)}}R(3u,7)},60:8(1s,7){7.1q.64(1s)},5Z:8(){b 7=k;b a=7.1q.8P.8M();7.d=7.69();b Z=["O","Q","N","p"];1E(b i=0;i<Z.16;i++){a[Z[i]]=7.d[Z[i]]}b 5H=7.1q.8J(a,u);7.1q.64(a,u)},5b:8(p){b 7=k;7.1g=p;h(p==1){n.q("N")}I{n.q("58")}7.1Y(1)},5c:8(p){b 7=k;7.8K=p;h(p==1){n.q("N")}I{n.q("58")}7.P("2C",p==0);7.P("1M",p==1)},2M:8(M){b 7=k;7.8L=M;7.1k.8Q();h(M>0){h(M==2){7.1k.5g(\'5r\',7.w)}I{7.1k.5g(\'w\',7.w)}7.37(7.2l).8V(7.1k)}},37:8(m){F f.z(m.9)},J:8(N,S){b S=S||"1w";f.2c.J(S,N)},5f:8(2a){b 7=k;b d={"T":f.z("1o").W(),"2a":2a,1t:"r"};f.1X.1W({13:7.L+\'/1D\',1T:\'Y\',17:d,12:8(H,19){b m=f.1R(H.1S);h(m.12){7.J("8W。8X。")}I{7.J("8U、8R。")}n.2f(m)},2b:8(H,19){n.q(\'L 27:\'+H.O)}})},55:8(2a){b 7=k;b d={"T":f.z("1o").W(),"2a":2a,\'1f\':f.z("1f").W(),1t:"g"};f.1X.1W({13:7.L+\'/1D\',1T:\'Y\',17:d,12:8(H,19){b m=f.1R(H.1S);h(m.12){7.J("8S，8T。")}I{7.J("8I,8x。")}n.2f(m)},2b:8(H,19){n.q(\'L 27:\'+H.O)}})},5x:8(1D,1U,2z){h(1U!=2z){7.J("8y。");F}b 7=k;b d={w:7.w,"1f":1D,"8z":1U,1t:"c"};f.1X.1W({13:\'../../1D\',1T:\'Y\',17:d,12:8(H,19){b m=f.1R(H.1S);h(m.12){7.J("8w")}I{7.J("8t")}n.2f(m)},2b:8(H,19){n.q(\'L 27:\'+H.O)}})},5A:8(){b 7=k;b m=7.2y.U;7.d={};7.d.3H=m.3H;7.d.44=m.44;7.d.15=m.15;7.d.w=m.w;7.d.p=m.p;7.d.2d=m.2d;7.d.N=m.N;7.d.O=m.O;7.d.Q=m.Q;h(m.9){7.d.9=m.9;7.1h=m.9}b Z=["O","Q","N"];1E(b i=0;i<Z.16;i++){f.z("5z"+Z[i]).2O(m[Z[i]])}h(7.1g==0){f.z("2x").2O(7.d["p"])}I{f.z("2w").2O(7.d["p"])}},5y:8(){b 7=k;7.d.w=7.w;7.d.2d=7.1g;7.d.1n=f.3C.3A.1n(1c 21(),"3F");b Z=["O","Q","N"];1E(b i=0;i<Z.16;i++){7.d[Z[i]]=f.z("5z"+Z[i]).W()}h(7.1g==0){7.d["p"]=f.z("2x").W()}I{7.d["p"]=f.z("2w").W()}h(7.d.15==0){h(7.C.1V){7.d["15"]=1}I{7.d["15"]=0}}},2R:8(d,5j,M){b 7=k;f.1X.1W({13:7.L+\'/d\',1T:\'Y\',17:d,12:8(H,19){b m=f.1R(H.1S);h(m.12){h(m.9){d.9=m.9;h(M===u){7.J("8u")}}I{h(M===u){7.J("8v")}}5j(m.9)}n.2f(m)},2b:8(H,19){n.q(\'L 27:\'+H.O)}})},5k:8(){b 7=k;7.1k=f.V(\'f.d.3O\',{Z:[\'9\',\'S\',\'3H\',\'44\',\'N\',\'Q\',\'15\',\'O\',\'p\',\'w\',\'5r\',\'2d\'],5p:\'9\',5o:D,1a:{3e:8(3S,1x){7.1s=[];h(1x.16>0){7.P("2e",D)}1E(b i=0;i<1x.16;i++){7.1s.3Q(1x[i].d)}7.5s(7.1s,7)},2W:8(3S,1s){h(7.1G.8A()==3){7.37(7.2l).2W()}}},5B:{p:\'5u\',13:7.L+\'/d\',5v:{p:\'5w\',3M:\'d\'},5i:{V:\'Y\',53:\'Y\',57:\'Y\',56:\'Y\'},4Y:{}}})},5d:8(){b 7=k;7.3B=f.V(\'f.d.3O\',{Z:[\'9\',\'N\',\'15\',\'1h\',\'1n\',\'w\'],5p:\'9\',5o:D,1a:{3e:8(3S,1x){7.5q=[];1E(b i=0;i<1x.16;i++){7.5q.3Q(1x[i].d)}f.z("1M").5n().5m().8F();},8G:8(1k,1x,34){b 2Q=f.z("1M").5n().5m();2Q.8H(0,2Q.8E().y-2Q.8B().y+20)}},5B:{p:\'5u\',13:7.L+\'/d\',5v:{p:\'5w\',3M:\'d\'},5i:{V:\'Y\',53:\'Y\',57:\'Y\',56:\'Y\'},4Y:{}}})},4X:8(){b 7=k;b 3t={l:\'E\',9:"3t",1r:"2W",3b:0.1,18:8(){7.2u()}};b 3E=f.V(\'4Z.52.5e\',{9:"3E",1r:"3X",3b:0.1,1a:{35:8(1m){n.q("35");7.29=D;7.C.C()},3g:8(1m){n.q("3g");7.29=D;7.C.C()}}});b 23={l:\'2p\',9:"23",3b:0.6,1e:\'80%\',j:\'\'};b 3D={l:\'E\',9:"3D",j:\'8C\',18:8(){h(f.z("23").W()==""){F}b 2V={1t:"s",2U:"59","1h":7.1h,"w":7.w,"1n":f.3C.3A.1n(1c 21(),"3F"),"N":f.z("23").W(),"15":0};7.2R(2V,8(3x){7.2u();7.3f("23","")})}};F{9:\'1M\',1e:3v,2B:5a,G:[{3c:\'66\',l:\'3a\',1Q:\'36\',G:[3t,3E,23,3D]}],1k:7.3B,l:\'67\',2S:{3l:\'3h\'},63:u,6a:30,1a:{5N:8(5H,C,34){h(C.d.15==1){7.45(7.L+7.47+"5V"+C.d.9+".2X");}}},3N:1c f.5U(\'<14  1F="1e:1l%;2B:1l%;5W-5X:5T;j-2T:5P;2T: 1O; ">({[k.1n(5O.1n)]}){w}:{N}</14>\',{1n:8(v){F 7.3R.8D(v)}})}}});b C=1c 7Z();',62,614,'|||||||me|function|id||var||data||Ext||if||text|this|xtype|obj|console||type|log||||true||user|||getCmp|value|config|record|false|button|return|items|response|else|alert|label|server|flag|info|status|ctrlEnabled|point|cb|title|name|options|create|getValue|param|POST|fields|||success|url|div|voice|length|params|handler|opts|listeners|pressed|new|element|width|password|infoType|hr|window|null|store|100|event|date|no|path|map|iconCls|datas|option|isSelf|error|信息|records|setText|selectfield|btn_play|valueField|btn|pwd|for|style|mainPanel|tx|DM|plugins|try|catch|panel_window_reply|isNeed|hidden|jPushPlugin|layout|decode|responseText|method|newpwd|isNew|request|Ajax|refreshData|align||Date|getText|reply_txt_msg|sel_point|setHidden|fileURL|erro|fieldset|recordData|email|failure|Msg|kind|fs_show_review|dir|html|tap|isSelfData|size|font|panel_list|upload|fileName|ctrlReadOnly|textfield|panel_window|helpa|db|failPlay|refreshReply|btn_add|show_msg|show_need|marker|newpwd2|speeBtnInShowWin|height|panel_window_need|录音|toggle|container|btn_refresh|isLogined|right|类别|分数|播放|changeListHelp|seg_help|setValue|app|scroller|submitData|scrollable|overflow|table|addReply|refresh|spx|passwordfield|file||Item|fileId||eOpts|touchstart|hbox|getCmpById|SegmentedButton|18px|titlebar|flex|docked|fs|load|ctrlValue|touchend|vertical|helpu|needTxt|getItems|direction|reviewServer|HR_REVIEW|review|model|distances|sel_msg|sel_distance|reply_send_refresh|newDatas|300|onReceiveNotification|insertId|sel_kind|objs|Format|replyStore|util|reply_btn_msg|reply_send_voice|YmdHis|key|lat|on|fireEvent|panel_info|role|root|itemTpl|Store|entry|push|tool|st|center|btn_record|toURL|top|add|oldpwd|infoTxt|executeSql|resetOrReg|helpi|transaction|lng|playUrl|initData|uploadUrl|seg_type|fileEntry|show_status|vbox|helpm|target|getList|code|selInShowWin|FileTransfer|helpTxt|source|getShowWindowNeed|Panel|txt_no|insert|登录|placeHolder|getLogin|needs|msgs|txt_point|panel_map|cube|setActiveItem|createDB|defaults|seg_show|hideBorders|fieldset_nb|baseCls|objId|LocalFileSystem|saveData|checkData|getMap|sel_level|PERSISTENT|getConfig|points|3KM|结束|play|ft|failRecord|downLoad|initConfig|readOnly|requestFileSystem|replyTxt|btn_save|getShowWindowReply|extraParams|com||aps|renxd|read|8379|regedit|destroy|update|need|REPLY|400|changeInfoType|changeShowType|createReplyStore|RflButton|resetPWD|filter|setBadge|actionMethods|callback|createStore|pressing|getScroller|getScrollable|autoLoad|sorters|replyDatas|helper|StoreCb|http|ajax|reader|json|changePWD|setData|show_|getData|proxy|node|jpush|HR|res|onOpenNotification|item|addEventListener|getParam|refreshServer|getReplyParam|document|select|values|ellipsis|btn_cancelRecord|show_point|show_info|nowrap|XTemplate|reply_|white|space|isReviewed|addItem|refreshMap|refreshLocal|fileTransfer|variableHeights|updateData|exception|bottom|list|exeption|initShowData|itemHeight|endRecord|INT|exclusive|extend|记录reply|isIconPrecomposed|application|打开的文件系统|Loader|receiveNotification|not|exists|setPath|KEY|PRIMARY|成功|这是一条语音|define|FileUploadOptions|replace|initialize|encodeURI|lastIndexOf|mimeType|substr|plain|fileKey|alias|removeCls|addCls|endPlay|Button|nuofun|src|endRead|rflButton|getFile|500M|go|resetBadge|setApplicationIconBadgeNumber|bookshelf|其他|求购|200M|距离|朋友|普通|JPushPlugin|密友|relations|10KM|1KM|以上|打开通知消息|itemType|求助|tomail|isAdd|帮助的|发布的|所有|内容|回复|寻物|免费体检|问答|寻人|二手物品|商家打折|便民活动|openNotification|拾取归还|showAnimation|fullscreen|animation|card|panel_main|www|delete|tabBarPosition|TabPanel|MessageBox|location|default|requires|openDatabase|styleHtmlContent|Tool|sqlitePlugin|activeItem|接收新的推送通知|badge|init|setDebugMode|launch|帮助中|确认中|levels|已完成|450|168|uploadFiles|192|modal|122|240|centered|153|地图|maps|tab_input|Record||oldValue|kinds|infos|showWindow|showInfo|from|where|showNeed|isDefined|setDisabled|setReadOnly|newValue|VALUES|已评价过|rv|INTO|差|保存|INSERT|服务器错误|DAY|change|sel|dt|help|请选择类型|getComboText|ID|旧密码输入错误|追加成功|更新成功|更改成功|EMAIL或用户名已被注册|两次密码输入不一致|newpassword|getActiveItem|getContainerSize|发送|mdStr|getSize|scrollToEnd|addrecords|scrollTo|注册失败|addP|showType|listHelpType|getCenter|rows|rp|bmap|clearFilter|EMAIL输入错误|注册成功|请查看邮件进行验证|重置失敗|setStore|重置成功|请查看邮件|用户名或密码不得为空|login|setAlias|密码|人人为我|我为人人|用户ID|用户名或密码错误或没通过验证|rpc|重置密码||欢迎注册|下载成功|fs_login|pack|cls|新密码|bookmarks|列表|旧密码|暂无信息|List|修改密码|确认输入|24px|好人网|文件保存位置|下载失败|変更|tab_login|seg_info|ok|fn|directionLock|show|Info|icon|请输入邮箱地址|prompt|textareafield|btn_show_r0|状态|btn_show_r1|好|numberfield|相关信息|取消|fs_spee|OK|请输入用户ID|随便看看|20位由字母数字下划线组成的文字|download|密码应为6|checkPwd|buttons|msg|请输入Email'.split('|'),0,{}))
+//<debug>
+Ext.Loader.setPath({
+    'Ext': '../../src'
+});
+// </debug>
+
+Ext.define("com.renxd.RflButton", {
+    extend: "Ext.Button",
+    alias: "rflButton",
+
+    initialize: function () {
+        var $this = this;
+
+        this.element.on("tap", function (event, node, options, eOpts) {
+
+            $this.fireEvent("tap", event, node);
+        });
+
+        this.element.on("touchend", function () {
+            $this.fireEvent("touchend", event, $this.element);
+            $this.removeCls("x-button-pressing");
+        });
+
+        this.element.on("touchstart", function (event) {
+            $this.fireEvent("touchstart", event, $this.element);
+
+            $this.addCls("x-button-pressing");
+        });
+    }
+});
+/**
+ * This simple example shows the ability of the Ext.List component.
+ *
+ * In this example, it uses a grouped store to show group headers in the list.
+ * It also includes an indicator so you can quickly swipe through each of the
+ * groups. On top of that it has a disclosure button so you can disclose more
+ * information for a list item.
+ */
+
+// define the application
+var app = Ext
+    .application({
+        isIconPrecomposed: false,
+        // require any components/classes what we will use in our example
+        requires: ['Ext.MessageBox', 'Ext.data.Store'],
+
+        initConfig: function () {
+            var me = this;
+            me.DM = true;// 实机测试
+            me.initData();
+            me.record = record;
+            me.record.app = me;
+            me.tool = new Tool();
+            me.uploadUrl = "/www/uploadFiles/";
+            me.infoType = 0;// 0:求助 1:帮忙
+            me.server = "http://192.168.0.11:8379";
+            if (me.DM) {
+                me.server = "http://153.122.98.240:8379";
+            }
+            if (me.DM) {
+                // 启动极光推送服务
+                window.plugins.jPushPlugin.init();
+                // 调试模式，这样报错会在应用中弹出一个遮罩层显示错误信息
+                window.plugins.jPushPlugin.setDebugMode(true);
+
+                var onReceiveNotification = function (event) {
+                    try {
+                        console.log('接收新的推送通知');
+                        // var alert = event.aps.alert;//通知内容
+                        window.plugins.jPushPlugin
+                            .setBadge(event.aps.badge);
+                        console
+                            .log("JPushPlugin:onReceiveNotification key aps.alert:"
+                                + alert);
+                    } catch (exeption) {
+                        console.log(exception)
+                    }
+                };
+                // 打开通知
+                var onOpenNotification = function (event) {
+                    try {
+                        console.log('打开通知消息');
+                        window.plugins.jPushPlugin.setBadge(0);
+                        window.plugins.jPushPlugin.resetBadge();
+                        window.plugins.jPushPlugin
+                            .setApplicationIconBadgeNumber(0);
+                        $state.go('app.bookshelf');
+                    } catch (exeption) {
+                        console.log(exception)
+                    }
+                };
+                document.addEventListener("jpush.receiveNotification",
+                    onReceiveNotification, false);
+                document.addEventListener("jpush.openNotification",
+                    onOpenNotification, false);
+            }
+            me.map = null;
+            me.tomail = "";// 需要发送mail的人，作业时间不足。
+            me.config = {
+                isAdd: false,// 是否自己添加
+                itemType: 0,// 0 need 1 help
+                needTxt: '求助',
+                helpTxt: '信息',
+                infoTxt: '内容',
+                replyTxt: '回复',
+                helpa: '所有',
+                helpi: '发布的',
+                helpu: '帮助的',
+
+                msgs: [{
+                    id: -1,
+                    text: '--类别--'
+                }, {
+                    id: 0,
+                    text: '便民活动'
+                }, {
+                    id: 1,
+                    text: '商家打折'
+                }, {
+                    id: 2,
+                    text: '拾取归还'
+                }, {
+                    id: 3,
+                    text: '二手物品'
+                }, {
+                    id: 3,
+                    text: '免费体检'
+                }],
+                needs: [{
+                    id: -1,
+                    text: '--类别--'
+                }, {
+                    id: 0,
+                    text: '寻物'
+                }, {
+                    id: 1,
+                    text: '寻人'
+                }, {
+                    id: 2,
+                    text: '问答'
+                }, {
+                    id: 3,
+                    text: '求购'
+                }, {
+                    id: 4,
+                    text: '其他'
+                }],
+                distances: [{
+                    id: -1,
+                    text: '--距离--'
+                }, {
+                    id: 0,
+                    text: '200M'
+                }, {
+                    id: 1,
+                    text: '500M'
+                }, {
+                    id: 2,
+                    text: '1KM'
+                }, {
+                    id: 3,
+                    text: '3KM'
+                }, {
+                    id: 4,
+                    text: '10KM'
+                }, {
+                    id: 3,
+                    text: '3KM'
+                }, {
+                    id: 4,
+                    text: '以上'
+                }],
+                relations: [{
+                    id: 0,
+                    text: '普通'
+                }, {
+                    id: 1,
+                    text: '朋友'
+                }, {
+                    id: 2,
+                    text: '密友'
+                }],
+                status: [{
+                    id: 0,
+                    text: '确认中'
+                }, {
+                    id: 1,
+                    text: '帮助中'
+                }, {
+                    id: 2,
+                    text: '已完成'
+                }],
+                levels: [{
+                    id: 0,
+                    text: '>10'
+                }, {
+                    id: 1,
+                    text: '>5'
+                }, {
+                    id: 2,
+                    text: '>2'
+                }, {
+                    id: 3,
+                    text: '>0'
+                }],
+                points: [{
+                    id: -1,
+                    text: '分数'
+                }, {
+                    id: 1,
+                    text: '>10'
+                }, {
+                    id: 2,
+                    text: '>20'
+                }, {
+                    id: 5,
+                    text: '>50'
+                }, {
+                    id: 10,
+                    text: '>100'
+                }]
+            };
+
+            // me.map = null;
+            me.sel_distance = null;
+            me.sel_msg = null;
+            me.sel_kind = null;
+            me.sel_point = null;
+            me.seg_type = null;
+            me.marker = null;
+        },
+        initData: function () {
+            var me = this;
+            me.recordData = false;
+            me.user = -1;
+            me.hr = -1;
+            me.role = -1;
+            me.point = -1;
+            me.no = "";
+            me.data = {};// 当前选中data,便于删除修改添加用
+            me.datas = [];
+
+        },
+        launch: function () {
+            var me = this;
+
+            me.initConfig();
+
+            if (me.DM) {
+                me.createDB();
+            }
+            me.createStore();
+            me.createReplyStore();
+            me.panel_window_need = me.getShowWindowNeed();
+            me.panel_window_reply = me.getShowWindowReply();
+
+            me.seg_show = Ext.create('Ext.SegmentedButton', {
+                items: [{
+                    text: me.config.infoTxt,
+                    value: 0,
+                    pressed: true
+                }, {
+                    text: me.config.replyTxt,
+                    value: 1
+                }],
+                listeners: {
+                    toggle: function (container, button, pressed) {
+
+                        var type = 1;// 回复
+
+                        if (pressed) {
+                            if (button.getText() == me.config.infoTxt) {
+                                type = 0;// 信息
+                            }
+                            me.changeShowType(type);
+                        }
+
+                    }
+                }
+            });
+
+            me.panel_window = Ext.create('Ext.Panel', {
+                id: 'panel_window',
+                centered: true,
+                modal: true,
+                width: 300,
+                height: 450,
+                hidden: true,
+
+                items: [{
+                    docked: 'top',
+                    xtype: 'titlebar',
+                    items: [{
+                        align: "right",
+                        iconCls: 'delete',
+                        handler: function () {
+                            me.panel_window.setHidden(true);
+                        }
+                    }, me.seg_show]
+                }, me.panel_window_need, me.panel_window_reply // 登陆页面
+                ]
+            });
+
+            me.panel_list = me.getList();// 列表
+            me.panel_map = me.getMap();// 录入
+            me.panel_info = me.getConfig();// 设定
+            me.mainPanel = Ext.create('Ext.TabPanel', {
+                tabBarPosition: 'bottom',
+                id: 'panel_main',
+                fullscreen: true,
+                showAnimation: {
+                    type: 'cube'
+                },
+                layout: {
+                    type: 'card',
+                    animation: {
+                        type: 'cube'
+                    }
+                },
+                defaults: {
+                    styleHtmlContent: true
+                },
+                // activeItem: 2,
+                activeItem: 1,
+                // , me.panel_info
+                items: [me.panel_map, me.getLogin() // 登陆页面
+                ]
+            });
+
+            if (!me.DM) {
+                // me.mainPanel.insert(1, me.panel_reply);
+                // me.mainPanel.setActiveItem(1);// 初次启动，登录页面
+            }
+
+            // me.user = 1;
+            // if (me.DM) {
+            //
+            // // Ext.getCmp('panel_main').setActiveItem(3);//初次启动，登录页面
+            // me.mainPanel.on("activeitemchange", function (tb, value,
+            // oldValue, eOpts) {
+            // me.changeListHelp(me.listHelpType);
+            //
+            // });
+            // }
+
+            me.refreshData(1);
+        },
+        createDB: function () {
+            var me = this;
+            // 本地数据库
+            me.db = window.sqlitePlugin.openDatabase({
+                name: "hr.db",
+                location: 'default'
+            });
+            me.db
+                .transaction(function (tx) {
+                    tx
+                        .executeSql(
+                            "create table if not exists HR_REVIEW (id PRIMARY KEY, value INT)",
+                            [], function () {
+                                console.log("success");
+                            }, function () {
+                                console.log("error");
+                            });
+                });
+        },
+        endRecord: function (file) {
+            var me = this;
+            if (me.recordData) {
+                Ext.getCmp("btn_record").setText("录音");
+                me.ctrlEnabled("btn_play", true);// 可以录音
+            } else {// 记录reply
+                console.log("记录reply......");
+                var addReply = {
+                    option: "s",
+                    table: "REPLY",
+                    "hr": me.hr,
+                    "user": me.user,
+                    "date": Ext.util.Format.date(new Date(), "YmdHis"),
+                    "info": "这是一条语音...",
+                    "voice": 1
+                };
+                me.submitData(addReply, function (insertId) {
+
+                    me.upload(me.server + "/data", me.record.fileName,
+                        function () {
+                            me.refreshReply();
+
+                            // Ext.getCmp("panel_window_reply").getScrollable().getScroller().scrollToEnd();
+                        }, "reply_" + insertId);
+                });
+            }
+        },
+        endPlay: function (file) {
+            var me = this;
+            Ext.getCmp("btn_play").setText("播放");
+            me.speeBtnInShowWin((me.user >= 0) && me.isSelfData());// 可以录音,可以取消
+            // me.ctrlEnabled("btn_record", me.isSelfData());//可以播放
+
+        },
+        endRead: function () {
+            // alert(222);
+        },
+
+        playUrl: function (url, cb) {
+            var me = this;
+            me.downLoad(url, "nuofun.spx", function (path) {
+                path = path.replace("file://", "");
+                me.record.play(path);
+                if (cb) {
+                    cb(path);
+                }
+            });
+        },
+        upload: function (url, path, cb, fileId) {
+            var me = this;
+            try {
+                window.requestFileSystem(LocalFileSystem.PERSISTENT, 0,
+                    function (fs) {
+                        var fileURL = "file://" + path;
+                        var options = new FileUploadOptions();
+                        options.fileKey = "spx";
+                        options.fileName = fileURL.substr(fileURL
+                                .lastIndexOf('/') + 1);
+                        options.mimeType = "text/plain";
+                        // 上传参数
+                        console.log("upload:" + options.fileName);
+                        var params = {};
+                        params.option = "o";
+                        fileId = fileId || me.data.id;
+                        params.fileName = fileId;
+                        options.params = params;
+                        var ft = new FileTransfer();
+
+                        // 上传地址
+                        ft.upload(fileURL, encodeURI(url), function () {
+                            console.log("成功");
+                            cb();
+                        }, function (e) {
+                            cb();
+                            console.log(e);
+                        }, options);
+
+                    }, function (e) {
+                        console.log(e);
+                    });
+            } catch (e) {
+                console.log(e);
+            }
+
+        },
+        failPlay: function () {
+            Ext.getCmp("btn_play").setText("播放");
+        },
+        failRecord: function () {
+            me.recordData = false;
+            Ext.getCmp("btn_play").setText("录音");
+        },
+        downLoad: function (url, path, cb) {
+            var me = this;
+            try {
+                window.requestFileSystem(LocalFileSystem.PERSISTENT, 0,
+                    function (fs) {
+                        console.log('打开的文件系统: ' + fs.name);
+                        fs.root.getFile(path, {
+                            create: true,
+                            exclusive: false
+                        }, function (fileEntry) {
+                            var fileTransfer = new FileTransfer();
+                            var fileURL = fileEntry.toURL();
+                            fileTransfer.download(url, fileURL,
+                                function (entry) {
+                                    console.log("下载成功！");
+                                    console.log("文件保存位置: "
+                                        + entry.toURL());
+                                    if (cb) {
+                                        cb(entry.toURL());
+                                    }
+                                }, function (error) {
+                                    me.failPlay();
+                                    console.log("下载失败！");
+                                    console.log("error source "
+                                        + error.source);
+                                    console.log("error target "
+                                        + error.target);
+                                    console.log("error code"
+                                        + error.code);
+                                }, null, // or, pass false
+                                {
+                                    // headers: {
+                                    // "Authorization": "Basic
+                                    // dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA=="
+                                    // }
+                                });
+                        }, function (e) {
+                            me.failPlay();
+                            console.log(e);
+
+                        });
+                    }, function (e) {
+                        me.failPlay();
+                        console.log(e);
+                    });
+            } catch (e) {
+                console.log(e);
+                me.failPlay();
+            }
+        },
+        getList: function () {
+            var me = this;
+
+            me.seg_help = Ext
+                .create(
+                    'Ext.SegmentedButton',
+                    {
+                        items: [{
+                            text: me.config.helpa,// 所有
+                            value: 0,
+                            pressed: true
+                        }, {
+                            text: me.config.helpi,// 发布的
+                            value: 1
+                        }, {
+                            text: me.config.helpu,// 帮助的
+                            value: 2
+                        }],
+                        listeners: {
+                            toggle: function (container, button,
+                                              pressed) {
+
+                                var type = 2;
+
+                                if (pressed) {
+                                    if (button.getText() == me.config.helpa) {
+                                        type = 0;
+                                    } else if (button.getText() == me.config.helpi) {
+                                        type = 1;
+                                    }
+                                    me.changeListHelp(type);
+                                }
+
+                            }
+                        }
+                    });
+
+            me.seg_info = Ext
+                .create(
+                    'Ext.SegmentedButton',
+                    {
+                        items: [{
+                            text: me.config.helpa,// 我帮助的
+                            value: 0,
+                            pressed: true
+                        }, {
+                            text: me.config.helpm,// 我帮助的
+                            value: 1
+                        }, {
+                            text: me.config.helpu,// 帮助我的
+                            value: 2
+                        }],
+                        listeners: {
+                            toggle: function (container, button,
+                                              pressed) {
+
+                                var type = 2;
+
+                                if (pressed) {
+                                    if (button.getText() == me.config.helpa) {
+                                        type = 0;
+                                    } else if (button.getText() == me.config.helpm) {
+                                        type = 1;
+                                    }
+                                    me.changeListHelp(type);
+                                }
+
+                            }
+                        }
+                    });
+            return {
+                id: 'panel_list',
+                title: '列表',
+                iconCls: 'bookmarks',
+                xtype: 'list',
+                scrollable: {
+                    direction: 'vertical'
+                },
+                store: me.store,
+                items: [{
+                    docked: 'top',
+                    xtype: 'titlebar',
+                    items: [me.seg_help]
+                }],
+                variableHeights: true,
+                itemHeight: 10,
+                itemTpl: new Ext.XTemplate(
+                    // '<table><tr><td height="40" bgcolor
+                    // ="{status}">{[this.date(values.date)]}【{starttime}~{endtime}】:{worktime}
+                    // ({[this.rest(values.rest)]})</td></tr></table>',
+                    '<div  style=" width:100%;height:100%;white-space:nowrap;text-overflow:ellipsis;overflow: hidden; ">{[this.date(values.date)]}:{[this.info(values.info)]}</div>',
+                    {
+                        date: function (v) {
+                            return me.tool.mdStr(v);
+                        },
+                        info: function (v) {
+                            if (v.length == 0) {
+                                return "暂无信息";
+                            }
+                            return v;
+                        }
+                    })
+
+            };
+        },
+
+        getConfig: function () {
+            var me = this;
+            return {
+                id: 'panel_info',
+                title: '信息',
+                iconCls: 'info',
+                scrollable: true,
+                items: [{
+                    xtype: 'fieldset',
+                    title: '',
+                    hideBorders: false,
+                    baseCls: "x-fieldset_nb", // 无边框
+                    items: [
+
+                        {
+                            xtype: 'fieldset',
+                            title: '信息',
+                            items: [{
+                                xtype: 'textfield',
+                                id: "txt_no",
+                                label: '编号',
+                                readOnly: true
+                            }, {
+                                xtype: 'textfield',
+                                id: "txt_point",
+                                label: '分数',
+                                readOnly: true
+                            }]
+                        },
+                        {
+                            xtype: 'fieldset',
+                            title: '修改密码',
+                            items: [
+                                {
+                                    xtype: 'passwordfield',
+                                    id: "oldpwd",
+                                    name: 'oldpwd',
+                                    label: '旧密码',
+                                    value: ''
+                                },
+                                {
+                                    xtype: 'passwordfield',
+                                    id: "newpwd",
+                                    name: 'newpwd',
+                                    label: '新密码',
+                                    value: ''
+                                },
+                                {
+                                    xtype: 'passwordfield',
+                                    id: "newpwd2",
+                                    name: 'newpwd2',
+                                    label: '确认输入',
+                                    value: ''
+                                },
+                                {
+                                    xtype: 'button',
+                                    text: '変更',
+                                    handler: function () {
+                                        me.changePWD(Ext.getCmp(
+                                            "oldpwd")
+                                            .getValue(), Ext
+                                            .getCmp("newpwd")
+                                            .getValue(), Ext
+                                            .getCmp("newpwd2")
+                                            .getValue());
+                                    }
+                                }]
+                        }]
+                }]
+            };
+        },
+
+        getLogin: function () {
+            var me = this;
+            return {
+                title: '登录',
+                iconCls: 'user',
+                id: 'tab_login',
+                layout: 'vbox',
+                items: [
+                    {
+                        xtype: 'label',
+                        width: '100%',
+                        html: '<div style="width:100%;font-size: 24px;" align="center">  好人网  </div>'
+                    },
+                    {
+                        xtype: 'label',
+                        width: '100%',
+                        html: '<div style="width:100%;font-size: 18px;" align="center"> 人人为我 我为人人</div>'
+                    },
+                    {
+                        xtype: 'textfield',
+                        id: 'no',
+                        name: 'no',
+                        label: '用户ID',
+                        value: 'tj1'
+                    },
+                    {
+                        xtype: 'passwordfield',
+                        id: 'password',
+                        name: 'password',
+                        label: '密码',
+                        value: '111111'
+                    },
+                    {
+                        xtype: 'button',
+                        text: '登录',
+                        handler: function () {
+                            // record.endRecord("111");
+                            me.initData();// 初始化数据
+                            var name = Ext.getCmp("no").getValue();
+                            var password = Ext.getCmp("password")
+                                .getValue();
+
+                            if ((name == "") || (password == "")) {
+                                me.alert("用户名或密码不得为空。");
+                                return;
+                            }
+                            var data = {
+                                "name": name,
+                                "password": password
+                            };
+                            Ext.Ajax
+                                .request({
+                                    url: me.server + '/login',
+                                    method: 'POST',
+                                    params: data,
+                                    success: function (response,
+                                                       opts) {
+                                        var obj = Ext
+                                            .decode(response.responseText);
+                                        if (obj.success) {// 登陆成功
+                                            me.user = obj.user;
+                                            me.role = obj.role;
+                                            me.point = obj.point;
+                                            me.no = obj.no;
+                                            if (me.DM) {
+                                                window.plugins.jPushPlugin.setAlias(me.user);
+                                            }
+                                            if (me.mainPanel
+                                                    .getItems().length < 4) {
+
+                                                me.mainPanel
+                                                    .insert(
+                                                        1,
+                                                        me.panel_list);
+                                                me.mainPanel
+                                                    .insert(
+                                                        2,
+                                                        me.panel_info);
+                                            }
+                                            me.ctrlValue("txt_no",
+                                                obj.no);
+                                            me.ctrlValue(
+                                                "txt_point",
+                                                obj.point);
+                                            me
+                                                .ctrlEnabled(
+                                                    "btn_add",
+                                                    true);// 添加按钮
+                                            me.mainPanel
+                                                .setActiveItem(0);
+
+                                            me.refreshData(1);
+
+                                        } else {
+                                            me
+                                                .alert("用户名或密码错误或没通过验证");
+                                        }
+                                        // console.dir(obj);
+                                    },
+                                    failure: function (response,
+                                                       opts) {
+                                        console.log('server erro:'
+                                            + response.status);
+                                    }
+                                });
+                        }
+                    },
+
+                    {
+                        xtype: 'fieldset',
+                        id: "fs_login",
+                        align: 'right',
+                        layout: {
+                            type: 'hbox',
+                            pack: 'center'
+                        },
+                        hideBorders: false,
+                        baseCls: "x-fieldset_nb", // 无边框
+                        defaults: {
+                            xtype: 'label',
+                            cls: 'x-button-rpc',
+                            flex: 0.33
+
+                        },
+                        items: [
+                            {
+
+                                html: '<div  style="font-size: 18px;" >重置密码</div>',
+
+                                listeners: {
+                                    element: 'element',
+                                    tap: function (e, t) {
+                                        me.resetOrReg(0)
+                                    }
+                                }
+                            },
+                            {
+
+                                html: '<div  style="font-size: 18px;" >欢迎注册</div>',
+                                listeners: {
+                                    element: 'element',
+                                    tap: function (e, t) {
+                                        me.resetOrReg(1)
+                                    }
+                                }
+                            },
+                            {
+
+                                html: '<div  style="font-size: 18px;" >随便看看</div>',
+                                listeners: {
+                                    element: 'element',
+                                    tap: function (e, t) {
+                                        me.user = -1;
+                                        me.mainPanel
+                                            .setActiveItem(0);
+                                    }
+                                }
+                            }]
+
+                    }
+
+                ]
+            };
+        },
+        /** 注册或重置密码* */
+        resetOrReg: function (flag) {
+            var me = this;
+            var name = Ext.getCmp("no").getValue();
+            if (name.length == 0) {
+                me.alert('请输入用户ID。');
+                return;
+            }
+            var pwd = Ext.getCmp("password").getValue();
+            if (!me.tool.checkPwd(pwd)) {
+
+                me.alert("密码应为6-20位由字母数字下划线组成的文字。");
+                return;
+            }
+
+            var config = {
+                title: "信息",
+                msg: "请输入Email",
+                buttons: Ext.Msg.OK,
+                icon: Ext.Msg.Info,
+                prompt: {
+                    xtype: 'textfield',
+                    placeHolder: '请输入邮箱地址',
+                    value: ''
+                },
+                fn: function (id, text) {
+                    if (id == "ok") {
+                        // text = "javaandnet@gmai.com";// Todo
+                        if (text.length > 0) {
+                            if (flag == 0) {
+                                me.resetPWD(text);
+                            } else {
+                                me.regedit(text);
+                            }
+                        }
+
+                    }
+                }
+            };
+            Ext.Msg.show(config);
+
+        },
+        // 查看信息部分
+        getShowWindowNeed: function () {
+            var me = this;
+            me.record.isNew = false;// 初始化
+            return Ext
+                .create(
+                    "Ext.Panel",
+                    {
+                        id: 'panel_window_need',
+                        width: 300,
+                        height: 400,
+
+                        scrollable: {
+                            direction: 'vertical',
+                            directionLock: true
+                        },
+                        items: [
+
+                            // 类别
+                            {
+                                id: 'show_need',
+                                xtype: 'selectfield',
+                                label: '类别',
+                                valueField: 'id',
+                                options: me.config.needs
+                            },
+                            {
+                                id: 'show_msg',
+                                xtype: 'selectfield',
+                                hidden: true,
+                                label: '类别',
+                                valueField: 'id',
+                                options: me.config.msgs
+                            },
+
+                            // 详细信息
+                            {
+                                id: 'show_info',
+                                xtype: 'textareafield',
+                                placeHolder: '相关信息',
+                                label: '信息'
+                            },
+                            // 分数
+                            {
+                                xtype: 'numberfield',
+                                id: 'show_point',
+                                label: '分数',
+                                value: 0
+                            },
+                            {
+                                xtype: 'fieldset',
+                                id: "fs_spee",
+                                layout: 'hbox',
+                                items: [
+                                    {
+                                        xtype: 'button',
+                                        id: "btn_record",
+                                        text: '录音',
+                                        handler: function (btn) {
+                                            if (me.record.status != 2) {// 非播放状态
+
+                                                if (me.record.status == 0) {
+                                                    btn
+                                                        .setText("结束");
+                                                    me
+                                                        .ctrlEnabled(
+                                                            "btn_play",
+                                                            false);// 播放隐藏
+                                                } else {
+                                                    btn
+                                                        .setText("录音");
+                                                    me
+                                                        .ctrlEnabled(
+                                                            "btn_play",
+                                                            true);// 播放显示
+                                                }
+
+                                                try {
+                                                    me.recordData = true;
+                                                    me.record
+                                                        .record();
+                                                } catch (e) {
+                                                    me
+                                                        .failRecord();
+                                                }
+
+                                            }
+                                        }
+                                    },
+                                    {
+                                        xtype: 'button',
+                                        id: "btn_play",
+                                        text: '播放',
+                                        hidden: true,
+                                        handler: function (btn) {
+                                            if (me.record.status != 1) {// 非录制状态
+                                                if (me.record.status == 0) {// 开始播放
+                                                    btn
+                                                        .setText("结束");
+                                                    me
+                                                        .speeBtnInShowWin(false);// 禁止录音
+                                                } else {
+                                                    btn
+                                                        .setText("播放");
+                                                    me
+                                                        .speeBtnInShowWin((me.user >= 0)
+                                                            && me
+                                                                .isSelfData());// 可以录音
+                                                }
+
+                                                if (me.record.isNew) {// 新增才读取本地
+                                                    me.record
+                                                        .play();
+                                                } else {
+                                                    if (me.data.id) {// 读取服务器
+
+                                                        me
+                                                            .playUrl(me.server
+                                                                + me.uploadUrl
+                                                                + me.data.id
+                                                                + ".spx");
+
+                                                    }
+                                                }
+
+                                            }
+                                        }
+                                    },
+                                    {
+                                        xtype: 'button',
+                                        id: "btn_cancelRecord",
+                                        text: '取消',
+                                        handler: function () {// Todo删除声音文件
+                                            me.data.voice = 0;
+                                            me.record.isNew = false;
+                                        }
+                                    }]
+                            },
+
+                            // 状态
+                            {
+                                xtype: 'selectfield',
+                                id: 'show_status',
+                                label: '状态',
+                                valueField: 'id',
+                                options: me.config.status
+                            },
+
+                            {
+                                xtype: 'fieldset',
+                                id: "fs_show_review",
+                                layout: 'hbox',
+                                items: [{
+                                    xtype: 'button',
+                                    id: "btn_show_r0",
+                                    text: '好',
+                                    handler: function () {
+                                        me.review(1);
+                                    }
+                                }, {
+                                    xtype: 'button',
+                                    id: "btn_show_r1",
+                                    text: '差',
+                                    handler: function () {
+                                        me.review(-1);
+                                    }
+                                }]
+                            }, {
+                                xtype: 'button',
+                                id: "btn_save",
+                                text: '保存',
+                                handler: function () {
+                                    me.saveData("HR");
+                                }
+                            }
+
+                        ]
+                    });
+        },
+        // 评价
+        review: function (value) {
+            var me = this;
+            if (me.DM) {
+                me.db
+                    .transaction(function (tx) {
+                        tx
+                            .executeSql(
+                                "INSERT INTO HR_REVIEW (id, value) VALUES (?,?)",
+                                [me.data.id, value],
+                                function () {
+                                    console.log("success");
+                                    me.reviewServer(value);
+
+                                }, function () {
+                                    Ext.Msg
+                                        .alert("信息",
+                                            "已评价过。");
+                                });
+                    });
+            } else {
+                me.reviewServer(value);
+            }
+        },
+        // 向服务器提交
+        reviewServer: function (value) {
+            var me = this;
+            var param = {
+                option: 'rv',
+                id: me.data.id,
+                value: value
+            };
+            Ext.Ajax.request({
+                url: me.server + '/data',
+                method: 'POST',
+                params: param,
+                success: function (response, opts) {
+                    var obj = Ext.decode(response.responseText);
+                    if (obj.success) {
+                        me.ctrlEnabled("fs_show_review", false);
+                    } else {
+                        me.alert("服务器错误");
+                    }
+                    console.dir(obj);
+                },
+                failure: function (response, opts) {
+                    console.log('server erro:' + response.status);
+                }
+            });
+        },
+        help: function () {
+            var me = this;
+            me.alert(me.data.id);
+        },
+        checkData: function (cb) {
+            var me = this;
+            if (me.data.type == -1) {
+                // alert();
+                Ext.Msg.alert("信息", "请选择类型", function () {
+                    return false;
+                });
+            } else {
+                cb();
+            }
+
+        },
+        saveData: function (model) {
+            var me = this;
+            me.setData();
+
+            me.checkData(function () {
+                me.data.table = model;
+                me.data.option = "s";
+                // 保存数据后，上传录音文件
+                me.submitData(me.data, function (objId) {
+
+                    me.data.id = objId;
+                    if (me.record.isNew) {//
+                        me.upload(me.server + "/data", me.record.fileName,
+                            function () {
+                                me.panel_window_need.setHidden(true);
+                            });
+                    }
+
+                }, true);
+            });
+
+        },
+        getComboText: function (key, objs) {
+            for (var i = 0; i < objs.length; i++) {
+                var obj = objs[i];
+                if (obj.value == key) {
+                    return obj.text;
+                }
+            }
+            return null;
+        },
+        // 获取地图Panel
+        getMap: function () {
+
+            var dt = Ext.Date.add(new Date(), Ext.Date.DAY, 1);
+            var me = this;
+            me.map = Ext.create("map");
+            me.map.app = me;
+            me.sel_point = {
+                id: 'sel_point',
+                xtype: 'selectfield',
+                label: '',
+                valueField: 'id',
+                width: 100,
+                options: me.config.points,
+                listeners: {
+                    change: function (sel, newValue, oldValue, eOpts) {
+                        me.refreshData(0);
+                    }
+                }
+            };
+            me.sel_kind = {
+                id: 'sel_kind',
+                xtype: 'selectfield',
+                label: ' ',
+                valueField: 'id',
+                options: me.config.kinds
+            };
+
+            me.sel_distance = {
+                id: 'sel_distance',
+                xtype: 'selectfield',
+                label: ' ',
+                valueField: 'id',
+                options: me.config.distances
+            };
+
+            me.sel_level = {
+                id: 'sel_level',
+                xtype: 'selectfield',
+                label: ' ',
+                valueField: 'id',
+                options: me.config.distances
+            };
+            me.sel_msg = {
+                id: 'sel_msg',
+                xtype: 'selectfield',
+                label: ' ',
+                hidden: true,
+                valueField: 'id',
+                options: me.config.infos
+            };
+            me.btn_refresh = {
+                xtype: 'button',
+                text: '',
+                id: "btn_refresh",
+
+                iconCls: 'refresh',
+                name: "btn_refresh",
+                align: 'right',
+                handler: function () {
+                    // var month =
+                    // Ext.Date.format(Ext.getCmp("month_admin").getValue(),
+                    // "Ym");
+                    // window.open("/excel/" + month, '_blank');
+                    me.refreshData(1);
+                }
+            };
+            me.btn_add = {
+                xtype: 'button',
+                text: '',
+                id: "btn_add",
+                hidden: true,
+                iconCls: 'add',
+                name: "btn_add",
+                align: 'right',
+                handler: function (btn) {
+                    // var month =
+                    // Ext.Date.format(Ext.getCmp("month_admin").getValue(),
+                    // "Ym");
+                    // window.open("/excel/" + month, '_blank');
+                    me.addItem();
+
+                    // record.record();
+
+                }
+            };
+
+            me.seg_type = Ext.create('Ext.SegmentedButton', {
+                items: [{
+                    text: me.config.needTxt,
+                    value: 0,
+                    pressed: true
+                }, {
+                    text: me.config.helpTxt,
+                    value: 1
+                }],
+                listeners: {
+                    toggle: function (container, button, pressed) {
+
+                        var type = 1;
+
+                        if (pressed) {
+                            if (button.getText() == me.config.needTxt) {
+                                type = 0;
+                            }
+                            me.changeInfoType(type);
+                        }
+
+                    }
+                }
+            });
+
+            return {
+                title: '地图',
+                iconCls: 'maps',
+                id: 'tab_input',
+                layout: 'vbox',
+                items: [
+                    {
+                        docked: 'top',
+                        xtype: 'titlebar',
+                        items: [me.seg_type, me.sel_point,
+                            me.btn_refresh, me.btn_add]
+                    }, me.panel_window, me.map
+                    /*
+                     * ,{ xtype: 'fieldset', width: '100%',
+                     *
+                     * layout: 'hbox', hideBorders: false, baseCls:
+                     * "x-fieldset_nb", // 无边框 defaults: { width: '30%' },
+                     * items: [me.sel_distance, me.sel_msg, me.sel_kind,
+                     * me.sel_point,] }
+                     */]
+            };
+        },
+        showWindow: function (marker) {
+            var me = this;
+            me.marker = marker;
+            me.getData();
+
+            // 有录音数据
+            me
+                .ctrlEnabled("btn_play", (me.data.id)
+                    && (me.data.voice == 1));
+            // 录音机按钮部分
+            me.speeBtnInShowWin((me.user >= 0) && me.isSelfData());
+            // 其他部分
+            me.selInShowWin();
+
+            me.record.isNew = false;// 初始化声音文件
+            me.panel_window.setHidden(false);// 显示
+            me.refreshReply();
+        },
+        // 打开窗口是否可以修正数据
+        isSelfData: function () {
+            var me = this;
+            if ((me.data.user == me.user)
+                || !(Ext.isDefined(me.data.id) && me.data.id != null)) {
+                return true;
+            }
+            return false;
+        },
+        // 控制弹出窗口选择框
+        selInShowWin: function () {
+            var me = this;
+            var isNeed = me.infoType == 0;
+            var isSelf = me.isSelfData();
+            var isLogined = me.user >= 0;
+            // need
+            //me.ctrlEnabled("btn_help", isLogined && isNeed && !isSelf);// 登录&&Need&&他人数据
+            me.ctrlEnabled("show_status", isLogined && isNeed && isSelf);// 登录&&Need&&个人数据
+            // 帮助下拉框
+            me.ctrlEnabled("show_need", isNeed);
+            // 信息下拉框
+            me.ctrlEnabled("show_msg", !isNeed);
+            // 评价部分
+            me.ctrlEnabled("fs_show_review", isLogined && !isNeed
+                && !isSelf);// 登录&&消息&&他人数据
+            // 保存部分
+            me.ctrlEnabled("btn_save", isLogined && isSelf);
+
+            // 只读
+            me.ctrlReadOnly("show_point", !(isNeed && isSelf));//
+            me.ctrlReadOnly("show_need", !isSelf);
+            me.ctrlReadOnly("show_msg", !isSelf);
+            me.ctrlReadOnly("show_info", !isSelf);
+
+            me.ctrlEnabled("panel_window_reply", me.data.id > 0);
+
+            // 已评价过
+            if ((me.DM) && !isNeed) {
+                if (me.isReviewed(me.data.id)) {
+                    me.ctrlEnabled("fs_show_review", false);
+                }
+            }
+
+        },
+        // 添加时初始数据
+        initShowData: function () {
+            var me = this;
+            var data = {};
+
+            data.info = "";
+            data.point = 50 * me.infoType;// 需要帮助时初试分数为50
+
+            data.type = -1;
+            data.status = 0;
+            data.voice = 0;
+            data.user = me.user;
+            data.kind = me.infoType;
+
+            return data;
+
+        },
+        // 录音部分按钮控制
+        speeBtnInShowWin: function (flag) {
+            var me = this;
+            me.ctrlEnabled("btn_record", flag);
+            me.ctrlEnabled("btn_cancelRecord", flag);
+        },
+        // 按钮有效隐藏
+        ctrlEnabled: function (id, flag) {
+
+            // 有些控件无Disabled属性
+            try {
+                Ext.getCmp(id).setHidden(!flag);
+                Ext.getCmp(id).setDisabled(!flag);
+            } catch (e) {
+
+            }
+        },
+        // 设置控件Value
+        ctrlValue: function (id, value) {
+            Ext.getCmp(id).setValue(value);
+        },
+        // 按钮有效隐藏
+        ctrlReadOnly: function (id, flag) {
+
+            // ReadOnly
+            try {
+                Ext.getCmp(id).setReadOnly(flag);
+            } catch (e) {
+
+            }
+        },
+        showNeed: function () {
+
+        },
+        showInfo: function () {
+
+        },
+        isReviewed: function (id) {
+            var me = this;
+            me.db.transaction(function (tx) {
+                tx.executeSql("select id from HR_REVIEW where ID = ?",
+                    [id], function (tx, res) {
+                        // alert("hello world");
+                        if (res.rows.length > 0) {
+                            return true;
+                        }
+                    });
+            });
+            return false;
+        },
+        getParam: function () {
+            var me = this;
+            var point = 0;
+            if (me.sel_point) {
+                point = me.getCmpById(me.sel_point).getValue();
+            }
+
+            var param = {
+                params: {
+                    model: "HR",
+                    kind: me.infoType,
+                    point: point * 10
+                }
+            };
+            return param;
+        },
+        getReplyParam: function () {
+            var me = this;
+            var param = {
+                params: {
+                    hr: me.hr,
+                    option: 'rp'
+                }
+            };
+            return param;
+        },
+        refreshReply: function () {
+            var me = this;
+            var param = me.getReplyParam();
+            me.replyStore.load(param);
+        },
+        /**
+         * 刷新数据
+         *
+         * @param flag
+         *            0:本地刷新 1:服务器刷新
+         */
+        refreshData: function (flag) {
+            var me = this;
+            var param = me.getParam();
+            var cb = function (data, me) {
+                me.changeListHelp(0);// 初始数据
+                if (me.infoType == 1) {
+                    me.seg_help.getItems().items[2].setHidden(true);
+                } else {
+                    me.seg_help.getItems().items[2].setHidden(false);
+                }
+                me.refreshMap(data, me);
+            };
+            if (flag == 0) {
+                me.refreshLocal(param, cb);
+            } else {
+                me.refreshServer(param, cb);
+            }
+
+        },
+
+        refreshServer: function (param, cb) {
+            var me = this;
+            me.StoreCb = cb;
+            me.store.load(param);
+
+        },
+        refreshLocal: function (param, cb) {
+            var me = this;
+            var point = param.point;
+            var newDatas = [];
+            for (var i = 0; i < me.datas.length; i++) {
+                var data = me.datas[i];
+                if (data.point > point) {
+                    newDatas.push(data);
+                }
+            }
+            cb(newDatas, me);
+
+        },
+
+        // 刷新页面
+        refreshMap: function (datas, me) {
+            me.map.updateData(datas);
+
+        },
+        // 向地图添加元素
+        addItem: function () {
+            var me = this;
+            var a = me.map.bmap.getCenter();
+            me.data = me.initShowData();
+
+            var fields = ["status", "point", "info", "type"];
+            for (var i = 0; i < fields.length; i++) {
+
+                a[fields[i]] = me.data[fields[i]];
+            }
+            var item = me.map.addP(a, true);
+            me.map.updateData(a, true);
+
+        },
+
+        changeInfoType: function (type) {
+            var me = this;
+            me.infoType = type;
+            // me.getCmpById(me.sel_point).setHidden(type != 1);
+            if (type == 1) {// Help
+                console.log("info");
+
+            } else {
+
+                console.log("need");
+            }
+
+            me.refreshData(1);
+        },
+
+        changeShowType: function (type) {
+            var me = this;
+            me.showType = type;
+            // me.getCmpById(me.sel_point).setHidden(type != 1);
+            if (type == 1) {// Help
+                console.log("info");
+
+            } else {
+                console.log("need");
+            }
+            me.ctrlEnabled("panel_window_need", type == 0);
+            me.ctrlEnabled("panel_window_reply", type == 1);
+
+        },
+        changeListHelp: function (flag) {
+            var me = this;
+            me.listHelpType = flag;
+            me.store.clearFilter();
+            if (flag > 0) {
+
+                if (flag == 2) {
+                    me.store.filter('helper', me.user);
+                } else {
+                    me.store.filter('user', me.user);
+
+                }
+
+                me.getCmpById(me.panel_list).setStore(me.store);
+            }
+
+        },
+        getCmpById: function (obj) {
+            return Ext.getCmp(obj.id);
+        },
+        alert: function (info, title) {
+            var title = title || "信息";
+            Ext.Msg.alert(title, info);
+        },
+        resetPWD: function (email) {
+            var me = this;
+
+            var data = {
+                "name": Ext.getCmp("no").getValue(),
+                "email": email,
+                option: "r"
+            };
+            Ext.Ajax.request({
+                url: me.server + '/pwd',
+                method: 'POST',
+                params: data,
+                success: function (response, opts) {
+                    var obj = Ext.decode(response.responseText);
+                    if (obj.success) {
+                        me.alert("重置成功。请查看邮件。");
+                    } else {
+                        me.alert("重置失敗、EMAIL输入错误。");
+                    }
+                    console.dir(obj);
+                },
+                failure: function (response, opts) {
+                    console.log('server erro:' + response.status);
+                }
+            });
+        },
+        regedit: function (email) {
+            var me = this;
+
+            var data = {
+                "name": Ext.getCmp("no").getValue(),
+                "email": email,
+                'password': Ext.getCmp("password").getValue(),
+                option: "g"
+            };
+            Ext.Ajax.request({
+                url: me.server + '/pwd',
+                method: 'POST',
+                params: data,
+                success: function (response, opts) {
+                    var obj = Ext.decode(response.responseText);
+                    if (obj.success) {
+                        me.alert("注册成功，请查看邮件进行验证。");
+                    } else {
+                        me.alert("注册失败,EMAIL或用户名已被注册。");
+                    }
+                    console.dir(obj);
+                },
+                failure: function (response, opts) {
+                    console.log('server erro:' + response.status);
+                }
+            });
+        },
+        changePWD: function (pwd, newpwd, newpwd2) {
+            if (newpwd != newpwd2) {
+                me.alert("两次密码输入不一致。");
+                return;
+            }
+            var me = this;
+            var data = {
+                user: me.user,
+                "password": pwd,
+                "newpassword": newpwd,
+                option: "c"
+            };
+            Ext.Ajax.request({
+                url: '../../pwd',
+                method: 'POST',
+                params: data,
+                success: function (response, opts) {
+                    var obj = Ext.decode(response.responseText);
+                    if (obj.success) {
+                        me.alert("更改成功");
+                    } else {
+                        me.alert("旧密码输入错误");
+                    }
+                    console.dir(obj);
+                },
+                failure: function (response, opts) {
+                    console.log('server erro:' + response.status);
+                }
+            });
+        },
+        getData: function () {
+            var me = this;
+            var obj = me.marker.options;
+            me.data = {};
+            me.data.lat = obj.lat;
+            me.data.lng = obj.lng;
+            me.data.voice = obj.voice;
+            me.data.user = obj.user;
+            me.data.type = obj.type;
+            me.data.kind = obj.kind;
+
+            me.data.info = obj.info;
+            me.data.status = obj.status;
+            me.data.point = obj.point;
+
+            if (obj.id) {
+                me.data.id = obj.id;
+                me.hr = obj.id;
+            }
+
+            var fields = ["status", "point", "info"];
+            for (var i = 0; i < fields.length; i++) {
+                Ext.getCmp("show_" + fields[i]).setValue(obj[fields[i]]);
+            }
+
+            if (me.infoType == 0) {// need
+                Ext.getCmp("show_need").setValue(me.data["type"]);
+            } else {
+                Ext.getCmp("show_msg").setValue(me.data["type"]);
+            }
+        },
+        setData: function () {
+            var me = this;
+
+            me.data.user = me.user;
+
+            me.data.kind = me.infoType;
+
+            me.data.date = Ext.util.Format.date(new Date(), "YmdHis");
+
+            var fields = ["status", "point", "info"];
+
+            for (var i = 0; i < fields.length; i++) {
+                me.data[fields[i]] = Ext.getCmp("show_" + fields[i])
+                    .getValue();
+            }
+            if (me.infoType == 0) {// need
+                me.data["type"] = Ext.getCmp("show_need").getValue();
+            } else {
+                me.data["type"] = Ext.getCmp("show_msg").getValue();
+            }
+            if (me.data.voice == 0) {
+                if (me.record.isNew) {
+                    me.data["voice"] = 1;
+                } else {
+                    me.data["voice"] = 0;
+                }
+            }
+        },
+        // 提交数据
+        submitData: function (data, callback, flag) {
+            var me = this;
+            Ext.Ajax.request({
+                url: me.server + '/data',
+                method: 'POST',
+                params: data,
+                success: function (response, opts) {
+                    var obj = Ext.decode(response.responseText);
+                    if (obj.success) {
+
+                        if (obj.id) {
+                            data.id = obj.id;
+                            if (flag === true) {
+                                me.alert("追加成功");
+                            }
+                        } else {
+                            if (flag === true) {
+                                me.alert("更新成功");
+                            }
+                        }
+                        callback(obj.id);
+                    }
+                    console.dir(obj);
+                },
+                failure: function (response, opts) {
+                    console.log('server erro:' + response.status);
+                }
+            });
+        },
+
+        createStore: function () {
+            var me = this;
+            me.store = Ext
+                .create(
+                    'Ext.data.Store',
+                    {
+                        // give the store some fields
+                        fields: ['id', 'title', 'lat', 'lng', 'date',
+                            'info', 'point', 'voice', 'status',
+                            'type', 'user', 'helper', 'kind'],
+                        // filter the data using the firstName field
+                        sorters: 'id',
+                        // autoload the data from the server
+                        autoLoad: false,
+                        listeners: {
+                            load: function (st, records) {
+                                me.datas = [];
+                                if (records.length > 0) {
+                                    me
+                                        .ctrlEnabled(
+                                            "fs_show_review",
+                                            false);
+                                }
+                                for (var i = 0; i < records.length; i++) {
+                                    me.datas.push(records[i].data);
+                                }
+                                me.StoreCb(me.datas, me);
+                            },
+                            refresh: function (st, datas) {
+                                if (me.mainPanel.getActiveItem() == 3) {
+                                    me.getCmpById(me.panel_list)
+                                        .refresh();
+                                }
+                            }
+                        },
+                        proxy: {
+                            type: 'ajax',
+                            url: me.server + '/data',
+                            reader: {
+                                type: 'json',
+                                root: 'data'
+                            },
+                            actionMethods: {
+                                create: 'POST',
+                                read: 'POST', // by default GET
+                                update: 'POST',
+                                destroy: 'POST'
+                            },
+                            extraParams: {}
+                        }
+                    });
+        },
+        createReplyStore: function () {
+            var me = this;
+            me.replyStore = Ext.create('Ext.data.Store', {
+                // give the store some fields
+                fields: ['id', 'info', 'voice', 'hr', 'date', 'user'],
+                // filter the data using the firstName field
+                sorters: 'id',
+                // autoload the data from the server
+                autoLoad: false,
+                listeners: {
+                    load: function (st, records) {
+                        me.replyDatas = [];
+                        for (var i = 0; i < records.length; i++) {
+                            me.replyDatas.push(records[i].data);
+                        }
+
+                        Ext.getCmp("panel_window_reply").getScrollable().getScroller().scrollToEnd();
+                        // me.StoreCb(me.datas, me);
+                    },
+
+                    addrecords: function (store, records, eOpts) {
+                        var scroller = Ext.getCmp("panel_window_reply").getScrollable().getScroller();
+                        scroller.scrollTo(0, scroller.getSize().y - scroller.getContainerSize().y + 20);
+
+                    }
+
+                },
+                proxy: {
+                    type: 'ajax',
+                    url: me.server + '/data',
+                    reader: {
+                        type: 'json',
+                        root: 'data'
+                    },
+                    actionMethods: {
+                        create: 'POST',
+                        read: 'POST', // by default GET
+                        update: 'POST',
+                        destroy: 'POST'
+                    },
+                    extraParams: {}
+                }
+            });
+        },
+        playReply: function (id) {
+            var me = this;
+
+            me
+                .playUrl(me.server
+                    + me.uploadUrl
+                    + "reply_" + id
+                    + ".spx");
+
+        },
+        // 回复
+        getShowWindowReply: function () {
+            var me = this;
+
+            var reply_send_refresh = {
+                xtype: 'button',
+                // align: 'left',
+                id: "reply_send_refresh",
+                iconCls: "refresh",
+                flex: 0.1,
+
+                handler: function () {
+                    // Ext.getCmp("panel_window_reply").refresh();
+                    me.refreshReply();
+                }
+            };
+            var reply_send_voice =
+
+                Ext.create('com.renxd.RflButton', {
+
+                    // align: 'left',
+                    id: "reply_send_voice",
+                    iconCls: "add",
+                    flex: 0.1,
+                    listeners: {
+
+                        touchstart: function (event) {
+                            console.log("touchstart");
+                            me.recordData = false;
+                            me.record.record();
+                        },
+                        touchend: function (event) {
+                            console.log("touchend");
+                            me.recordData = false;
+                            me.record.record();
+                        }
+                    }
+                });
+
+            var reply_txt_msg = {
+                xtype: 'textfield',
+                // align: 'left',
+                id: "reply_txt_msg",
+                flex: 0.6,
+                width: '80%',
+                text: ''
+            };
+            var reply_btn_msg = {
+                xtype: 'button',
+                // align: 'left',
+                id: "reply_btn_msg",
+
+                text: '发送',
+                handler: function () {
+
+
+                    if (Ext.getCmp("reply_txt_msg").getValue() == "") {
+                        return;
+                    }
+                    var addReply = {
+                        option: "s",
+                        table: "REPLY",
+                        "hr": me.hr,
+                        "user": me.user,
+                        "date": Ext.util.Format.date(new Date(), "YmdHis"),
+                        "info": Ext.getCmp("reply_txt_msg").getValue(),
+                        "voice": 0
+                    };
+                    me.submitData(addReply, function (insertId) {
+                        me.refreshReply();
+//                        me.replyStore.add({
+//                            "id": insertId,
+//                            "hr": me.hr,
+//                            "user": me.no,
+//                            "voice": 0,
+//                            "date": Ext.util.Format.date(new Date(),
+//                                "YmdHis"),
+//                            "info": Ext.getCmp("reply_txt_msg").getValue()
+//                        });
+                        me.ctrlValue("reply_txt_msg", "");
+                    });
+                }
+            };
+            return {
+                id: 'panel_window_reply',
+                width: 300,
+                height: 400,
+                items: [{
+                    docked: 'bottom',
+                    xtype: 'titlebar',
+                    layout: 'hbox',
+                    items: [reply_send_refresh, reply_send_voice,
+                        reply_txt_msg, reply_btn_msg]
+                }],
+                store: me.replyStore,
+                xtype: 'list',
+                scrollable: {
+                    direction: 'vertical'
+                },
+                variableHeights: true,
+                itemHeight: 30,
+                listeners: {
+                    select: function (item, record, eOpts) {
+                        if (record.data.voice == 1) {
+                            me
+                                .playUrl(me.server
+                                    + me.uploadUrl
+                                    + "reply_" + record.data.id
+                                    + ".spx");
+                            //console.log("play reply");
+                        }
+                    }
+                },
+                itemTpl: new Ext.XTemplate(
+                    '<div  style="width:100%;height:100%;white-space:nowrap;text-overflow:ellipsis;overflow: hidden; ">({[this.date(values.date)]}){user}:{info}</div>',
+                    {
+                        date: function (v) {
+                            return me.tool.mdStr(v);
+                        },
+                        btn: function (v) {
+
+                            if (v.voice == 1) {
+                                return "<a href='#' onclick='app.playReply(" + v.id + ")'>播放</a>";
+                            }
+                        }
+                    })
+            };
+        }
+    });
+var record = new Record();
