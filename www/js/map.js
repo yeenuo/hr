@@ -76,7 +76,7 @@ Ext.define('ux.BMap', {
             } else {
 
             }
-            //设置中心点和地图显示级别
+
             map.centerAndZoom(point, 16);
 
 
@@ -85,7 +85,7 @@ Ext.define('ux.BMap', {
             //判断是否加载定位控件
             if (mapOptions.locate) {
                 //加载定位控件
-                map.addControl(new BMap.GeolocationControl());//
+                // map.addControl(new BMap.GeolocationControl());//
             }
             map.addControl(new BMap.NavigationControl());
             //map.addControl(new BMap.ScaleControl());//比例尺
@@ -106,10 +106,18 @@ Ext.define('ux.BMap', {
                 me.onLoad(store);
             }
 
+            me.on('showMap', function (map) {
+                me.app.center();
+            });
 
             //地图加载完毕触发事件
             me.fireEvent('showMap', me);
         }
+    },
+    center: function (pos) {
+        var me = this;
+        var point = new BMap.Point(pos.lng, pos.lat);
+        me.bmap.setCenter(point);
     },
     //数据源事件
     storeEventHooks: {
@@ -229,7 +237,7 @@ Ext.define('ux.BMap', {
 
 
             if (item.kind == 1) {
-                myIcon = new BMap.Icon("./img/1_"+item.type+".png", new BMap.Size(23, 25), {
+                myIcon = new BMap.Icon("./img/1_" + item.type + ".png", new BMap.Size(23, 25), {
                     offset: new BMap.Size(0, 0), // 指定定位位置
                     imageOffset: new BMap.Size(0, 0) // 设置图片偏移
                 });

@@ -88,7 +88,19 @@
       "path": "js/map.js",
       "update": "delta"
     },
-
+    {
+      "path": "js/Coordinates.js",
+      "update": "delta"
+    },    {
+      "path": "js/geolocation.js",
+      "update": "delta"
+    },    {
+      "path": "js/Position.js",
+      "update": "delta"
+    },    {
+      "path": "js/PositionError.js",
+      "update": "delta"
+    },
 
 
     {
