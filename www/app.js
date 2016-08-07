@@ -1374,7 +1374,7 @@ var app = Ext
                                         xtype: 'button',
                                         id: "btn_show_status_0",
                                         flex: 0.5,
-                                        text: '继续申请',
+                                        text: '重新申请',
                                         handler: function () {
                                             me.status(0);
                                         }
@@ -1382,7 +1382,7 @@ var app = Ext
                                         xtype: 'button',
                                         id: "btn_show_status_2",
                                         flex: 0.5,
-                                        text: '关闭帮助',
+                                        text: '帮助完成',
                                         handler: function () {
                                             me.status(2);
                                         }
@@ -1393,17 +1393,46 @@ var app = Ext
                         });
             },
             status: function (value, user) {
+                var me = this;
                 //1：设定用户 2:加分减分
                 var param = {id: me.data.id, option: "s", table: "HR", status: value};
-                if(value == 1)//1：设定用户
+                if (value == 1)//1：设定用户
                 {
                     param.helper = user;
                 }
+                else if (value == 0)//重新申请
+                {
+                    param.helper = -1;
+                }
+
+                function success() {
+                    me.hideWindow();
+                    if (value == 2) {
+
+                        me.store.remove(me.store.findRecord("id", me.data.id));
+                        me.marker.hide();
+
+                        me.marker = null;
+
+
+                    }
+                }
 
                 me.submitData(param, function () {
-                    if(value == 2)// 2:加分减分
-                    {
+                    if (value == 2) {// 2:加分减分
 
+                        param = {id: me.user, option: "score", point: -1 * me.data.point};
+                        me.submitData(param, function () {//减分
+                            param = {id: me.data.helper, option: "score", point: me.data.point};
+                            me.submitData(param, function () {
+                                success();
+                            });//加分
+
+                        });
+
+
+                    } else {
+                        success();
                     }
                 });
 
@@ -2155,6 +2184,7 @@ var app = Ext
                 me.data.status = obj.status;
                 me.data.point = obj.point;
                 me.data.occ = obj.occ;
+                me.data.helper = obj.helper;
 
                 if (obj.id) {
                     me.data.id = obj.id;
@@ -2257,12 +2287,26 @@ var app = Ext
                             for (var i = 0; i < records.length; i++) {
                                 me.datas.push(records[i].data);
                             }
-                            me.StoreCb(me.datas, me);
+                            if (me.StoreCb) {
+                                me.StoreCb(me.datas, me);
+                            }
+
                         },
                         refresh: function (st, datas) {
                             if (me.mainPanel.getActiveItem() == 3) {
                                 me.getCmpById(me.panel_list).refresh();
                             }
+                        },
+                        removerecords: function (store, records, indices, eOpts) {
+                            var newArray = [];
+                            me.getCmpById(me.panel_list).refresh();
+                            for (var i = 0; i < me.datas.length; i++) {
+                                if (me.datas[i].id != records[0].data.id) {
+                                    newArray.push(me.datas[i]);
+                                }
+                            }
+                            me.datas = newArray;
+                            //me.refreshMap(me.datas, me);
                         }
                     },
                     proxy: {
@@ -2535,8 +2579,8 @@ var app = Ext
                                         + v.id + ")'>播放</a>";
                                 }
 
-                                //登录用户为数据用户&&回复不等于本数据用户&&目前为寻求帮助
-                                if ((me.user != me.data.user) && (v.userId != me.data.user) && (me.data.status == 0)) {
+                                //登录用户为数据用户&&回复用户不等于本数据用户&&目前为寻求帮助
+                                if ((me.user == me.data.user) && (v.userId != me.data.user) && (me.data.status == 0)) {
                                     rtn = rtn + "&nbsp;&nbsp;<a href='#' onclick='document.app.status(1,"
                                         + v.userId + ")'>设为帮助</a>";
                                 }
