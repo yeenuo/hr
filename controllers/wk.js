@@ -118,6 +118,36 @@ exports.data = function (req, res, next) {
             res.end();
         });
     }
+    else if (option == "score")//评价
+    {   var data = req.body;
+        var id = data.id;
+        var value = data.point;
+        var err = function (res) {
+            res.writeHead(200, {"Content-Type": "text/html;charset:utf-8"});
+            res.write("{success:false}");
+            res.end();
+        };
+        var suc = function (res) {
+            res.writeHead(200, {"Content-Type": "text/html;charset:utf-8"});
+            res.write("{success:true}");
+            res.end();
+        };
+        db.c("update REN.T_USER set point = GREATEST( point + (?),0) where id = ?", [value, id], function (rtn) {
+
+            if (rtn.affectedRows == 1) {
+                if(value >0)
+                {
+                    var users = [id];
+                    push(users,"谢谢您的帮助，您将获得"+value+"积分。");
+                }
+                suc(res);
+            }
+            else {
+                err(res);
+            }
+        });
+
+    }
     else if (option == "rv")//评价
     {
         var data = req.body;
