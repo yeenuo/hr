@@ -55,8 +55,8 @@ var app = Ext
 
             initConfig: function () {
                 var me = this;
-                me.DM = false;// 实机测试
-                me.INJP = true;
+                me.DM = true;// 实机测试
+                me.INJP = false;
                 me.initData();
                 me.record = record;
                 me.record.app = me;
@@ -319,6 +319,13 @@ var app = Ext
                 // }
 
                 me.refreshData(1);
+
+
+                if(!me.DM)
+                {
+                    me.ctrlValue("no","tj1");
+                    me.ctrlValue("password","111111");
+                }
             },
             hideWindow: function () {
                 var me = this;
@@ -985,14 +992,14 @@ var app = Ext
                             id: 'no',
                             name: 'no',
                             label: '用户ID',
-                            value: 'tj1'// TODO DELETE
+                            value: ''// TODO DELETE
                         },
                         {
                             xtype: 'passwordfield',
                             id: 'password',
                             name: 'password',
                             label: '密码',
-                            value: '111111'
+                            value: ''
                         },
                         {
                             xtype: 'button',
@@ -1049,7 +1056,7 @@ var app = Ext
 
                                                 me.mainPanel
                                                     .setActiveItem(0);
-                                                me.refreshData(1)
+                                                me.refreshData(1);
 
                                                 //pushFlag
                                                 me.ctrlValue("tf_push_flag", obj.ispush);
@@ -1594,7 +1601,7 @@ var app = Ext
                     me.hr = me.data.id;
                     me.setMarkerData();
                     me.hideWindow();
-                    me.ctrlEnabled("seg_show", true)
+                    me.ctrlEnabled("seg_show", true);
                     me.setPoint(me.point - me.data.point);
 
                 }
