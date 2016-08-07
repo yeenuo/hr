@@ -41,16 +41,24 @@ exports.data = function (req, res, next) {
     {
         var data = req.body;
         data.table = "H_" + data.table;
+        if (data.model) {
+            data.table = "T_" + data.model;
+            data.model = null;
+            delete data.model;
+        }
         var func = function (rtn) {
-            console.log(rtn);
+
             if (rtn.affectedRows == 1) {
                 res.writeHead(200, {"Content-Type": "text/html;charset:utf-8"});
                 if (parseInt(rtn.insertId) > 0) {
                     if (data.table == "H_REPLY")//回复
                     {
-                        pushReply(data.hr, data.info);
-                    }
 
+                        pushReply(data.hr, data.info, req.session.user);
+                    }
+                    else if (data.table == "H_HR") {//新建
+                        pushHR(data);
+                    }
                     res.write("{success:true,id:" + rtn.insertId + ",option:'a'}");
                 }
                 else {
@@ -91,11 +99,20 @@ exports.data = function (req, res, next) {
             }
         }
     }
+    else if (option == "ma")//界面选择数据
+    {
+        var sql = "";
+        db.q("SELECT  TYPE as type,value as value,text as text  FROM REN.H_MASTER order by type,value ", [], function (datas) {
+            res.writeHead(200, {"Content-Type": "text/html;charset:utf-8"});
+            res.write(JSON.stringify(datas));
+            res.end();
+        });
+    }
     else if (option == "rp")//reply查询
     {
         var hr = req.body.hr;
         var sql = "";
-        db.q("SELECT r.ID as id,HR as hr,Info as info,Date as date,Voice as voice ,u.no as user   FROM REN.H_REPLY r left join T_USER u on r.user = u.id   WHERE HR = ? ", [hr], function (datas) {
+        db.q("SELECT r.ID as id,HR as hr,Info as info,Date as date,Voice as voice ,u.no as user,u.id as userId   FROM REN.H_REPLY r left join T_USER u on r.user = u.id   WHERE HR = ? ", [hr], function (datas) {
             res.writeHead(200, {"Content-Type": "text/html;charset:utf-8"});
             res.write(JSON.stringify(datas));
             res.end();
@@ -123,7 +140,8 @@ exports.data = function (req, res, next) {
         };
         db.c("update REN.H_HR set Point = Point + (?) where id = ?", [value, id], function (datas) {
             if (datas.affectedRows == 1) {
-                db.c("update REN.T_USER set point = point + (?) where id = (select user from REN.H_HR where id = ?)", [value, id], function (rtn) {
+                //更新值
+                db.c("update REN.T_USER set point = GREATEST( point + (?),0) where id = (select user from REN.H_HR where id = ?)", [value, id], function (rtn) {
 
                     if (rtn.affectedRows == 1) {
                         suc(res);
@@ -154,10 +172,17 @@ exports.data = function (req, res, next) {
          }
          });*/
     }
+    else if (option == "master") {
+        db.q("select id as id,text as text,type as type,value as value from REN.H_MASTER order by type,value", [], function (datas) {
+            res.writeHead(200, {"Content-Type": "text/html;charset:utf-8"});
+            res.write(JSON.stringify(datas));
+            res.end();
+        });
+    }
     else {
         var kind = req.body.kind;//0:寻求帮助 1:有用信息
         var point = req.body.point;
-        db.q("SELECT ID as id,Title as title,Lat as lat,Lng as lng,Info as info,Point as point,Voice as voice,Status as status,Type as type,USER as user,Helper as helper, KIND as kind FROM REN.H_" + req.body.model.toUpperCase() + " WHERE KIND = ? and Point > ?", [kind, point], function (datas) {
+        db.q("SELECT ID as id,Title as title,Lat as lat,Lng as lng,Info as info,Point as point,Voice as voice,Date as date,Status as status,Type as type,USER as user,Helper as helper, KIND as kind,Occ as occ FROM REN.H_" + req.body.model.toUpperCase() + " WHERE KIND = ? and Point > ? and (STATUS = 0 OR (STATUS = 1 AND USER = ? OR HELPER = ?))", [kind, point,req.session.user,req.session.user], function (datas) {
             res.writeHead(200, {"Content-Type": "text/html;charset:utf-8"});
             res.write(JSON.stringify(datas));
             res.end();
@@ -166,7 +191,37 @@ exports.data = function (req, res, next) {
 
 };
 
+function pushHR(data) {
+    //SELECT user.id FROM REN.T_USER user where (ABS((lat +  lng) - ?) <0.01) and (occ = 0 or occ = ?)
 
+
+    var sql = "SELECT user.id user FROM REN.T_USER user where (ABS((lat +  lng) - ?) <0.01)";
+
+    var params = [(parseFloat(data.lat) + parseFloat(data.lng)).toFixed(6)];
+    if (data.occ != 0)//特定推送种类
+    {
+        sql = sql + " and (occ = 0 or occ = ?)";
+        params.push(data.occ);
+    }
+
+
+    db.q(sql, params, function (datas) {
+        var users = [];
+        if (datas.length > 0) {
+            for (var i = 0; i < datas.length; i++) {
+                users.push(datas[i].user);
+                //console.log("add datas[i].user");
+            }
+
+            if (users.length > 0) {
+                // console.log("push reply");
+                push(users, "新信息:(" + data.info + ")。");
+            }
+        }
+
+    });
+
+}
 function push(users, msg, title) {
     var str_users = users.join();
 
@@ -185,22 +240,31 @@ function push(users, msg, title) {
             }
         });
 }
-function pushReply(hr, info) {
+function pushReply(hr, info, user) {
     var users = [];
+    // var sql = " SELECT Distinct User+'' user FROM REN.H_REPLY where HR = ? "
+    //sql = sql + "  union select user  from REN.H_HR where id = ?  "
+    //sql = sql + "  union select info user  from REN.H_HR where id = ?  "//?
 
-    var sql = " SELECT Distinct User+'' user FROM REN.H_REPLY where HR = ? "
-    sql = sql + "  union select user  from REN.H_HR where id = ?  "
-    sql = sql + "  union select info user  from REN.H_HR where id = ?  "
-    db.q(sql, [hr, hr, hr], function (datas) {
-        console.log(datas);
+    var sql = " select user from( ";
+    sql = sql + "     SELECT Distinct User  user FROM REN.H_REPLY where HR = ? ";
+    sql = sql + "  union select user ";
+    sql = sql + "  from REN.H_HR where id = ?  ) a ";
+    sql = sql + "  inner join  REN.T_USER user on user.id = a.user ";
+    sql = sql + "  where user.ispush = 1 and user.islogin = 1 and user.id <> ?";
+
+    db.q(sql, [hr, hr, user], function (datas) {
+
         //datas
-        if (datas.length > 1) {
-            for (var i = 0; i < datas.length - 1; i++) {
+        if (datas.length > 0) {
+            for (var i = 0; i < datas.length; i++) {
                 users.push(datas[i].user);
+                //console.log("add datas[i].user");
             }
 
             if (users.length > 0) {
-                push(users, "您好,有人回复了您的信息(" + datas[datas.length - 1].user + ")。");
+                // console.log("push reply");
+                push(users, "新回复:(" + info + ")。");
             }
         }
 
@@ -437,7 +501,7 @@ exports.login = function (req, res, next) {
     var data = req.body;
     var name = data.name;
     var pwd = crypt(data.password);
-    var sql = "SELECT u.ID,ROLE,email,u.name,u.point,u.no FROM REN.T_USER u  WHERE NO =? and PASSWORD = ? and failedcount < ? and verified = 1"
+    var sql = "SELECT u.ID,ROLE,email,u.name,u.point,u.no,ISPUSH as ispush,OCC as occ,AREA as area,POS as pos FROM REN.T_USER u  WHERE NO =? and PASSWORD = ? and failedcount < ? and verified = 1"
 
     var params = [name, pwd, 10];
     db.q(sql, params, function (rows) {
@@ -446,16 +510,39 @@ exports.login = function (req, res, next) {
             // RowDataPacket { ID: 2, ROLE: null }
             console.log(rows);
             var data = JSON.parse(JSON.stringify(rows));
-            rtn = "{success:true,user:" + data[0].ID + ",point:'" + data[0].point + "',no:'" + data[0].no + "',role:" + data[0].ROLE + "}"
+            db.u({id: data[0].ID, islogin: 1, table: "T_USER"}, function () {
+                rtn = "{success:true,user:" + data[0].ID + ",point:'" + data[0].point + "',no:'" + data[0].no + "',area:'" + data[0].area + "',occ:'" + data[0].occ + "',ispush:'" + data[0].ispush + "',pos:'" + data[0].pos + "',role:" + data[0].ROLE + "}"
+                req.session.user = data[0].ID;
+                req.session.role = data[0].ROLE;
+                res.writeHead(200, {"Content-Type": "text/html;charset:utf-8"});
+                res.write(rtn);
+                res.end();
+            });
+
+        }
+        else {
+            res.writeHead(200, {"Content-Type": "text/html;charset:utf-8"});
+            res.write(rtn);
+            res.end();
+        }
+
+    });
+};
+exports.logout = function (req, res, next) {
+    var rtn = "{success:false}"
+    db.u({id: req.session.user, islogin: 0, table: "T_USER"}, function () {
+        if (rows.length > 0) {
+            rtn = "{success:true}"
             req.session.user = data[0].ID;
             req.session.role = data[0].ROLE;
         }
-        res.writeHead(200, {"Content-Type": "text/html;charset:utf-8"});
-        res.write(rtn);
-        res.end();
-    });
-};
 
+    });
+
+    res.writeHead(200, {"Content-Type": "text/html;charset:utf-8"});
+    res.write(rtn);
+    res.end();
+};
 
 function crypt(info) {
     var content = info;

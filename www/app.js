@@ -122,44 +122,8 @@ var app = Ext
                     helpi: '发布的',
                     helpu: '帮助的',
 
-                    msgs: [{
-                        id: -1,
-                        text: '--类别--'
-                    }, {
-                        id: 0,
-                        text: '便民活动'
-                    }, {
-                        id: 1,
-                        text: '商家打折'
-                    }, {
-                        id: 2,
-                        text: '拾取归还'
-                    }, {
-                        id: 3,
-                        text: '二手物品'
-                    }, {
-                        id: 3,
-                        text: '免费体检'
-                    }],
-                    needs: [{
-                        id: -1,
-                        text: '--类别--'
-                    }, {
-                        id: 0,
-                        text: '寻物'
-                    }, {
-                        id: 1,
-                        text: '寻人'
-                    }, {
-                        id: 2,
-                        text: '问答'
-                    }, {
-                        id: 3,
-                        text: '求购'
-                    }, {
-                        id: 4,
-                        text: '其他'
-                    }],
+                    msgs: [],
+                    needs: [],
                     distances: [{
                         id: -1,
                         text: '--距离--'
@@ -195,16 +159,8 @@ var app = Ext
                         id: 2,
                         text: '密友'
                     }],
-                    status: [{
-                        id: 0,
-                        text: '确认中'
-                    }, {
-                        id: 1,
-                        text: '帮助中'
-                    }, {
-                        id: 2,
-                        text: '已完成'
-                    }],
+                    occrs: [],
+                    status: [],
                     levels: [{
                         id: 0,
                         text: '>10'
@@ -218,29 +174,14 @@ var app = Ext
                         id: 3,
                         text: '>0'
                     }],
-                    points: [{
-                        id: -1,
-                        text: '分数'
-                    }, {
-                        id: 1,
-                        text: '>10'
-                    }, {
-                        id: 2,
-                        text: '>20'
-                    }, {
-                        id: 5,
-                        text: '>50'
-                    }, {
-                        id: 10,
-                        text: '>100'
-                    }]
+                    points: []
                 };
 
                 // me.map = null;
                 me.sel_distance = null;
                 me.sel_msg = null;
-                me.sel_kind = null;
                 me.sel_point = null;
+                me.sel_kind = null;
                 me.seg_type = null;
                 me.marker = null;
             },
@@ -252,6 +193,8 @@ var app = Ext
                 me.hr = -1;
                 me.role = -1;
                 me.point = -1;
+                me.occ = -1;
+                me.area = -1;
                 me.no = "";
                 me.data = {};// 当前选中data,便于删除修改添加用
                 me.datas = [];
@@ -259,14 +202,17 @@ var app = Ext
             },
             launch: function () {
                 var me = this;
-
+                document.app = me;
                 me.initConfig();
 
                 if (me.DM) {
                     me.createDB();
                 }
+                //Store
                 me.createStore();
                 me.createReplyStore();
+                me.createMasterStore();
+
                 me.panel_window_need = me.getShowWindowNeed();
                 me.panel_window_reply = me.getShowWindowReply();
 
@@ -308,6 +254,14 @@ var app = Ext
                         docked: 'top',
                         xtype: 'titlebar',
                         items: [{
+                            xtype: 'button',
+                            align: "right",
+                            id: "btn_complain",
+                            text: '投诉',
+                            handler: function () {
+                                me.complain();
+                            }
+                        }, {
                             align: "right",
                             iconCls: 'delete',
                             handler: function () {
@@ -757,25 +711,21 @@ var app = Ext
                                             xtype: 'fieldset',
                                             title: '设定',
                                             items: [
-                                                {
-                                                    xtype: 'passwordfield',
-                                                    id: "confg_email",
-                                                    name: 'confg_email',
-                                                    label: '邮箱',
-                                                    value: ''
-                                                },
+
                                                 {
                                                     xtype: 'selectfield',
-                                                    id: "confg_area",
-                                                    name: 'confg_area',
+                                                    id: "config_area",
+                                                    valueField: 'id',
+                                                    name: 'config_area',
                                                     label: '地区',
                                                     value: ''
                                                 },
                                                 {
                                                     xtype: 'selectfield',
-                                                    id: "confg_focus",
-                                                    name: 'confg_focus',
+                                                    id: "config_occ",
+                                                    name: 'config_occ',
                                                     label: '关注',
+                                                    valueField: 'id',
                                                     value: ''
                                                 },
                                                 {
@@ -1071,18 +1021,23 @@ var app = Ext
                                                            opts) {
                                             var obj = Ext
                                                 .decode(response.responseText);
-                                            if (obj.success) {// 登陆成功
+                                            if (obj.success) {// LOGIN rfl
                                                 me.user = obj.user;
                                                 me.role = obj.role;
-                                                me.point = obj.point;
+                                                me.setPoint(obj.point);
+                                                me.occ = obj.occ;
+                                                me.area = obj.area;
+
+                                                me.ctrlValue("config_occ", me.occ);
+                                                me.ctrlValue("config_area", me.area);
+
                                                 me.no = obj.no;
 
 
                                                 me.ctrlValue("txt_no",
                                                     obj.no);
-                                                me.ctrlValue(
-                                                    "txt_point",
-                                                    obj.point);
+
+
                                                 me
                                                     .ctrlEnabled(
                                                         "btn_add",
@@ -1095,6 +1050,7 @@ var app = Ext
                                                 me.mainPanel
                                                     .setActiveItem(0);
                                                 me.refreshData(1)
+
                                                 //pushFlag
                                                 me.ctrlValue("tf_push_flag", obj.ispush);
                                                 me.changePushFlagAble = true;
@@ -1183,6 +1139,14 @@ var app = Ext
                     ]
                 };
             },
+            setPoint: function (point) {
+                var me = this;
+                me.point = point;
+                me.ctrlValue(
+                    "txt_point",
+                    me.point);
+                Ext.getCmp("show_point").setMaxValue(100);
+            },
             /** 注册或重置密码* */
             resetOrReg: function (flag) {
                 var me = this;
@@ -1259,11 +1223,18 @@ var app = Ext
                                     valueField: 'id',
                                     options: me.config.msgs
                                 },
+                                {
+                                    id: 'show_occ',
+                                    xtype: 'selectfield',
+                                    label: '关注',
+                                    valueField: 'id'
+                                },
 
                                 // 详细信息
                                 {
                                     id: 'show_info',
-                                    xtype: 'textareafield',
+                                    xtype: 'textfield',
+                                    maxLength: 50,
                                     placeHolder: '相关信息',
                                     label: '信息'
                                 },
@@ -1271,8 +1242,8 @@ var app = Ext
                                 {
                                     xtype: 'spinnerfield',
                                     minValue: 0,
-                                    maxValue: 100,
-                                    increment: 1,
+                                    maxValue: me.point,
+                                    stepValue: 1,
                                     cycle: true,
                                     id: 'show_point',
                                     label: '分数',
@@ -1368,15 +1339,6 @@ var app = Ext
                                         }]
                                 },
 
-                                // 状态
-                                {
-                                    xtype: 'selectfield',
-                                    id: 'show_status',
-                                    label: '状态',
-                                    valueField: 'id',
-                                    options: me.config.status
-                                },
-
                                 {
                                     xtype: 'fieldset',
                                     id: "fs_show_review",
@@ -1400,17 +1362,139 @@ var app = Ext
                                     xtype: 'button',
                                     id: "btn_save",
                                     text: '保存',
+                                    flex: 0.95,
                                     handler: function () {
                                         me.saveData("HR");
                                     }
+                                }, {
+                                    xtype: 'fieldset',
+                                    id: "fs_show_status",
+                                    layout: 'hbox',
+                                    items: [{
+                                        xtype: 'button',
+                                        id: "btn_show_status_0",
+                                        flex: 0.5,
+                                        text: '继续申请',
+                                        handler: function () {
+                                            me.status(0);
+                                        }
+                                    }, {
+                                        xtype: 'button',
+                                        id: "btn_show_status_2",
+                                        flex: 0.5,
+                                        text: '关闭帮助',
+                                        handler: function () {
+                                            me.status(2);
+                                        }
+                                    }]
                                 }
 
                             ]
                         });
             },
+            status: function (value, user) {
+                //1：设定用户 2:加分减分
+                var param = {id: me.data.id, option: "s", table: "HR", status: value};
+                if(value == 1)//1：设定用户
+                {
+                    param.helper = user;
+                }
+
+                me.submitData(param, function () {
+                    if(value == 2)// 2:加分减分
+                    {
+
+                    }
+                });
+
+
+            },
+            checkReview: function (value) {
+                if (me.DM) {
+                    me.db
+                        .transaction(function (tx) {
+                            tx
+                                .executeSql(
+                                    "select * from   HR_REVIEW where ID = ?",
+                                    [me.data.id],
+                                    function () {
+                                        if (res.rows.length > 0) {
+                                            me.ctrlEnabled("fs_show_review", false);
+                                        }
+
+                                    }, function () {
+                                        Ext.Msg
+                                            .alert("信息",
+                                                "已评价过。");
+                                    });
+                        });
+                }
+
+
+            },
+
+            complain: function () {
+                var me = this;
+
+                function complainServer(text) {
+                    me.submitData({option: "s", table: "CP", hr: me.data.id, info: text}, function () {
+                        me.ctrlEnabled("btn_complain", false);
+                        me.alert("已投诉受理");
+
+                    });
+                }
+
+                function complainSub(id, info) {
+                    if (me.DM) {
+                        me.db
+                            .transaction(function (tx) {
+                                tx
+                                    .executeSql(
+                                        "INSERT INTO HR_REVIEW (id, value) VALUES (?,?)",
+                                        [me.data.id, info],
+                                        function () {
+                                            console.log("success");
+                                            complainServer(info);
+
+                                        }, function () {
+                                            Ext.Msg
+                                                .alert("已投诉过。");
+                                        });
+                            });
+                    } else {
+                        complainServer(info);
+                    }
+                }
+
+                var config = {
+                    title: "投诉",
+                    msg: "请输入投诉内容",
+                    buttons: Ext.Msg.OK,
+                    icon: Ext.Msg.Info,
+                    prompt: {
+                        xtype: 'textfield',
+                        placeHolder: '请输入投诉内容',
+                        maxLength: 20,
+                        value: ''
+                    },
+                    fn: function (id, text) {
+                        if (id == "ok") {
+                            // text = "javaandnet@gmai.com";// Todo
+                            if (text.length > 0) {
+                                complainSub(me.data.id, text);
+                            }
+
+                        }
+                    }
+                };
+                Ext.Msg.show(config);
+
+            },
+
             // 评价
             review: function (value) {
                 var me = this;
+
                 if (me.DM) {
                     me.db
                         .transaction(function (tx) {
@@ -1477,6 +1561,14 @@ var app = Ext
             saveData: function (model) {
                 var me = this;
                 me.setData();
+                function success() {
+                    me.hr = me.data.id;
+                    me.setMarkerData();
+                    me.hideWindow();
+                    me.ctrlEnabled("seg_show", true)
+                    me.setPoint(me.point - me.data.point);
+
+                }
 
                 me.checkData(function () {
                     me.data.table = model;
@@ -1487,16 +1579,10 @@ var app = Ext
                         me.data.id = objId;
                         if (me.record.isNew) {//
                             me.upload(me.server + "/data", me.record.fileName,
-                                function () {
-                                    me.hr = me.data.id;
-                                    me.setMarkerData();
-                                    me.hideWindow();
-                                });
+                                success());
                         }
                         else {
-                            me.hr = me.data.id;
-                            me.setMarkerData();
-                            me.hideWindow();//隐藏
+                            success()
                         }
 
                     }, true);
@@ -1697,18 +1783,20 @@ var app = Ext
                 // need
                 // me.ctrlEnabled("btn_help", isLogined && isNeed && !isSelf);//
                 // 登录&&Need&&他人数据
-                me.ctrlEnabled("show_status", isLogined && isNeed && isSelf);// 登录&&Need&&个人数据
+                me.ctrlEnabled("fs_show_status", isLogined && isNeed && isSelf && me.data.status == 1);// 登录&&Need&&个人数据&&当前为帮助中状态
                 // 帮助下拉框
                 me.ctrlEnabled("show_need", isNeed);
                 // 信息下拉框
                 me.ctrlEnabled("show_msg", !isNeed);
+                // 推送下拉框
+                //me.ctrlEnabled("show_occ", isNeed);
                 // 评价部分
                 me.ctrlEnabled("fs_show_review", isLogined && !isNeed
                     && !isSelf);// 登录&&消息&&他人数据
                 // 保存部分
                 me.ctrlEnabled("btn_save", isLogined && isSelf);
                 // 选择,初始不显示
-                me.ctrlEnabled("seg_show", me.data.id>=0);
+                me.ctrlEnabled("seg_show", me.data.id >= 0);
                 // 只读
                 me.ctrlReadOnly("show_point", !(isNeed && isSelf));//
                 me.ctrlReadOnly("show_need", !isSelf);
@@ -1718,10 +1806,14 @@ var app = Ext
 
                 // 已评价过
                 if ((me.DM) && !isNeed) {
-                    if (me.isReviewed(me.data.id)) {
-                        me.ctrlEnabled("fs_show_review", false);
-                    }
+                    me.isReviewed(me.data.id);
                 }
+
+                // 已投诉过
+                if (me.DM) {
+                    me.isComplained(me.data.id);
+                }
+
 
             },
             // 添加时初始数据
@@ -1780,7 +1872,20 @@ var app = Ext
                         [id], function (tx, res) {
                             // alert("hello world");
                             if (res.rows.length > 0) {
-                                return true;
+                                me.ctrlEnabled("fs_show_review", false);
+                            }
+                        });
+                });
+                return false;
+            },
+            isComplained: function (id) {
+                var me = this;
+                me.db.transaction(function (tx) {
+                    tx.executeSql("select id from HR_REVIEW where ID = ?",
+                        [id], function (tx, res) {
+                            // alert("hello world");
+                            if (res.rows.length > 0) {
+                                me.ctrlEnabled("btn_complain", false);
                             }
                         });
                 });
@@ -2049,13 +2154,14 @@ var app = Ext
                 me.data.info = obj.info;
                 me.data.status = obj.status;
                 me.data.point = obj.point;
+                me.data.occ = obj.occ;
 
                 if (obj.id) {
                     me.data.id = obj.id;
                     me.hr = obj.id;
                 }
 
-                var fields = ["status", "point", "info"];
+                var fields = ["point", "info", "occ"];
                 for (var i = 0; i < fields.length; i++) {
                     Ext.getCmp("show_" + fields[i]).setValue(obj[fields[i]]);
                 }
@@ -2076,7 +2182,7 @@ var app = Ext
 
                 me.data.date = Ext.util.Format.date(new Date(), "YmdHis");
 
-                var fields = ["status", "point", "info"];
+                var fields = ["point", "info", "occ"];
 
                 for (var i = 0; i < fields.length; i++) {
                     me.data[fields[i]] = Ext.getCmp("show_" + fields[i])
@@ -2137,7 +2243,7 @@ var app = Ext
                     // give the store some fields
                     fields: ['id', 'title', 'lat', 'lng', 'date', 'info',
                         'point', 'voice', 'status', 'type', 'user',
-                        'helper', 'kind'],
+                        'helper', 'kind', 'occ'],
                     // filter the data using the firstName field
                     sorters: 'id',
                     // autoload the data from the server
@@ -2177,11 +2283,94 @@ var app = Ext
                 });
             }
             ,
+
+
+            createMasterStore: function () {
+                var me = this;
+                me.masterStore = Ext.create('Ext.data.Store', {
+                    // give the store some fields
+                    fields: ['type', 'value', 'text'],
+                    // filter the data using the firstName field
+                    sorters: 'type',
+                    // autoload the data from the server
+                    autoLoad: false,
+                    listeners: {
+                        load: function (st, records) {
+                            me.datas = [];
+                            me.config.occrs = [];
+                            me.config.points = [];
+                            me.config.status = [];
+                            me.config.needs = [];
+                            me.config.msgs = [];
+                            me.config.areas = [];
+                            var m_k = {
+                                1: "occrs",
+                                2: "points",
+                                3: "status",
+                                4: "needs",
+                                5: "msgs",
+                                6: "areas"
+                            };
+                            for (var i = 0; i < records.length; i++) {
+                                var type = records[i].data.type;
+                                me.config[m_k[type]].push({
+                                    id: records[i].data.value,
+                                    text: records[i].data.text
+                                });
+                            }
+
+                            //界面显示用
+                            Ext.getCmp("sel_point").setOptions(me.config[m_k[2]]);
+                            //填写信息用
+                            //Ext.getCmp("show_status").setOptions(me.config[m_k[3]]);
+                            Ext.getCmp("show_need").setOptions(me.config[m_k[4]]);
+                            Ext.getCmp("show_msg").setOptions(me.config[m_k[5]]);
+                            //个人信息用
+                            Ext.getCmp("config_occ").setOptions(me.config[m_k[1]]);
+                            Ext.getCmp("show_occ").setOptions(me.config[m_k[1]]);
+
+                            Ext.getCmp("config_area").setOptions(me.config[m_k[6]]);
+
+                            Ext.getCmp("config_area").setValue(me.area);
+                            Ext.getCmp("config_occ").setValue(me.occ);
+
+
+                        },
+                    },
+                    proxy: {
+                        type: 'ajax',
+                        url: me.server + '/data',
+                        reader: {
+                            type: 'json',
+                            root: 'data'
+                        },
+                        actionMethods: {
+                            create: 'POST',
+                            read: 'POST', // by default GET
+                            update: 'POST',
+                            destroy: 'POST'
+                        },
+                        extraParams: {
+                            params: {
+                                option: "master"
+                            }
+                        }
+                    }
+                });
+
+                me.masterStore.load({
+                    params: {
+                        option: "master"
+                    }
+                });
+
+            },
+
             createReplyStore: function () {
                 var me = this;
                 me.replyStore = Ext.create('Ext.data.Store', {
                     // give the store some fields
-                    fields: ['id', 'info', 'voice', 'hr', 'date', 'user'],
+                    fields: ['id', 'info', 'voice', 'hr', 'date', 'user', 'userId'],
                     // filter the data using the firstName field
                     sorters: 'id',
                     // autoload the data from the server
@@ -2277,6 +2466,7 @@ var app = Ext
                     id: "reply_txt_msg",
                     flex: 0.6,
                     width: '80%',
+                    maxLength: 50,
                     text: ''
                 };
                 var reply_btn_msg = {
@@ -2332,27 +2522,26 @@ var app = Ext
                     },
                     variableHeights: true,
                     itemHeight: 30,
-                    listeners: {
-                        select: function (item, record, eOpts) {
-                            if (record.data.voice == 1) {
-                                me.playUrl(me.server + me.uploadUrl + "reply_"
-                                    + record.data.id + ".spx");
-                                // console.log("play reply");
-                            }
-                        }
-                    },
                     itemTpl: new Ext.XTemplate(
-                        '<div  style="width:100%;height:100%;white-space:nowrap;text-overflow:ellipsis;overflow: hidden; ">({[this.date(values.date)]}){user}:{info}</div>',
+                        '<div  style="width:100%;height:100%;overflow: hidden; "> ({[this.date(values.date)]}) {user}:{info}  {[this.btn(values)]}</div>',
                         {
                             date: function (v) {
                                 return me.tool.mdStr(v);
                             },
                             btn: function (v) {
-
+                                var rtn = "";
                                 if (v.voice == 1) {
-                                    return "<a href='#' onclick='app.playReply("
+                                    rtn = rtn + "<a href='#' onclick='document.app.playReply("
                                         + v.id + ")'>播放</a>";
                                 }
+
+                                //登录用户为数据用户&&回复不等于本数据用户&&目前为寻求帮助
+                                if ((me.user != me.data.user) && (v.userId != me.data.user) && (me.data.status == 0)) {
+                                    rtn = rtn + "&nbsp;&nbsp;<a href='#' onclick='document.app.status(1,"
+                                        + v.userId + ")'>设为帮助</a>";
+                                }
+
+                                return rtn;
                             }
                         })
                 };

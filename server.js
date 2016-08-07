@@ -21,28 +21,28 @@ var cookieParser = require('cookie-parser'); //如果要使用cookie，需要显
 var bodyParser = require("body-parser");
 var csurf = require("csurf");
 var serveStatic = require('serve-static');
-var multer = require ( 'multer' );
+var multer = require('multer');
 
 
 var app = express();
 //静态文件 存放HTML JS等等
-app.use('/www',serveStatic(__dirname + '/www', {maxAge: 3600000 * 24 * 30}));
+app.use('/www', serveStatic(__dirname + '/www', {maxAge: 3600000 * 24 * 30}));
 app.use(cookieParser());
 app.use(express.query());
 app.use(bodyParser.urlencoded({
-  extended: true
+    extended: true
 }));
 //  app.use(multer({ dest: './uploads/' }));
-app.use(multer({dest:__dirname + '/www/uploadFiles/'})); 
-  //bodyParser用于解析客户端请求的body中的内容,内部使用JSON编码处理,url编码处理以及对于文件的上传处理.
- //将post参数解析成JSON化的req.body
+app.use(multer({dest: __dirname + '/www/uploadFiles/'}));
+//bodyParser用于解析客户端请求的body中的内容,内部使用JSON编码处理,url编码处理以及对于文件的上传处理.
+//将post参数解析成JSON化的req.body
 app.use(bodyParser.json());
 app.use(session({
-		resave:false,//添加这行  
-		saveUninitialized: true,//添加这行   
-		secret: config.session_secret,  
-		cookie: {maxAge: 1000 * 60 * 60 * 24 * 30}//30 days  
-	}));
+    resave: false,//添加这行
+    saveUninitialized: true,//添加这行
+    secret: config.session_secret,
+    cookie: {maxAge: 1000 * 60 * 60 * 24 * 30}//30 days
+}));
 
 //app.use(function(req,res,next){
 //     if (!req.session.user) {
@@ -65,15 +65,15 @@ app.use(session({
 //身份认证
 //app.use(csurf());
 app.use(render({
-  root: __dirname + '/views',
-  layout: false,
-  cache: config.debug, // `false` for debug
-  helpers: {
-    config: config,
-    _csrf: function (req, res) {
-      return req.session._csrf;
+    root: __dirname + '/views',
+    layout: false,
+    cache: config.debug, // `false` for debug
+    helpers: {
+        config: config,
+        _csrf: function (req, res) {
+            return req.session._csrf;
+        }
     }
-  }
 }));
 
 /**
@@ -86,6 +86,7 @@ var router = urlrouter(function (app) {
     app.get('/list', wk.list);
     app.post('/list', wk.list);
     app.post('/login', wk.login);
+    app.post('/logout', wk.logout);
     app.get('/pwd', wk.pwd);//修改密码
     app.post('/pwd', wk.pwd);//修改密码
     app.post('/email', wk.mail);//合计时间;
@@ -96,6 +97,6 @@ app.listen(config.port);
 console.log('Server start on ' + config.port);
 
 
-app.get('/login',function(req,res){
+app.get('/login', function (req, res) {
     res.render("login");
 });

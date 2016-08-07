@@ -106,9 +106,9 @@ Ext.define('ux.BMap', {
                 me.onLoad(store);
             }
 
-            me.on('showMap', function (map) {
-                me.app.center();
-            });
+            // me.on('showMap', function (map) {
+            //     me.app.center();
+            // });
 
             //地图加载完毕触发事件
             me.fireEvent('showMap', me);

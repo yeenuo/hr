@@ -1,3 +1,2 @@
-MD5 哈希(文件 C:\work\HR\www\app.js):
-16 69 27 09 60 1b f1 cf 80 de 2f 9d 53 b9 45 8e
-CertUtil: -hashfile 命令成功完成。
+CertUtil: -hashfile 失败: 0x80070002 (WIN32: 2 ERROR_FILE_NOT_FOUND)
+CertUtil: 系统找不到指定的文件。
