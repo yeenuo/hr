@@ -117,7 +117,11 @@ Ext.define('ux.BMap', {
     center: function (pos) {
         var me = this;
         var point = new BMap.Point(pos.lng, pos.lat);
-        me.bmap.setCenter(point);
+        if(me.bmap!=null)
+        {
+
+            me.bmap.setCenter(point);
+        }
     },
     //数据源事件
     storeEventHooks: {
