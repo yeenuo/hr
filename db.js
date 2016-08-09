@@ -39,9 +39,14 @@ exports.q = function (sql, params, func, errcb) {
                 if (err) {
                     console.log("err:" + err);
                 }
-                console.log('The data record is: ', rows.length);
-                if (func) {
-                    func(rows);
+                if (rows) {
+                    console.log('The data record is: ', rows.length);
+                    if (func) {
+                        func(rows);
+                    }
+                }
+                else {
+                    console.log('rows is null ');
                 }
                 conn.release();
             });
