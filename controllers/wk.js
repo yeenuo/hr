@@ -78,12 +78,25 @@ exports.data = function (req, res, next) {
 
     else if (option == "o")//上传文件
     {
-        if (req.files && req.files.spx != 'undifined') {
-            var temp_path = req.files.spx.path;
-            if (temp_path) {
-                var newPath = "./www/uploadFiles/rnf.spx";
+
+
+        if (req.files) {
+
+            var temp_path = "";
+            if (req.files.spx) {
+                temp_path = req.files.spx.path;
+            }
+            else if (req.files.jpeg) {
+                temp_path = req.files.jpeg.path;
+            }
+
+            if (temp_path.length > 0) {
+
+                var type = data.type || "spx";
+
+                var newPath = "./www/uploadFiles/rnf." + type;
                 if (req.body.fileName) {
-                    newPath = './www/uploadFiles/' + req.body.fileName + ".spx";
+                    newPath = './www/uploadFiles/' + req.body.fileName + "." + type;
                 }
 
                 fs.rename(temp_path, newPath, function (err) {
@@ -98,6 +111,19 @@ exports.data = function (req, res, next) {
 
             }
         }
+    }
+    else if (option == "ro")//删除文件
+    {
+        var id = data.id;
+        var type = "";
+        if (data.type == "v") {
+            type = ".spx";
+        }
+        else if (data.type == "i") {
+            type = ".jpeg";
+        }
+        var fileName = id + type;
+        deleteFile(fileName);
     }
     else if (option == "ma")//界面选择数据
     {
@@ -119,7 +145,8 @@ exports.data = function (req, res, next) {
         });
     }
     else if (option == "score")//评价
-    {   var data = req.body;
+    {
+        var data = req.body;
         var id = data.id;
         var value = data.point;
         var err = function (res) {
@@ -135,10 +162,9 @@ exports.data = function (req, res, next) {
         db.c("update REN.T_USER set point = GREATEST( point + (?),0) where id = ?", [value, id], function (rtn) {
 
             if (rtn.affectedRows == 1) {
-                if(value >0)
-                {
+                if (value > 0) {
                     var users = [id];
-                    push(users,"谢谢您的帮助，您将获得"+value+"积分。");
+                    push(users, "谢谢您的帮助，您将获得" + value + "积分。");
                 }
                 suc(res);
             }
@@ -209,10 +235,35 @@ exports.data = function (req, res, next) {
             res.end();
         });
     }
+    else if (option == "rank") {
+        db.q("select id as id,no as user,point as point  from REN.T_USER order by point desc,id LIMIT 100", [], function (datas) {
+            res.writeHead(200, {"Content-Type": "text/html;charset:utf-8"});
+            res.write(JSON.stringify(datas));
+            res.end();
+        });
+    }
     else {
         var kind = req.body.kind;//0:寻求帮助 1:有用信息
-        var point = req.body.point;
-        db.q("SELECT ID as id,Title as title,Lat as lat,Lng as lng,Info as info,Point as point,Voice as voice,Date as date,Status as status,Type as type,USER as user,Helper as helper, KIND as kind,Occ as occ FROM REN.H_" + req.body.model.toUpperCase() + " WHERE KIND = ? and Point > ? and (STATUS = 0 OR (STATUS = 1 AND USER = ? OR HELPER = ?))", [kind, point,req.session.user,req.session.user], function (datas) {
+        var distance = parseFloat(req.body.distance);
+        var params = [kind];
+        var subSql = "";
+        if (req.session.user)//存在时
+        {
+            params.push(req.session.user);
+            params.push(req.session.user);
+            subSql = " OR (STATUS = 1 AND USER = ? OR HELPER = ? ) ";
+        }
+
+        var sql = "SELECT ID as id,Title as title,Lat as lat,Lng as lng,Info as info,Point as point,Voice as voice,Date as date,Status as status,Type as type,USER as user,Helper as helper, KIND as kind,Occ as occ,Image as image FROM REN.H_" + req.body.model.toUpperCase();
+        sql = sql + (" WHERE KIND = ?  and (STATUS = 0 " + subSql + ") ");
+        if (distance > 0) {
+            sql = sql + "AND (ABS((? + ?) - (lat + lng)) <?) ";
+            params.push(req.body.lat);
+            params.push(req.body.lng);
+            params.push(distance);
+        }
+
+        db.q(sql, params, function (datas) {
             res.writeHead(200, {"Content-Type": "text/html;charset:utf-8"});
             res.write(JSON.stringify(datas));
             res.end();
@@ -224,8 +275,8 @@ exports.data = function (req, res, next) {
 function pushHR(data) {
     //SELECT user.id FROM REN.T_USER user where (ABS((lat +  lng) - ?) <0.01) and (occ = 0 or occ = ?)
 
-
-    var sql = "SELECT user.id user FROM REN.T_USER user where (ABS((lat +  lng) - ?) <0.01)";
+    //关注范围1KM内
+    var sql = "SELECT user.id user FROM REN.T_USER user where (ABS((flat +  flng) - ?) <0.01)";
 
     var params = [(parseFloat(data.lat) + parseFloat(data.lng)).toFixed(6)];
     if (data.occ != 0)//特定推送种类
@@ -579,4 +630,14 @@ function crypt(info) {
     var shasum = crypto.createHash('sha1');
     shasum.update(content);
     return shasum.digest('hex');
+}
+
+function deleteFile(path) {
+    var path = "./www/uploadFiles/" + path;
+    fs.exists(path, function (exists) {
+        if (exists) {
+            fs.unlinkSync(path);
+        }
+    });
+
 }
